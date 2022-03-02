@@ -4,12 +4,16 @@
 
 package frc.robot;
 
+import edu.wpi.first.vision.VisionPipeline;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.commands.BallFollowerCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -19,13 +23,30 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final DriveSubsystem drive = new DriveSubsystem();
+  private final VisionSubsystem vision = new VisionSubsystem();
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
+
+  public static XboxController driveController = new XboxController(0);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    //check negatives and positives (they're probably not right)
+    drive.setDefaultCommand(
+      new RunCommand(
+        () -> drive.arcadeDrive(
+          driveController.getRawAxis(0) * 0.6,
+          -driveController.getRawAxis(1) * 0.6
+        ), drive
+    ));
+
+
   }
 
   /**

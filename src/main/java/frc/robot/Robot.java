@@ -4,7 +4,15 @@
 
 package frc.robot;
 
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
+import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -19,6 +27,18 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  public static UsbCamera usbcamera;
+  //public VideoSink camServer;
+  public VisionThread redBallVisionThread;
+
+  public static double centerX = 0.0;
+  public static double centerY = 0.0;
+  public static double targetArea = 0.0;
+  public static final Object imgLock = new Object();
+  public Rect rect = new Rect();
+  public boolean isSquare;
+
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -28,6 +48,37 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    usbcamera = CameraServer.startAutomaticCapture(0);
+
+    usbcamera.setFPS(10);
+    //160X120
+    usbcamera.setResolution(320, 240);
+    usbcamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+
+
+    redBallVisionThread = new VisionThread(usbcamera, new RedBlurContour(), pipeline -> {
+      if (!pipeline.filterContoursOutput().isEmpty()) {
+          Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+          synchronized (imgLock) {
+              rect = r;
+              //centerX = 2*r.x + r.width - (320/2);
+              //centerY = 2*r.y + r.height - (240/2);
+              if (Math.abs(rect.width - rect.height) < Constants.MIN_NUM_PIXELS_RECT_SIMILARITY){
+                isSquare = true;
+                centerX = r.x +(0.5*r.width);
+                centerY = r.y +(0.5*r.height);
+              }
+              else { 
+                isSquare = false;
+              }
+              targetArea = r.area();
+          }
+      }
+    });
+  
+    redBallVisionThread.start();
+
   }
 
   /**
@@ -43,6 +94,12 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
+
+    SmartDashboard.putNumber("centerX", centerX);
+    SmartDashboard.putNumber("width", rect.width); 
+    SmartDashboard.putNumber("height", rect.height);
+    SmartDashboard.putBoolean("is square",isSquare);
+
     CommandScheduler.getInstance().run();
   }
 
