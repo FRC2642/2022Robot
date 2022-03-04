@@ -25,6 +25,8 @@ public class RobotContainer {
   private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
 
   public static XboxController driveController = new XboxController(0);
+  public static XboxController auxController = new XboxController(0);
+
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

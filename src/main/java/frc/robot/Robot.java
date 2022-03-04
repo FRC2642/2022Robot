@@ -27,7 +27,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  public static UsbCamera usbcamera;
+  public static UsbCamera intakecam;
+  public static UsbCamera turretcam;
   //public VideoSink camServer;
   public VisionThread redBallVisionThread;
 
@@ -48,16 +49,22 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    
+    //intake camera setup
+    intakecam = CameraServer.startAutomaticCapture(0);
+    intakecam.setFPS(10);
+    intakecam.setResolution(320, 240);    //160X120
+    intakecam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
-    usbcamera = CameraServer.startAutomaticCapture(0);
+    //turret camera setup
+    turretcam = CameraServer.startAutomaticCapture(0);
+    turretcam.setFPS(10);
+    turretcam.setResolution(320, 240);    //160X120
+    turretcam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
-    usbcamera.setFPS(10);
-    //160X120
-    usbcamera.setResolution(320, 240);
-    usbcamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
-
-    redBallVisionThread = new VisionThread(usbcamera, new RedBlurContour(), pipeline -> {
+    //vision thread to look for red balls
+    redBallVisionThread = new VisionThread(intakecam, new RedBlurContour(), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
           Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
           synchronized (imgLock) {
@@ -78,6 +85,7 @@ public class Robot extends TimedRobot {
     });
   
     redBallVisionThread.start();
+    //redBallVisionThread.stop(); (how do i get it to stop?)
 
   }
 

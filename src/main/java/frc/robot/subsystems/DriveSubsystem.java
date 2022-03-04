@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 //import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -15,10 +17,10 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   
   //check can ids
-  TalonFX frontLeft = new TalonFX(1);
-  TalonFX backLeft = new TalonFX(2);
-  TalonFX frontRight = new TalonFX(3);
-  TalonFX backRight = new TalonFX(4);
+  TalonFX frontLeft = new TalonFX(Constants.FRONT_LEFT_TALON_ID);
+  TalonFX backLeft = new TalonFX(Constants.BACK_LEFT_TALON_ID);
+  TalonFX frontRight = new TalonFX(Constants.FRONT_RIGHT_TALON_ID);
+  TalonFX backRight = new TalonFX(Constants.BACK_RIGHT_TALON_ID);
 
 
   public DriveSubsystem() {

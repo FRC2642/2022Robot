@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TurretShooterSubsystem extends SubsystemBase {
   /** Creates a new TurretShooterSubsystem. */
+  //turret hood in here
   public TurretShooterSubsystem() {}
 
   @Override

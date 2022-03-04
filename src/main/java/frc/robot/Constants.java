@@ -14,6 +14,16 @@ package frc.robot;
  */
 public final class Constants {
 
+//drive constants
+public static final int FRONT_LEFT_TALON_ID = 1;
+public static final int BACK_LEFT_TALON_ID = 2;
+public static final int FRONT_RIGHT_TALON_ID = 3;
+public static final int BACK_RIGHT_TALON_ID = 4;
+
+
+//vision constants
 public static final int MIN_NUM_PIXELS_RECT_SIMILARITY = 5;
+
+
 
 }
