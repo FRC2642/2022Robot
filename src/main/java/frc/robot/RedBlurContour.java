@@ -56,6 +56,7 @@ public class RedBlurContour implements VisionPipeline {
 		blur(blurInput, blurType, blurRadius, blurOutput);
 
 		// Step HSL_Threshold0:
+		//make these inputs based on game data (maybe)
 		Mat hslThresholdInput = blurOutput;
 		double[] hslThresholdHue = {0.0, 29.09090909090908};
 		double[] hslThresholdSaturation = {105.48561151079136, 255.0};
