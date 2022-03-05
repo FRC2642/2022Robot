@@ -39,5 +39,11 @@ public static final double[] HSL_SAT_BLUE = {80.0, 216.0};
 public static final double[] HSL_LUM_BLUE = {0.0, 255.0};
 
 
+//turret spinner constants
+public static final int CLOCKWISE_SWITCH_ID = 8;
+public static final int COUNTER_CLOCKWISE_SWITCH_ID = 9;
+public static final int TURRET_SPIINER_MOTOR = 10;
+
+
 
 }
