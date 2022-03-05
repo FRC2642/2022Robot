@@ -62,9 +62,10 @@ public class Robot extends TimedRobot {
     turretcam.setResolution(320, 240);    //160X120
     turretcam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
+    
 
     //vision thread to look for red balls
-    redBallVisionThread = new VisionThread(intakecam, new RedBlurContour(), pipeline -> {
+    redBallVisionThread = new VisionThread(intakecam, new BlurContour(Constants.HSL_HUE_RED, Constants.HSL_SAT_RED, Constants.HSL_LUM_RED), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
           Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
           synchronized (imgLock) {

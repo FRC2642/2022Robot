@@ -24,7 +24,18 @@ import org.opencv.objdetect.*;
 *
 * @author GRIP
 */
-public class RedBlurContour implements VisionPipeline {
+public class BlurContour implements VisionPipeline {
+
+	private double[] hslHue;
+	private double[] hslSat;
+	private double[] hslLum;
+
+	public BlurContour(double[] hue, double[] sat, double[] val){
+		hslHue = hue;
+		hslSat  =sat;
+		hslLum= val;
+	}
+
 
 	//Outputs
 	private Mat cvResizeOutput = new Mat();
@@ -58,10 +69,10 @@ public class RedBlurContour implements VisionPipeline {
 		// Step HSL_Threshold0:
 		//make these inputs based on game data (maybe)
 		Mat hslThresholdInput = blurOutput;
-		double[] hslThresholdHue = {0.0, 29.09090909090908};
-		double[] hslThresholdSaturation = {105.48561151079136, 255.0};
-		double[] hslThresholdLuminance = {0.0, 255.0};
-		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
+	//	double[] hslThresholdHue = {0.0, 29.09090909090908};
+	//	double[] hslThresholdSaturation = {105.48561151079136, 255.0};
+	//	double[] hslThresholdLuminance = {0.0, 255.0};
+		hslThreshold(hslThresholdInput, hslHue, hslSat, hslLum, hslThresholdOutput);
 
 		// Step Find_Contours0:
 		Mat findContoursInput = hslThresholdOutput;

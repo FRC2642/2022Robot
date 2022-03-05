@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -26,16 +27,16 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
 
     backLeft.set(TalonFXControlMode.Follower, frontLeft.getDeviceID());
-    backRight.set(TalonFXControlMode.Follower, frontRight.getDeviceID());
+    backRight.set(TalonFXControlMode.Follower, frontRight.getDeviceID()); 
 
   }
   
 
-  public void setLeftSpeed(double speed) {
+  private void setLeftSpeed(double speed) {
     frontLeft.set(TalonFXControlMode.PercentOutput, speed);
   }
   
-  public void setRightSpeed(double speed){
+  private void setRightSpeed(double speed){
     frontRight.set(TalonFXControlMode.PercentOutput, speed);
   }
   

@@ -23,6 +23,13 @@ public static final int BACK_RIGHT_TALON_ID = 4;
 
 //vision constants
 public static final int MIN_NUM_PIXELS_RECT_SIMILARITY = 5;
+public static final double[] HSL_HUE_RED = {0.0, 29.09090909090908};
+public static final double[] HSL_SAT_RED = {105.48561151079136, 255.0};
+public static final double[] HSL_LUM_RED = {0.0, 255.0};
+
+public static final double[] HSL_HUE_BLUE = {91.0, 125.0};
+public static final double[] HSL_SAT_BLUE = {80.0, 216.0};
+public static final double[] HSL_LUM_BLUE = {0.0, 255.0};
 
 
 
