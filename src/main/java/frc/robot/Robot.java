@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
@@ -12,6 +14,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -31,14 +34,15 @@ public class Robot extends TimedRobot {
   public static UsbCamera turretcam;
   //public VideoSink camServer;
   public VisionThread redBallVisionThread;
+  public VisionThread tapeVisionThread;
 
   public static double centerX = 0.0;
   public static double centerY = 0.0;
-  public static double targetArea = 0.0;
   public static final Object imgLock = new Object();
   public Rect rect = new Rect();
   public boolean isSquare;
 
+  public static ArrayList<Vector2d> tapeContourPositions = new ArrayList<Vector2d>();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -80,12 +84,37 @@ public class Robot extends TimedRobot {
               else { 
                 isSquare = false;
               }
-              targetArea = r.area();
           }
       }
     });
   
     redBallVisionThread.start();
+
+     tapeVisionThread = new VisionThread(intakecam, new RetroReflectivePipeline(), pipeline -> {
+       tapeContourPositions.clear();
+      for (var contour : pipeline.filterContoursOutput()) {
+          Rect r = Imgproc.boundingRect(contour);
+          synchronized (imgLock) {
+             // rect = r;
+              //centerX = 2*r.x + r.width - (320/2);
+              //centerY = 2*r.y + r.height - (240/2);
+            //  if (Math.abs(rect.width - rect.height) < Constants.MIN_NUM_PIXELS_RECT_SIMILARITY){
+             //   isSquare = true;
+                var rX = r.x +(0.5*r.width);
+                var rY = r.y +(0.5*r.height);
+
+                tapeContourPositions.add(new Vector2d(rX, rY));
+              }
+            //  else { 
+            //    isSquare = false;
+           //   }
+             // targetArea = r.area();
+          //}
+        }
+    });
+  
+    tapeVisionThread.start();
+   // redBallVisionThread.stop();
     //redBallVisionThread.stop(); (how do i get it to stop?)
 
   }
