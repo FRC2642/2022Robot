@@ -4,53 +4,81 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-//import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.PigeonIMU;
+//import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
  
 
 public class DriveSubsystem extends SubsystemBase {
+  //Variables
+  public double setpoint;
   /** Creates a new DriveSubsystem. */
   
-  //check can ids
-  TalonFX frontLeft = new TalonFX(Constants.FRONT_LEFT_TALON_ID);
-  TalonFX backLeft = new TalonFX(Constants.BACK_LEFT_TALON_ID);
-  TalonFX frontRight = new TalonFX(Constants.FRONT_RIGHT_TALON_ID);
-  TalonFX backRight = new TalonFX(Constants.BACK_RIGHT_TALON_ID);
+  //Objects
+  WPI_TalonFX frontLeft = new WPI_TalonFX(Constants.FRONT_LEFT_TALON_ID);
+  WPI_TalonFX backLeft = new WPI_TalonFX(Constants.BACK_LEFT_TALON_ID);
+  WPI_TalonFX frontRight = new WPI_TalonFX(Constants.FRONT_RIGHT_TALON_ID);
+  WPI_TalonFX backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON_ID);
 
 
+  DifferentialDrive diffDrive = new DifferentialDrive(frontLeft, frontRight);
+
+  public PIDController PIDcontrol = new PIDController(0,0,0);
+
+  public PigeonIMU pigeon = new PigeonIMU(Constants.pigeonID);
+
+
+  //Constructor
   public DriveSubsystem() {
-
+    setpoint = 0;
     backLeft.set(TalonFXControlMode.Follower, frontLeft.getDeviceID());
     backRight.set(TalonFXControlMode.Follower, frontRight.getDeviceID());
 
   }
   
 
-  public void setLeftSpeed(double speed) {
-    frontLeft.set(TalonFXControlMode.PercentOutput, speed);
-  }
   
-  public void setRightSpeed(double speed){
-    frontRight.set(TalonFXControlMode.PercentOutput, speed);
-  }
-  
+  //Drive methods
   public void stop(){
-    setLeftSpeed(0.0);
-    setRightSpeed(0.0);
+    move(0, 0);
   }
 
-  public void arcadeDrive(double speed, double turn) {
-    //check negatives and positives (probably not right)
-    turn = -turn;
-    frontLeft.set(TalonFXControlMode.PercentOutput, turn, DemandType.ArbitraryFeedForward, speed);
-    frontRight.set(TalonFXControlMode.PercentOutput, turn, DemandType.ArbitraryFeedForward, -speed);
+  public void move(double speed, double rotation){
+    diffDrive.arcadeDrive(speed, rotation);
   }
   
+
+  //PID Methods
+  public double calculatePID(double measurement, double setpoint){
+    return PIDcontrol.calculate(measurement, setpoint);
+  }
+  
+  public void setPIDCoefficients(double propCoefficient, double integralCoefficient, double deriativeCoefficient){
+    PIDcontrol.setPID(propCoefficient, integralCoefficient, deriativeCoefficient);
+  }
+
+  public void setpointPID(double setpoint) {
+    PIDcontrol.setSetpoint(setpoint);
+  }
+  
+  //Gyro Methods
+  public double getYaw(){
+    return pigeon.getYaw();
+  }
+
+  public void resetGyro(){
+    pigeon.setYaw(0.0);
+  }
 
 
   @Override
