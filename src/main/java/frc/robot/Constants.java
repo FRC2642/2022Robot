@@ -25,5 +25,11 @@ public static final int BACK_RIGHT_TALON_ID = 4;
 public static final int MIN_NUM_PIXELS_RECT_SIMILARITY = 5;
 
 
+//turret spinner constants
+public static final int CLOCKWISE_SWITCH_ID = 8;
+public static final int COUNTER_CLOCKWISE_SWITCH_ID = 9;
+public static final int TURRET_SPIINER_MOTOR = 10;
+
+
 
 }
