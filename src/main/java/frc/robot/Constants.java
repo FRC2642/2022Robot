@@ -20,6 +20,17 @@ public static final int BACK_LEFT_TALON_ID = 2;
 public static final int FRONT_RIGHT_TALON_ID = 3;
 public static final int BACK_RIGHT_TALON_ID = 4;
 
+//intake constants
+public static final int INTAKE_MOTOR_ID = 6;
+public static final int INTAKE_BIGWHEEL_ID = 7;
+
+public static final int INTAKE_FORWARDLEFTPISTON_ID = 8;
+public static final int INTAKE_FORWARDRIGHTPISTON_ID = 9; 
+public static final int INTAKE_REVERSELEFTPISTON_ID = 10;
+public static final int INTAKE_REVERSERIGHTPISTON_ID = 11; 
+
+public static final double INTAKE_WHEEL_SPEED = .1;
+
 
 //vision constants
 public static final int MIN_NUM_PIXELS_RECT_SIMILARITY = 5;
