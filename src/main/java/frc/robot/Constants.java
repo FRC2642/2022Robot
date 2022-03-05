@@ -19,6 +19,13 @@ public static final int FRONT_LEFT_TALON_ID = 1;
 public static final int BACK_LEFT_TALON_ID = 2;
 public static final int FRONT_RIGHT_TALON_ID = 3;
 public static final int BACK_RIGHT_TALON_ID = 4;
+public static final int TURRET_SHOOTER_ID = 5;
+public static final int TURRET_SPINNER_ID = 6;
+
+//throw math
+public static final double FINAL_SPEED_MULT = 1;
+public static final double TURRET_HEIGHT = 4; //meters
+public static final double TARGET_HEIGHT = 8; //meters
 
 
 //vision constants
