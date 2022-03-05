@@ -42,8 +42,8 @@ public class BallFollowerCommand extends CommandBase {
       drive.move(0, 1.0); //(0, 0.4)
     }
     else{
-      setpoint = vision.getCenterX();
-      rotationValue = drive.calculatePID(drive.getYaw(), setpoint);
+      setpoint = 160;
+      rotationValue = drive.calculatePID(vision.getCenterX(), setpoint);
       if (rotationValue > 1){
         rotationValue = 1;
       }
