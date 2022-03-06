@@ -35,7 +35,7 @@ public class BallFollowerCommand extends CommandBase {
   public void execute() {
     
     //implement PID?
-    if(vision.getCenterX() < 70){ //left
+    /*if(vision.getCenterX() < 70){ //left
       drive.move(0, -1.0); //(0, -0.4)
     }
     else if(vision.getCenterX() > 90){ //right
@@ -51,6 +51,15 @@ public class BallFollowerCommand extends CommandBase {
         rotationValue = -1;
       }
       drive.move(0, rotationValue * 0.6);
+    }*/
+    if(vision.getCenterX() < 70){ //left
+      drive.move(0, -1.0); //(0, -0.4)
+    }
+    else if(vision.getCenterX() > 90){ //right
+      drive.move(0, 1.0); //(0, 0.4)
+    }
+    else{
+      drive.move(0.0,0.0);
     }
 
 

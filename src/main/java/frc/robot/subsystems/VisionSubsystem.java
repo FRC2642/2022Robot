@@ -23,10 +23,6 @@ public class VisionSubsystem extends SubsystemBase {
     return Robot.centerY;
   }
 
-  public double getTargetArea(){
-    return Robot.targetArea;
-  }
-
 
 
   @Override
