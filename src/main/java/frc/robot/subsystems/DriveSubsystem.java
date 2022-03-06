@@ -31,8 +31,11 @@ public class DriveSubsystem extends SubsystemBase {
   WPI_TalonFX backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON_ID);
 
 
-  DifferentialDrive diffDrive = new DifferentialDrive(frontLeft, frontRight);
+  
+  MotorControllerGroup rightMotors = new MotorControllerGroup(frontRight, backRight);
+  MotorControllerGroup leftMotors = new MotorControllerGroup(frontLeft, backLeft);
 
+  DifferentialDrive diffDrive = new DifferentialDrive(rightMotors, leftMotors);
   public PIDController PIDcontrol = new PIDController(0,0,0);
 
   public PigeonIMU pigeon = new PigeonIMU(Constants.pigeonID);
@@ -41,8 +44,7 @@ public class DriveSubsystem extends SubsystemBase {
   //Constructor
   public DriveSubsystem() {
     setpoint = 0;
-    backLeft.set(TalonFXControlMode.Follower, frontLeft.getDeviceID());
-    backRight.set(TalonFXControlMode.Follower, frontRight.getDeviceID());
+    
 
   }
   
