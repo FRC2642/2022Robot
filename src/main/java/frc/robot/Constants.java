@@ -24,6 +24,10 @@ public static final int BACK_RIGHT_TALON_ID = 4;
 //vision constants
 public static final int MIN_NUM_PIXELS_RECT_SIMILARITY = 5;
 
+//magazine constant
+public static final double MAGAZINE_FORWARD_SPEED = 0.5;
+public static final double MAGAZINE_REVERSE_SPEED = -0.5;
+
 
 
 }

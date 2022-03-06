@@ -5,12 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.MagazineSubsystem;
 
-public class MagazineCommand extends CommandBase {
-  /** Creates a new MagazineCommand. */
+
+public class MagazineReverseCommand extends CommandBase {
+  /** Creates a new MagazineReverseCommand. */
 MagazineSubsystem magazine;
-  public MagazineCommand(MagazineSubsystem magazine) {
+  public MagazineReverseCommand(MagazineSubsystem magazine) {
 
     this.magazine = magazine;
     addRequirements(magazine);
@@ -24,9 +26,9 @@ MagazineSubsystem magazine;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  magazine.magRun();
+  magazine.magRun(Constants.MAGAZINE_REVERSE_SPEED);
   }
-
+  
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

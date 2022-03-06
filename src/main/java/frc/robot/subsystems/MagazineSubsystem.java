@@ -17,8 +17,8 @@ public CANSparkMax magBeltMotor;
     magBeltMotor = new CANSparkMax(10, MotorType.kBrushless);
   }
 
-public void magRun(){
-  magBeltMotor.set(0.5);
+public void magRun(double speed){
+  magBeltMotor.set(speed);
 }
 public void magStop(){
   magBeltMotor.set(0);
