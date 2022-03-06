@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -11,6 +12,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 //import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
+//import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
  
 
 public class DriveSubsystem extends SubsystemBase {
@@ -22,6 +26,10 @@ public class DriveSubsystem extends SubsystemBase {
   TalonFX frontRight = new TalonFX(Constants.FRONT_RIGHT_TALON_ID);
   TalonFX backRight = new TalonFX(Constants.BACK_RIGHT_TALON_ID);
 
+  Encoder driveEncoder = new Encoder(1,2);
+
+
+  //MotorControllerGroup fControllerGroup = new MotorControllerGroup(frontLeft, frontRight);
 
   public DriveSubsystem() {
 
@@ -50,6 +58,15 @@ public class DriveSubsystem extends SubsystemBase {
     frontLeft.set(TalonFXControlMode.PercentOutput, turn, DemandType.ArbitraryFeedForward, speed);
     frontRight.set(TalonFXControlMode.PercentOutput, turn, DemandType.ArbitraryFeedForward, -speed);
   }
+  
+  public double getDriveEncoder(){
+    return driveEncoder.getDistance();
+  }
+  
+  public void resetEncoder(){
+    driveEncoder.reset();
+  }
+
   
 
 
