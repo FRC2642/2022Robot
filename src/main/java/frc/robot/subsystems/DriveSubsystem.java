@@ -51,7 +51,6 @@ public class DriveSubsystem extends SubsystemBase {
   //Constructor
   public DriveSubsystem() {
     setpoint = 0;
-    
 
   }
   
