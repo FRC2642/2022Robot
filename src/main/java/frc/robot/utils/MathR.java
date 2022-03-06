@@ -9,4 +9,5 @@ public class MathR {
     public static double limit(double value, double floor, double ceiling){
         return Math.max(Math.min(ceiling, value), floor);
     }
+    
 }
