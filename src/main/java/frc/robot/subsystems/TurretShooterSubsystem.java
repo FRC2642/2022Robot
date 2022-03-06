@@ -4,12 +4,29 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import frc.robot.Constants;
+
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class TurretShooterSubsystem extends SubsystemBase {
+
+  private CANSparkMax shooter;
+
   /** Creates a new TurretShooterSubsystem. */
   //turret hood in here
-  public TurretShooterSubsystem() {}
+  public TurretShooterSubsystem() {
+    shooter = new CANSparkMax(Constants.TURRET_SHOOTER_ID, MotorType.kBrushless);
+  }
+
+  public void setSpeed(double speed){
+    shooter.set(speed);
+  }
+  public void stop(){
+    shooter.stopMotor();
+  }
 
   @Override
   public void periodic() {

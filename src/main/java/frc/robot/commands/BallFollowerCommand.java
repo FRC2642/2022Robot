@@ -35,6 +35,7 @@ public class BallFollowerCommand extends CommandBase {
       drive.arcadeDrive(0, -1.0); //(0, -0.4)
     }
     else if(vision.getCenterX() > 90){ //right
+
       drive.arcadeDrive(0, 1.0); //(0, 0.4)
     }
     else{
