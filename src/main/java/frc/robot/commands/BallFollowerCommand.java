@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -42,8 +43,10 @@ public class BallFollowerCommand extends CommandBase {
       drive.move(0, 1.0); //(0, 0.4)
     }
     else{
-      setpoint = 160;
-      rotationValue = drive.calculatePID(vision.getCenterX(), setpoint);
+      setpoint = vision.getCenterX();
+      SmartDashboard.putNumber("CenterX", vision.getCenterX());
+      SmartDashboard.putNumber("RotationValue", rotationValue);
+      rotationValue = drive.calculatePID(80,  setpoint);
       if (rotationValue > 1){
         rotationValue = 1;
       }
