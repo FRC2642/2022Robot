@@ -58,9 +58,9 @@ public class TapeVisionSubsystem extends SubsystemBase {
   //vision processing
   //returns a HubInFrameReason which explains why hub detection may not have worked. If it did work,
   //hubPosition and hubSizeInFrame will be modified to include the detected pos and size of the hub. numbers range from -1 to 1
-  public HubInFrameReason hubInFrame(Vector2d hubPosition, Vector2d hubSizeInFrame) throws Exception {
+  public HubInFrameReason hubInFrame(Vector2d hubPosition, Vector2d hubSizeInFrame) {
 
-    if (hubPosition == null || hubSizeInFrame == null) throw new Exception("you failed.");
+   /* if (hubPosition == null || hubSizeInFrame == null) return HubInFrameReason.NULL_EXCEPTION;
     if (tapeContourPositions.size() < NUM_TAPE_ON_HUB) return HubInFrameReason.NOT_ENOUGH_TAPES;
 
     //FIND HUB FROM POINTS
@@ -136,6 +136,10 @@ public class TapeVisionSubsystem extends SubsystemBase {
         }
       }
       if (!strayed){ //if we didnt stray, this set passed all the tests
+*/  
+        Vector2d[] array = new Vector2d[tapeContourPositions.size()]; //comment this out when doing full test
+        
+        var set = tapeContourPositions.toArray(array);
 
         Arrays.sort(set, new Vector2dComparator(Vector2dComparator.Axis.X));
         hubPosition.x = (set[set.length - 1].x + set[0].x)/2; //use midpoint formula for x 
@@ -146,10 +150,10 @@ public class TapeVisionSubsystem extends SubsystemBase {
         hubSizeInFrame.y = (set[0].y - set[set.length - 1].y);
 
         return HubInFrameReason.DETECTED;
-      }
-    }
+  //    }
+ //   }
 
-    return HubInFrameReason.NOT_DETECTED;
+//    return HubInFrameReason.NOT_DETECTED;
   }
   private Object[] getClosestInSetFrom(Vector2d[] contours, int index){
       double smallestD = Double.MAX_VALUE;
@@ -164,8 +168,9 @@ public class TapeVisionSubsystem extends SubsystemBase {
       return new Object[] { smallestI, smallestD };
   }
   
-  enum HubInFrameReason{
+  public enum HubInFrameReason{
     DETECTED,
+    NULL_EXCEPTION,
     NOT_DETECTED,
     NOT_ENOUGH_TAPES,
     NO_SETS_MATCH_SIZE
