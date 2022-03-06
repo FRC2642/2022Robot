@@ -8,11 +8,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 
-public class AimAtRetroReflectiveCommand extends CommandBase {
+public class TurnTowardsHubCommand extends CommandBase {
   TurretSpinnerSubsystem turn;
   VisionSubsystem vision;
   /** Creates a new AimAtRetroReflectiveCommand. */
-  public AimAtRetroReflectiveCommand(TurretSpinnerSubsystem turn, VisionSubsystem vision) {
+  public TurnTowardsHubCommand(TurretSpinnerSubsystem turn, VisionSubsystem vision) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.turn = turn;
     this.vision = vision;

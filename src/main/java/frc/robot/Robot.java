@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.vision.BlurContour;
+import frc.robot.vision.RetroReflectivePipeline;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -42,7 +44,6 @@ public class Robot extends TimedRobot {
   public Rect rect = new Rect();
   public boolean isSquare;
 
-  public static ArrayList<Vector2d> tapeContourPositions = new ArrayList<Vector2d>();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -91,25 +92,16 @@ public class Robot extends TimedRobot {
     redBallVisionThread.start();
 
      tapeVisionThread = new VisionThread(intakecam, new RetroReflectivePipeline(), pipeline -> {
-       tapeContourPositions.clear();
+      m_robotContainer.tapeVision.clearDetections();
       for (var contour : pipeline.filterContoursOutput()) {
           Rect r = Imgproc.boundingRect(contour);
           synchronized (imgLock) {
-             // rect = r;
-              //centerX = 2*r.x + r.width - (320/2);
-              //centerY = 2*r.y + r.height - (240/2);
-            //  if (Math.abs(rect.width - rect.height) < Constants.MIN_NUM_PIXELS_RECT_SIMILARITY){
-             //   isSquare = true;
+
                 var rX = r.x +(0.5*r.width);
                 var rY = r.y +(0.5*r.height);
 
-                tapeContourPositions.add(new Vector2d(rX, rY));
+                m_robotContainer.tapeVision.addDetection(new Vector2d(rX, rY));
               }
-            //  else { 
-            //    isSquare = false;
-           //   }
-             // targetArea = r.area();
-          //}
         }
     });
   

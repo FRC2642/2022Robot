@@ -11,9 +11,13 @@ import frc.robot.Constants;
 
 /** Add your docs here. */
 public class BallThrowCalculator {
-    public static final BallThrowCalculator Instance = new BallThrowCalculator();
+  //  public static final BallThrowCalculator Instance = new BallThrowCalculator();
 
     private double distance;
+
+    public BallThrowCalculator(double distance){
+
+    }
 
     private double getVelocityY(double time){
         return (Constants.TARGET_HEIGHT-Constants.TURRET_HEIGHT)/time + 4.9*time;

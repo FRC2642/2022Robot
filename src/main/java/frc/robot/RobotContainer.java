@@ -10,6 +10,7 @@ import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.commands.BallFollowerCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,6 +22,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
   private final VisionSubsystem vision = new VisionSubsystem();
+  public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
   
 
   private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
