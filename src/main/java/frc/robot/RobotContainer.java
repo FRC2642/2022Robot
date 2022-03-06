@@ -37,7 +37,7 @@ public class RobotContainer {
     //check negatives and positives (they're probably not right)
     drive.setDefaultCommand(
       new RunCommand(
-        () -> drive.arcadeDrive(
+        () -> drive.move(
           driveController.getRawAxis(0) * 0.6,
           -driveController.getRawAxis(1) * 0.6
         ), drive

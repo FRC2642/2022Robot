@@ -24,6 +24,7 @@ public static final int BACK_RIGHT_TALON_ID = 4;
 //vision constants
 public static final int MIN_NUM_PIXELS_RECT_SIMILARITY = 5;
 
-
+//gyro id
+public static final int pigeonID = 18;
 
 }

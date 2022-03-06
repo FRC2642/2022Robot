@@ -12,7 +12,7 @@ public class EncoderDrive extends CommandBase {
   /** Creates a new EncoderDrive. */
   DriveSubsystem drive;
   double distance;
-  
+
   public EncoderDrive(DriveSubsystem drive, double distance) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
@@ -30,7 +30,7 @@ public class EncoderDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.arcadeDrive(0.6, 0.0);
+    drive.move(0.6, 0.0);
   }
 
   // Called once the command ends or is interrupted.
