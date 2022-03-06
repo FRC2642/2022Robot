@@ -29,6 +29,9 @@ public static final double TARGET_HEIGHT = 8; //meters
 
 
 //vision constants
+public static final int VISION_OUTPUT_RES_X = 160;
+public static final int VISION_OUTPUT_RES_Y = 120;
+
 public static final int MIN_NUM_PIXELS_RECT_SIMILARITY = 5;
 public static final double[] HSL_HUE_RED = {0.0, 29.09090909090908};
 public static final double[] HSL_SAT_RED = {105.48561151079136, 255.0};

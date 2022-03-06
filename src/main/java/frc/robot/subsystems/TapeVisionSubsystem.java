@@ -8,27 +8,45 @@ import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Iterator;
 
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.utils.Vector2dComparator;
 
 public class TapeVisionSubsystem extends SubsystemBase {
 
   private final ArrayList<Vector2d> tapeContourPositions = new ArrayList<Vector2d>();
-  public static final int NUM_TAPE_ON_HUB = 6;
-  public static final double TAPE_LENGTH_TOLERANCE = 0.25;
-  public static final double TAPE_HEIGHT_TOLERANCE = 0.25;
-  public static final double TAPE_NOISE_TOLERANCE = 0.25;
-  public static final double TAPE_IN_LINE_TOLERANCE = 0.25;
+  public static  int NUM_TAPE_ON_HUB = 6;
+  public static  double TAPE_LENGTH_TOLERANCE = 0.25;
+  public static  double TAPE_HEIGHT_TOLERANCE = 0.25;
+  public static  double TAPE_NOISE_TOLERANCE = 0.25;
+  public static  double TAPE_IN_LINE_TOLERANCE = 0.25;
+
+  @Override
+  public void periodic() {
+    NUM_TAPE_ON_HUB = (int)(SmartDashboard.getNumber("NUM_TAPE_ON_HUB", 6.0));
+    TAPE_LENGTH_TOLERANCE = SmartDashboard.getNumber("TAPE_LENGTH_TOLERANCE", 0.25);
+    TAPE_HEIGHT_TOLERANCE = SmartDashboard.getNumber("TAPE_HEIGHT_TOLERANCE", 0.25);
+    TAPE_NOISE_TOLERANCE = SmartDashboard.getNumber("TAPE_NOISE_TOLERANCE", 0.25);
+    TAPE_IN_LINE_TOLERANCE = SmartDashboard.getNumber("TAPE_IN_LINE_TOLERANCE", 0.25);
+
+  }
   /** Creates a new VisionSubsystem. */
   //all vision (tape and ball) go in here (change variable names as necessary)
-  public TapeVisionSubsystem() {}
+  public TapeVisionSubsystem() {
+    SmartDashboard.putNumber("NUM_TAPE_ON_HUB", 10.25);
+    SmartDashboard.getNumber("TAPE_LENGTH_TOLERANCE", 10.25);
+    SmartDashboard.putNumber("TAPE_HEIGHT_TOLERANCE", 10.25);
+    SmartDashboard.putNumber("TAPE_NOISE_TOLERANCE", 10.25);
+    SmartDashboard.putNumber("TAPE_IN_LINE_TOLERANCE", 10.25);
+  }
 
-  public ArrayList<Vector2d> getDetections(){
-    return tapeContourPositions;
+  public Iterator<Vector2d> getDetections(){
+    return tapeContourPositions.iterator();
   }
   public void clearDetections(){
     tapeContourPositions.clear();
@@ -38,13 +56,14 @@ public class TapeVisionSubsystem extends SubsystemBase {
   }
 
   //vision processing
+  //returns a HubInFrameReason which explains why hub detection may not have worked. If it did work,
+  //hubPosition and hubSizeInFrame will be modified to include the detected pos and size of the hub. numbers range from -1 to 1
   public HubInFrameReason hubInFrame(Vector2d hubPosition, Vector2d hubSizeInFrame) throws Exception {
 
     if (hubPosition == null || hubSizeInFrame == null) throw new Exception("you failed.");
     if (tapeContourPositions.size() < NUM_TAPE_ON_HUB) return HubInFrameReason.NOT_ENOUGH_TAPES;
 
     //FIND HUB FROM POINTS
-    //convert points to array
     Vector2d[] contours = new Vector2d[tapeContourPositions.size()];
     double[] cache = new double[tapeContourPositions.size()];
     for(int i = 0; i < tapeContourPositions.size(); ++i){
@@ -121,7 +140,7 @@ public class TapeVisionSubsystem extends SubsystemBase {
         Arrays.sort(set, new Vector2dComparator(Vector2dComparator.Axis.X));
         hubPosition.x = (set[set.length - 1].x + set[0].x)/2; //use midpoint formula for x 
         hubSizeInFrame.x = (set[0].x - set[set.length - 1].x);
-        
+
         Arrays.sort(set, new Vector2dComparator(Vector2dComparator.Axis.Y));
         hubPosition.y = (set[set.length - 1].y + set[0].y)/2; //use midpoint formula for y 
         hubSizeInFrame.y = (set[0].y - set[set.length - 1].y);
@@ -151,9 +170,6 @@ public class TapeVisionSubsystem extends SubsystemBase {
     NOT_ENOUGH_TAPES,
     NO_SETS_MATCH_SIZE
   }
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+  
 }
 
