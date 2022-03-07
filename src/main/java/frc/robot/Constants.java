@@ -28,6 +28,16 @@ public static final int TURRET_SPINNER_ID = 6;
 public static final double FINAL_SPEED_MULT = 1;
 public static final double TURRET_HEIGHT = 4; //meters
 public static final double TARGET_HEIGHT = 8; //meters
+//intake constants
+public static final int INTAKE_MOTOR_ID = 6;
+public static final int INTAKE_BIGWHEEL_ID = 7;
+
+public static final int INTAKE_FORWARDLEFTPISTON_ID = 8;
+public static final int INTAKE_FORWARDRIGHTPISTON_ID = 9; 
+public static final int INTAKE_REVERSELEFTPISTON_ID = 10;
+public static final int INTAKE_REVERSERIGHTPISTON_ID = 11; 
+
+public static final double INTAKE_WHEEL_SPEED = .6;
 
 
 //vision constants
