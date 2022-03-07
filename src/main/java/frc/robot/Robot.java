@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
@@ -12,10 +14,13 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import frc.robot.vision.BlurContour;
+import frc.robot.vision.RetroReflectivePipeline;
+import edu.wpi.first.wpilibj.PowerDistribution;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -31,13 +36,16 @@ public class Robot extends TimedRobot {
   public static UsbCamera turretcam;
   //public VideoSink camServer;
   public VisionThread redBallVisionThread;
+  public VisionThread tapeVisionThread;
 
   public static double centerX = 0.0;
   public static double centerY = 0.0;
-  public static double targetArea = 0.0;
   public static final Object imgLock = new Object();
   public Rect rect = new Rect();
   public boolean isSquare;
+
+  //public static PowerDistribution pdh =  new PowerDistribution(0, PowerDistribution.ModuleType.kRev);
+
 
 
   /**
@@ -46,6 +54,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
+    
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -57,14 +67,16 @@ public class Robot extends TimedRobot {
     intakecam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
     //turret camera setup
-    turretcam = CameraServer.startAutomaticCapture(0);
+    turretcam = CameraServer.startAutomaticCapture(1);
     turretcam.setFPS(10);
     turretcam.setResolution(320, 240);    //160X120
     turretcam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
+    //pdh.clearStickyFaults();
+    
 
     //vision thread to look for red balls
-    redBallVisionThread = new VisionThread(intakecam, new RedBlurContour(), pipeline -> {
+    redBallVisionThread = new VisionThread(intakecam, new BlurContour(Constants.HSL_HUE_RED, Constants.HSL_SAT_RED, Constants.HSL_LUM_RED), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
           Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
           synchronized (imgLock) {
@@ -79,13 +91,30 @@ public class Robot extends TimedRobot {
               else { 
                 isSquare = false;
               }
-              targetArea = r.area();
           }
       }
     });
   
     redBallVisionThread.start();
+
+     tapeVisionThread = new VisionThread(intakecam, new RetroReflectivePipeline(), pipeline -> {
+      m_robotContainer.tapeVision.clearDetections();
+      for (var contour : pipeline.filterContoursOutput()) {
+          Rect r = Imgproc.boundingRect(contour);
+          synchronized (imgLock) {
+
+                var rX = r.x +(0.5*r.width);
+                var rY = r.y +(0.5*r.height);
+
+                m_robotContainer.tapeVision.addDetection(new Vector2d(rX, rY));
+              }
+        }
+    });
+  
+    tapeVisionThread.start();
+   // redBallVisionThread.stop();
     //redBallVisionThread.stop(); (how do i get it to stop?)
+
 
   }
 
