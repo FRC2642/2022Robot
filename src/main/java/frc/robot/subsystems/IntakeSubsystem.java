@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -54,7 +56,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intakeBigwheelOn() {
-    intakeBigwheel.set(Constants.INTAKE_WHEEL_SPEED);
+    intakeBigwheel.set(Constants.BIG_WHEEL_SPEED);
   }
 
   public void intakePistonExtend() {
@@ -81,6 +83,11 @@ public class IntakeSubsystem extends SubsystemBase {
   public void intakePistonRetract() {
     leftIntakePiston.set(Value.kReverse);
     rightIntakePiston.set(Value.kReverse);
+  }
+
+  public boolean getLeftTrigger() {
+    double lt = RobotContainer.driveController.getLeftTriggerAxis();
+    return (lt > .5);
   }
 
   @Override
