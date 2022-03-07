@@ -19,6 +19,8 @@ public static final int FRONT_LEFT_TALON_ID = 1;
 public static final int BACK_LEFT_TALON_ID = 2;
 public static final int FRONT_RIGHT_TALON_ID = 3;
 public static final int BACK_RIGHT_TALON_ID = 4;
+
+//turret constants
 public static final int TURRET_SHOOTER_ID = 5;
 public static final int TURRET_SPINNER_ID = 6;
 

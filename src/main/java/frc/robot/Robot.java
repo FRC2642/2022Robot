@@ -21,8 +21,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.vision.BlurContour;
 import frc.robot.vision.RetroReflectivePipeline;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.hal.PowerDistributionFaults;
-import edu.wpi.first.hal.PowerDistributionStickyFaults;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -46,7 +44,7 @@ public class Robot extends TimedRobot {
   public Rect rect = new Rect();
   public boolean isSquare;
 
-  public static PowerDistribution pdh =  new PowerDistribution(0, PowerDistribution.ModuleType.kRev);
+  //public static PowerDistribution pdh =  new PowerDistribution(0, PowerDistribution.ModuleType.kRev);
 
 
 
@@ -74,7 +72,7 @@ public class Robot extends TimedRobot {
     turretcam.setResolution(320, 240);    //160X120
     turretcam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
-    pdh.clearStickyFaults();
+    //pdh.clearStickyFaults();
     
 
     //vision thread to look for red balls

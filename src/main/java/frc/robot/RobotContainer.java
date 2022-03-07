@@ -46,19 +46,19 @@ public class RobotContainer {
       new RunCommand(
         () -> drive.move(
           driveController.getRawAxis(0) * 0.6,
-          -driveController.getRawAxis(1) * 0.6
+          driveController.getRawAxis(1) * 0.6
         ), drive
     ));
 
     turretShooter.setDefaultCommand(
       new RunCommand(
         () -> 
-        turretShooter.setSpeed(auxController.getRightTriggerAxis()), turretShooter)
+        turretShooter.setSpeed(driveController.getRightTriggerAxis()), turretShooter)
     );
 
     turretSpinner.setDefaultCommand(
       new RunCommand(
-        () -> turretSpinner.manuelTurnTurret(auxController.getRawAxis(4) * 0.3), turretSpinner)
+        () -> turretSpinner.manuelTurnTurret(driveController.getRawAxis(4) * 0.25), turretSpinner)
     );
 
 
