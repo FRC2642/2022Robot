@@ -24,6 +24,7 @@ import org.opencv.imgproc.*;
 import org.opencv.objdetect.*;
 
 import edu.wpi.first.vision.VisionPipeline;
+import frc.robot.Constants;
 
 /**
 * RetroreflectivePipeline class.
@@ -57,10 +58,8 @@ public class RetroReflectivePipeline implements VisionPipeline {
 
 		// Step HSL_Threshold0:
 		Mat hslThresholdInput = resizeImageOutput;
-		double[] hslThresholdHue = {59.89208633093525, 80.17064846416382};
-		double[] hslThresholdSaturation = {121.53776978417265, 235.41808873720134};
-		double[] hslThresholdLuminance = {158.22841726618705, 222.36348122866895};
-		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
+		
+		hslThreshold(hslThresholdInput, Constants.HSL_HUE_WHITE, Constants.HSL_SAT_WHITE, Constants.HSL_LUM_WHITE, hslThresholdOutput);
 
 		// Step Find_Contours0:
 		Mat findContoursInput = hslThresholdOutput;

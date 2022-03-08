@@ -40,8 +40,6 @@ public class RobotContainer {
   public static XboxController driveController = new XboxController(0);
   public static XboxController auxController = new XboxController(0);
 
-  private final Trigger leftTrigger = new Trigger(this::getLeftTrigger);
-
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -128,11 +126,11 @@ public class RobotContainer {
   }
 
   public boolean getLeftTrigger() {
-    double lt = RobotContainer.driveController.getLeftTriggerAxis();
+    double lt = driveController.getLeftTriggerAxis();
     return (lt > .5);
   }
 
   public boolean getLeftBumper() {
-    return RobotContainer.driveController.getLeftBumper();
+    return driveController.getLeftBumper();
   }
 }
