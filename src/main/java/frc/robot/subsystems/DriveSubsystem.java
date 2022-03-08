@@ -45,6 +45,8 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     setpoint = 0;
     
+    //backLeft.set(TalonFXControlMode.Follower, frontLeft.getDeviceID());
+    //backRight.set(TalonFXControlMode.Follower, frontRight.getDeviceID());
 
   }
   
@@ -56,6 +58,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void move(double speed, double rotation){
+   
     diffDrive.arcadeDrive(speed, rotation);
   }
   
