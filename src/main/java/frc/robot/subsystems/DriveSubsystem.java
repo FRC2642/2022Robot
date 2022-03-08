@@ -4,9 +4,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.MotorController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -17,6 +14,12 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
+//import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  
 
 public class DriveSubsystem extends SubsystemBase {
@@ -29,7 +32,6 @@ public class DriveSubsystem extends SubsystemBase {
   WPI_TalonFX backLeft = new WPI_TalonFX(Constants.BACK_LEFT_TALON_ID);
   WPI_TalonFX frontRight = new WPI_TalonFX(Constants.FRONT_RIGHT_TALON_ID);
   WPI_TalonFX backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON_ID);
-  
 
   
   MotorControllerGroup rightMotors = new MotorControllerGroup(frontRight, backRight);
@@ -44,8 +46,6 @@ public class DriveSubsystem extends SubsystemBase {
   //Constructor
   public DriveSubsystem() {
     setpoint = 0;
-    
-    
 
   }
   
@@ -82,6 +82,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void resetGyro(){
     pigeon.setYaw(0.0);
+  }
+
+  public void resetEncoder(){
+    driveEncoder.reset();
+  }
+
+  public double getDriveEncoder(){
+    return driveEncoder.getDistance();
   }
 
 

@@ -35,7 +35,7 @@ public class BallFollowerCommand extends CommandBase {
   @Override
   public void execute() {
     
-    if(vision.getCenterX() <= 30){ //left
+   /* if(vision.getCenterX() <= 30){ //left
       System.out.println("Left");
       drive.move(0, 0.3);
       SmartDashboard.putNumber("CenterX", vision.getCenterX());
@@ -58,6 +58,15 @@ public class BallFollowerCommand extends CommandBase {
         rotationValue = -1;
       }
       drive.move(0, rotationValue * -0.3);
+    }*/
+    if(vision.getCenterX() < 70){ //left
+      drive.move(0, -1.0); //(0, -0.4)
+    }
+    else if(vision.getCenterX() > 90){ //right
+      drive.move(0, 1.0); //(0, 0.4)
+    }
+    else{
+      drive.move(0.0,0.0);
     }
 
 

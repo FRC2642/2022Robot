@@ -11,7 +11,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.TapeVisionSubsystem;
+import frc.robot.subsystems.TurretShooterSubsystem;
+import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.commands.BallFollowerCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,11 +28,18 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
   private final VisionSubsystem vision = new VisionSubsystem();
+  public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
+  private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
+  private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
+  
 
   private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
 
   public static XboxController driveController = new XboxController(0);
   public static XboxController auxController = new XboxController(0);
+
+  private final Trigger leftTrigger = new Trigger(intake::getLeftTrigger);
 
 
 
@@ -36,16 +48,48 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    //check negatives and positives (they're probably not right)
-    drive.setDefaultCommand(
+    
+    /*drive.setDefaultCommand(
       new RunCommand(
         
         () -> drive.move(
           
           driveController.getRawAxis(0) * 0.6,
-          -driveController.getRawAxis(1) * 0.6
-        ), drive
-    ));
+          driveController.getRawAxis(1) * 0.6
+          ), drive
+    ));*/
+
+    turretShooter.setDefaultCommand(
+      new RunCommand(
+        () -> 
+        turretShooter.setSpeed(
+          driveController.getRightTriggerAxis()
+          ), turretShooter
+          ));
+
+    //has no limits (just for testing purposes)
+    /*turretSpinner.setDefaultCommand(
+      new RunCommand(
+        () -> turretSpinner.turnTurret(
+          driveController.getRawAxis(4) * 0.20
+          ), turretSpinner
+          ));*/
+
+    
+    intake.setDefaultCommand(
+      new RunCommand(
+        () -> {if (intake.getLeftTrigger()){
+          intake.intakeBigwheelOn();
+          intake.intakeMotorForward();
+          }
+          else{
+            intake.intakeMotorOff();
+            intake.intakeBigwheelOff();
+          }
+          }, intake)
+    );
+
+    
 
 
   }
@@ -56,7 +100,18 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+
+    /*leftTrigger.whileActiveContinuous(
+      new RunCommand(() -> {intake.intakeMotorForward();
+        intake.intakeBigwheelOn();}, intake));*/
+        //leftTrigger.whileActiveContinuous(new RunCommand(intake.intakeMotorForward()), intake);
+        
+        
+    
+
+  
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
