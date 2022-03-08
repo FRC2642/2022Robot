@@ -24,6 +24,7 @@ public class TurretShooterSubsystem extends SubsystemBase {
   public void setSpeed(double speed){
     shooter.set(speed);
   }
+  
   public void stop(){
     shooter.stopMotor();
   }

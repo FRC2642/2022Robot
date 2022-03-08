@@ -81,13 +81,19 @@ public class RobotContainer {
           ), turretShooter
           ));
 
+  magazine.setDefaultCommand(
+            new RunCommand(
+              () -> 
+              magazine.magStop(), magazine
+                ));
+
     //has no limits (just for testing purposes)
-    /*turretSpinner.setDefaultCommand(
+    turretSpinner.setDefaultCommand(
       new RunCommand(
         () -> turretSpinner.turnTurret(
           driveController.getRawAxis(4) * 0.20
           ), turretSpinner
-          ));*/
+          ));
 
     
     intake.setDefaultCommand(
