@@ -10,6 +10,7 @@ import frc.robot.Robot;
 
 public class VisionSubsystem extends SubsystemBase {
   /** Creates a new VisionSubsystem. */
+
   //all vision (tape and ball) go in here (change variable names as necessary)
   public VisionSubsystem() {}
 
@@ -20,6 +21,7 @@ public class VisionSubsystem extends SubsystemBase {
   public double getCenterY(){
     return Robot.centerY;
   }
+
 
 
   @Override

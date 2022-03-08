@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.vision.BlurContour;
 import frc.robot.vision.RetroReflectivePipeline;
-
+import edu.wpi.first.wpilibj.PowerDistribution;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -44,6 +44,9 @@ public class Robot extends TimedRobot {
   public Rect rect = new Rect();
   public boolean isSquare;
 
+  //public static PowerDistribution pdh =  new PowerDistribution(0, PowerDistribution.ModuleType.kRev);
+
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -51,6 +54,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
+    
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -62,11 +67,12 @@ public class Robot extends TimedRobot {
     intakecam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
     //turret camera setup
-    turretcam = CameraServer.startAutomaticCapture(0);
+    turretcam = CameraServer.startAutomaticCapture(1);
     turretcam.setFPS(10);
     turretcam.setResolution(320, 240);    //160X120
     turretcam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
+    //pdh.clearStickyFaults();
     
 
     //vision thread to look for red balls
@@ -108,6 +114,7 @@ public class Robot extends TimedRobot {
     tapeVisionThread.start();
    // redBallVisionThread.stop();
     //redBallVisionThread.stop(); (how do i get it to stop?)
+
 
   }
 

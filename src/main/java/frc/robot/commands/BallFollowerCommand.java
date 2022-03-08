@@ -12,11 +12,15 @@ public class BallFollowerCommand extends CommandBase {
   DriveSubsystem drive;
   VisionSubsystem vision;
   double error;
+  double setpoint;
+  double rotationValue;
   /** Creates a new BallFollowerCommand. */
   public BallFollowerCommand(DriveSubsystem drive, VisionSubsystem vision) {
     // Use addRequirements() here to declare subsystem dependencies.
+    
     this.drive = drive;
     this.vision = vision;
+    drive.setPIDCoefficients(.2, 0, 0);
 
     addRequirements(drive,vision);
   }
@@ -31,15 +35,31 @@ public class BallFollowerCommand extends CommandBase {
   public void execute() {
     
     //implement PID?
-    if(vision.getCenterX() < 70){ //left
-      drive.arcadeDrive(0, -1.0); //(0, -0.4)
+    /*if(vision.getCenterX() < 70){ //left
+      drive.move(0, -1.0); //(0, -0.4)
     }
     else if(vision.getCenterX() > 90){ //right
-
-      drive.arcadeDrive(0, 1.0); //(0, 0.4)
+      drive.move(0, 1.0); //(0, 0.4)
     }
     else{
-      drive.arcadeDrive(0, 0);
+      setpoint = 160;
+      rotationValue = drive.calculatePID(vision.getCenterX(), setpoint);
+      if (rotationValue > 1){
+        rotationValue = 1;
+      }
+      else if(rotationValue < -1){
+        rotationValue = -1;
+      }
+      drive.move(0, rotationValue * 0.6);
+    }*/
+    if(vision.getCenterX() < 70){ //left
+      drive.move(0, -1.0); //(0, -0.4)
+    }
+    else if(vision.getCenterX() > 90){ //right
+      drive.move(0, 1.0); //(0, 0.4)
+    }
+    else{
+      drive.move(0.0,0.0);
     }
 
 

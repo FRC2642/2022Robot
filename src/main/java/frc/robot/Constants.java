@@ -14,18 +14,36 @@ package frc.robot;
  */
 public final class Constants {
 
-//drive constants
+//drive constants (correct can ids)
 public static final int FRONT_LEFT_TALON_ID = 1;
 public static final int BACK_LEFT_TALON_ID = 2;
 public static final int FRONT_RIGHT_TALON_ID = 3;
 public static final int BACK_RIGHT_TALON_ID = 4;
-public static final int TURRET_SHOOTER_ID = 5;
-public static final int TURRET_SPINNER_ID = 6;
 
-//throw math
-public static final double FINAL_SPEED_MULT = 1;
-public static final double TURRET_HEIGHT = 4; //meters
-public static final double TARGET_HEIGHT = 8; //meters
+//turret shooter constants (correct can ids)
+public static final int TURRET_SHOOTER_ID = 5;
+
+//intake constants (correct can ids)
+public static final int INTAKE_MOTOR_ID = 6;
+public static final int INTAKE_BIGWHEEL_ID = 11;
+
+//magazine motors (correct can id)
+public static final int MAGAZINE_BELT_MOTOR_ID = 13;
+
+
+    //incorrect piston ids
+public static final int INTAKE_FORWARDLEFTPISTON_ID = 8;
+public static final int INTAKE_FORWARDRIGHTPISTON_ID = 9; 
+public static final int INTAKE_REVERSELEFTPISTON_ID = 10;
+public static final int INTAKE_REVERSERIGHTPISTON_ID = 11; 
+
+public static final double INTAKE_WHEEL_SPEED = .7;
+public static final double BIG_WHEEL_SPEED = .7;
+
+//turret spinner constants (correct can ids) (check limit switches)
+public static final int TURRET_SPINNER_ID = 12;
+public static final int CLOCKWISE_SWITCH_ID = 8;
+public static final int COUNTER_CLOCKWISE_SWITCH_ID = 9;
 
 
 //vision constants
@@ -41,12 +59,13 @@ public static final double[] HSL_HUE_BLUE = {91.0, 125.0};
 public static final double[] HSL_SAT_BLUE = {80.0, 216.0};
 public static final double[] HSL_LUM_BLUE = {0.0, 255.0};
 
+//throw math
+public static final double FINAL_SPEED_MULT = 1;
+public static final double TURRET_HEIGHT = 4; //meters
+public static final double TARGET_HEIGHT = 8; //meters
 
-//turret spinner constants
-public static final int CLOCKWISE_SWITCH_ID = 8;
-public static final int COUNTER_CLOCKWISE_SWITCH_ID = 9;
-public static final int TURRET_SPIINER_MOTOR = 10;
 
-
+//gyro id
+public static final int pigeonID = 18;
 
 }
