@@ -33,11 +33,6 @@ public class DriveSubsystem extends SubsystemBase {
   WPI_TalonFX frontRight = new WPI_TalonFX(Constants.FRONT_RIGHT_TALON_ID);
   WPI_TalonFX backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON_ID);
 
-  Encoder driveEncoder = new Encoder(1,2);
-
-
-  //MotorControllerGroup fControllerGroup = new MotorControllerGroup(frontLeft, frontRight);
-
   
   MotorControllerGroup rightMotors = new MotorControllerGroup(frontRight, backRight);
   MotorControllerGroup leftMotors = new MotorControllerGroup(frontLeft, backLeft);
@@ -62,6 +57,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void move(double speed, double rotation){
+   
     diffDrive.arcadeDrive(speed, rotation);
   }
   
