@@ -4,50 +4,36 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class EncoderDrive extends CommandBase {
-  /** Creates a new EncoderDrive. */
-  DriveSubsystem drive;
-  double distance;
+public class ClimbPistonBackwardCommand extends CommandBase {
 
-  public EncoderDrive(DriveSubsystem drive, double distance) {
+  ClimberSubsystem climb;
+  /** Creates a new ClimbPistonBackwardCommand. */
+  public ClimbPistonBackwardCommand(ClimberSubsystem climb) {
+    this.climb = climb;
+    addRequirements(climb);
     // Use addRequirements() here to declare subsystem dependencies.
-    this.drive = drive;
-    this.distance = distance;
-
-    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    drive.resetEncoder();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.move(0.6, 0.0);
+    climb.pistonBackward();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    drive.stop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
-    if(drive.getDriveEncoder() >= distance){
-      return true;
-    }
-    else{
-    return false;
-    }
+    return true;
   }
 }

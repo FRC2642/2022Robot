@@ -68,4 +68,8 @@ public static final double TARGET_HEIGHT = 8; //meters
 //gyro id
 public static final int pigeonID = 18;
 
+//button bindings
+public static final int xButtonDrive = 3;
+public static final int bButtonDrive = 2;
+
 }
