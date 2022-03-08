@@ -55,8 +55,12 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.set(-Constants.INTAKE_WHEEL_SPEED);
   }
 
-  public void intakeBigwheelOn() {
+  public void intakeBigwheelForward() {
     intakeBigwheel.set(Constants.BIG_WHEEL_SPEED);
+  }
+
+  public void intakeBigwheelReverse() {
+    intakeBigwheel.set(-Constants.BIG_WHEEL_SPEED);
   }
 
   public void intakePistonExtend() {
@@ -83,11 +87,6 @@ public class IntakeSubsystem extends SubsystemBase {
   public void intakePistonRetract() {
     leftIntakePiston.set(Value.kReverse);
     rightIntakePiston.set(Value.kReverse);
-  }
-
-  public boolean getLeftTrigger() {
-    double lt = RobotContainer.driveController.getLeftTriggerAxis();
-    return (lt > .5);
   }
 
   @Override

@@ -16,6 +16,7 @@ import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.commands.BallFollowerCommand;
+import frc.robot.commands.IntakeBigwheelReverseCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -37,7 +38,7 @@ public class RobotContainer {
   public static XboxController driveController = new XboxController(0);
   public static XboxController auxController = new XboxController(0);
 
-  private final Trigger leftTrigger = new Trigger(intake::getLeftTrigger);
+  private final Trigger leftTrigger = new Trigger(this::getLeftTrigger);
 
 
 
@@ -74,9 +75,12 @@ public class RobotContainer {
     
     intake.setDefaultCommand(
       new RunCommand(
-        () -> {if (intake.getLeftTrigger()){
-          intake.intakeBigwheelOn();
+        () -> {if (getLeftTrigger()){
+          intake.intakeBigwheelForward();
           intake.intakeMotorForward();
+          } else if(getLeftBumper()) {
+            intake.intakeBigwheelReverse();
+            intake.intakeMotorReverse();
           }
           else{
             intake.intakeMotorOff();
@@ -117,5 +121,14 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return ballFollowerCommand;
+  }
+
+  public boolean getLeftTrigger() {
+    double lt = RobotContainer.driveController.getLeftTriggerAxis();
+    return (lt > .5);
+  }
+
+  public boolean getLeftBumper() {
+    return RobotContainer.driveController.getLeftBumper();
   }
 }

@@ -7,14 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeOffCommand extends CommandBase {
+public class IntakeBigwheelReverseCommand extends CommandBase {
     IntakeSubsystem intake;
-  /** Creates a new IntakeOffCommand. */
-  public IntakeOffCommand(IntakeSubsystem intake) {
+  /** Creates a new IntakeBigwheelReverseCommand. */
+  public IntakeBigwheelReverseCommand(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
 
-    this.intake = intake;
     addRequirements(intake);
+    this.intake = intake;
   }
 
   // Called when the command is initially scheduled.
@@ -24,8 +24,7 @@ public class IntakeOffCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intakeMotorOff();
-    intake.intakeBigwheelOff();
+    intake.intakeBigwheelReverse();
   }
 
   // Called once the command ends or is interrupted.
