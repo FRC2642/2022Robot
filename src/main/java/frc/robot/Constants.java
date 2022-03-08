@@ -20,6 +20,8 @@ public static final int BACK_LEFT_TALON_ID = 2;
 public static final int FRONT_RIGHT_TALON_ID = 3;
 public static final int BACK_RIGHT_TALON_ID = 4;
 
+public static final int CLIMBER_ID = 14;
+
 //turret shooter constants (correct can ids)
 public static final int TURRET_SHOOTER_ID = 5;
 
@@ -58,6 +60,16 @@ public static final double[] HSL_LUM_RED = {0.0, 255.0};
 public static final double[] HSL_HUE_BLUE = {91.0, 125.0};
 public static final double[] HSL_SAT_BLUE = {80.0, 216.0};
 public static final double[] HSL_LUM_BLUE = {0.0, 255.0};
+
+public static final double[] HSL_HUE_GREEN = {59.89208633093525, 80.17064846416382};
+public static final double[] HSL_SAT_GREEN =  {121.53776978417265, 235.41808873720134};
+public static final double[] HSL_LUM_GREEN = {158.22841726618705, 222.36348122866895};
+
+
+
+public static final double[] HSL_HUE_WHITE = {0.0, 255.0};
+public static final double[] HSL_SAT_WHITE = {0.0, 36.0};
+public static final double[] HSL_LUM_WHITE = {217.0, 255.0};
 
 //throw math
 public static final double FINAL_SPEED_MULT = 1;

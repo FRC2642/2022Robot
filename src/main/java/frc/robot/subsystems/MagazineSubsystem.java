@@ -14,7 +14,7 @@ public CANSparkMax magBeltMotor;
 
   public MagazineSubsystem() {
 
-    magBeltMotor = new CANSparkMax(10, MotorType.kBrushless);
+    magBeltMotor = new CANSparkMax(13, MotorType.kBrushless);
   }
 
 public void magRun(){
