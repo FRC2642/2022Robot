@@ -49,7 +49,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     
-    /*drive.setDefaultCommand(
+    drive.setDefaultCommand(
       new RunCommand(
         
         () -> drive.move(
@@ -57,7 +57,7 @@ public class RobotContainer {
           driveController.getRawAxis(0) * 0.6,
           driveController.getRawAxis(1) * 0.6
           ), drive
-    ));*/
+    ));
 
     turretShooter.setDefaultCommand(
       new RunCommand(
