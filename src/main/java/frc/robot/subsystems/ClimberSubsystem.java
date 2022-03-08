@@ -15,10 +15,10 @@ import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
-  CANSparkMax elevatorMotor = new CANSparkMax(0, MotorType.kBrushless);
+  CANSparkMax elevatorMotor = new CANSparkMax(14, MotorType.kBrushless);
   DoubleSolenoid climbPistonOne = new DoubleSolenoid(PneumaticsModuleType.REVPH, 1, 1);
-  DoubleSolenoid climbPistonTwo = new DoubleSolenoid(PneumaticsModuleType.REVPH, 1, 1);
-  Encoder elevatorEncoder = new Encoder(0, 0);
+  DoubleSolenoid climbPistonTwo = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 2);
+  //Encoder elevatorEncoder = new Encoder(0, 0);
   public ClimberSubsystem() {}
 
   public void pistonFoward(){
@@ -36,9 +36,9 @@ public class ClimberSubsystem extends SubsystemBase {
   public void moveElevator(double speed){
    elevatorMotor.set(speed);
   }
-  public double getElevatorEncoder(){
+  /*public double getElevatorEncoder(){
     return elevatorEncoder.get();
-   }
+   }*/
 
   @Override
   public void periodic() {

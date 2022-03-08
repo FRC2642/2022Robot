@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
+//import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -48,12 +48,12 @@ public class RobotContainer {
   public static XboxController driveController = new XboxController(0);
   public static XboxController auxController = new XboxController(1);
 
-  public final Joystick rightDriveStick = new Joystick(1);
+  //public final Joystick rightDriveStick = new Joystick(5);
 
   private final Trigger leftTrigger = new Trigger(intake::getLeftTrigger);
 
-  public final Button driveButtonX = new JoystickButton(driveController, Constants.xButtonDrive);
-  public final Button driveButtonB = new JoystickButton(driveController, Constants.bButtonDrive); 
+ // public final Button driveButtonX = new JoystickButton(driveController, Constants.xButtonDrive);
+  //public final Button driveButtonB = new JoystickButton(driveController, Constants.bButtonDrive); 
 
 
 
@@ -68,8 +68,8 @@ public class RobotContainer {
         
         () -> drive.move(
           
-          driveController.getRawAxis(0) * 0.6,
-          driveController.getRawAxis(1) * 0.6
+          driveController.getRawAxis(0)*driveController.getRawAxis(0) * 0.5,
+          driveController.getRawAxis(1)*driveController.getRawAxis(1) * 0.5
           ), drive
     ));
 
@@ -113,7 +113,7 @@ public class RobotContainer {
     climb.setDefaultCommand(
       new RunCommand(
         () -> climb.moveElevator(
-         rightDriveStick.getRawAxis(0)
+         -driveController.getRawAxis(5)*0.3
         ), climb
     ));
 
