@@ -7,11 +7,15 @@ package frc.robot;
 import javax.swing.plaf.synth.SynthScrollBarUI;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
@@ -32,14 +36,20 @@ public class RobotContainer {
   private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
   private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final ClimberSubsystem climb = new ClimberSubsystem();
   
 
   private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
 
   public static XboxController driveController = new XboxController(0);
-  public static XboxController auxController = new XboxController(0);
+  public static XboxController auxController = new XboxController(1);
+
+  public final Joystick rightDriveStick = new Joystick(1);
 
   private final Trigger leftTrigger = new Trigger(intake::getLeftTrigger);
+
+  public final Button driveButtonX = new JoystickButton(driveController, Constants.xButtonDrive);
+  public final Button driveButtonB = new JoystickButton(driveController, Constants.bButtonDrive); 
 
 
 
@@ -87,7 +97,15 @@ public class RobotContainer {
             intake.intakeBigwheelOff();
           }
           }, intake)
+
+          
     );
+    climb.setDefaultCommand(
+      new RunCommand(
+        () -> climb.moveElevator(
+         rightDriveStick.getRawAxis(0)
+        ), climb
+    ));
 
     
 
