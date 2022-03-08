@@ -84,13 +84,9 @@ public class DriveSubsystem extends SubsystemBase {
     pigeon.setYaw(0.0);
   }
 
-  public void resetEncoder(){
-    driveEncoder.reset();
-  }
+  
 
-  public double getDriveEncoder(){
-    return driveEncoder.getDistance();
-  }
+  
 
 
   @Override
