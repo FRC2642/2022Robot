@@ -4,14 +4,19 @@
 
 package frc.robot;
 
+import javax.crypto.spec.DHPrivateKeySpec;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
@@ -30,6 +35,7 @@ public class RobotContainer {
   private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
   private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final MagazineSubsystem magazine = new MagazineSubsystem();
   
 
   private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
@@ -97,6 +103,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+
+
+    new JoystickButton(driveController, Button.kA.value).whenHeld(
+      new RunCommand(() -> magazine.magRun(),
+      magazine));
 
     /*leftTrigger.whileActiveContinuous(
       new RunCommand(() -> {intake.intakeMotorForward();

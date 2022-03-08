@@ -5,10 +5,25 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 public class MagazineSubsystem extends SubsystemBase {
   /** Creates a new MagazineSubsystem. */
-  public MagazineSubsystem() {}
+public CANSparkMax magBeltMotor;
+
+  public MagazineSubsystem() {
+
+    magBeltMotor = new CANSparkMax(10, MotorType.kBrushless);
+  }
+
+public void magRun(){
+  magBeltMotor.set(0.6);
+}
+public void magStop(){
+  magBeltMotor.set(0);
+}
+
 
   @Override
   public void periodic() {
