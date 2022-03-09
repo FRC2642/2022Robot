@@ -42,6 +42,7 @@ public class Robot extends TimedRobot {
   public VisionThread redBallVisionThread;
   public VisionThread tapeVisionThread;
 
+
   public static final Object imgLock = new Object();
   public Rect rect = new Rect();
   public boolean isSquare;
@@ -135,6 +136,7 @@ public class Robot extends TimedRobot {
    // redBallVisionThread.stop();
     //redBallVisionThread.stop(); (how do i get it to stop?)
     m_robotContainer.drive.resetEncoder();
+    //redBallVisionThread.stop(); (how do i get it to stop?)
 
 
   }

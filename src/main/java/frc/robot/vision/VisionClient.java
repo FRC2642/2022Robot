@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot;
+package frc.robot.vision;
 
 
 import java.net.http.*;
@@ -11,6 +11,8 @@ import java.net.*;
 import java.util.ArrayList;
 
 import com.google.gson.*;
+
+import frc.robot.Robot;
 
 /** Add your docs here. */
 public class VisionClient extends Thread {
