@@ -6,14 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.BallVisionSubsystem;
 
 public class BallFollowerCommand extends CommandBase {
   DriveSubsystem drive;
-  VisionSubsystem vision;
+  BallVisionSubsystem vision;
   double error;
   /** Creates a new BallFollowerCommand. */
-  public BallFollowerCommand(DriveSubsystem drive, VisionSubsystem vision) {
+  public BallFollowerCommand(DriveSubsystem drive, BallVisionSubsystem vision) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.vision = vision;
@@ -29,29 +29,17 @@ public class BallFollowerCommand extends CommandBase {
 
   @Override
   public void execute() {
-    
-    //implement PID?
-    if(vision.getCenterX() < 70){ //left
-      drive.arcadeDrive(0, -1.0); //(0, -0.4)
-    }
-    else if(vision.getCenterX() > 90){ //right
-
-      drive.arcadeDrive(0, 1.0); //(0, 0.4)
-    }
-    else{
-      drive.arcadeDrive(0, 0);
-    }
-
-
+    double speed = 0.25;
+    if(vision.getCenterX() < 70)  drive.arcadeDrive(0, -speed); 
+    else if(vision.getCenterX() > 90)  drive.arcadeDrive(0, speed); 
+    else drive.arcadeDrive(0, 0);
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     drive.stop();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

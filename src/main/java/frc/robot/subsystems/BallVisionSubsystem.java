@@ -8,10 +8,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 
-public class VisionSubsystem extends SubsystemBase {
+public class BallVisionSubsystem extends SubsystemBase {
   /** Creates a new VisionSubsystem. */
   //all vision (tape and ball) go in here (change variable names as necessary)
-  public VisionSubsystem() {}
+
+
+  public BallVisionSubsystem() {}
 
   public double getCenterX(){
     return Robot.centerX;

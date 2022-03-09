@@ -20,7 +20,7 @@ import frc.robot.utils.Vector2dComparator;
 public class TapeVisionSubsystem extends SubsystemBase {
 
   private final ArrayList<Vector2d> tapeContourPositions = new ArrayList<Vector2d>();
-  public static  int NUM_TAPE_ON_HUB = 6;
+  public static  int NUM_TAPE_ON_HUB = 1;
   public static  double TAPE_LENGTH_TOLERANCE = 0.25;
   public static  double TAPE_HEIGHT_TOLERANCE = 0.25;
   public static  double TAPE_NOISE_TOLERANCE = 0.25;
@@ -60,9 +60,9 @@ public class TapeVisionSubsystem extends SubsystemBase {
   //hubPosition and hubSizeInFrame will be modified to include the detected pos and size of the hub. numbers range from -1 to 1
   public HubInFrameReason hubInFrame(Vector2d hubPosition, Vector2d hubSizeInFrame) {
 
-   /* if (hubPosition == null || hubSizeInFrame == null) return HubInFrameReason.NULL_EXCEPTION;
+   /* if (hubPosition == null || hubSizeInFrame == null) return HubInFrameReason.NULL_EXCEPTION; */
     if (tapeContourPositions.size() < NUM_TAPE_ON_HUB) return HubInFrameReason.NOT_ENOUGH_TAPES;
-
+/*
     //FIND HUB FROM POINTS
     Vector2d[] contours = new Vector2d[tapeContourPositions.size()];
     double[] cache = new double[tapeContourPositions.size()];
@@ -137,18 +137,20 @@ public class TapeVisionSubsystem extends SubsystemBase {
       }
       if (!strayed){ //if we didnt stray, this set passed all the tests
 */  
-        Vector2d[] array = new Vector2d[tapeContourPositions.size()]; //comment this out when doing full test
+     //   Vector2d[] array = new Vector2d[tapeContourPositions.size()]; //comment this out when doing full test
         
-        var set = tapeContourPositions.toArray(array);
+      //  var set = tapeContourPositions.toArray(array);
 
-        Arrays.sort(set, new Vector2dComparator(Vector2dComparator.Axis.X));
+       /* Arrays.sort(set, new Vector2dComparator(Vector2dComparator.Axis.X));
         hubPosition.x = (set[set.length - 1].x + set[0].x)/2; //use midpoint formula for x 
         hubSizeInFrame.x = (set[0].x - set[set.length - 1].x);
 
         Arrays.sort(set, new Vector2dComparator(Vector2dComparator.Axis.Y));
         hubPosition.y = (set[set.length - 1].y + set[0].y)/2; //use midpoint formula for y 
-        hubSizeInFrame.y = (set[0].y - set[set.length - 1].y);
-
+        hubSizeInFrame.y = (set[0].y - set[set.length - 1].y); */
+        var firstTape = tapeContourPositions.get(0);
+        hubPosition.x = firstTape.x;
+        hubPosition.y = firstTape.y;
         return HubInFrameReason.DETECTED;
   //    }
  //   }

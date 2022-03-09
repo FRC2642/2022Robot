@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.BallVisionSubsystem;
 
 public class TurnTowardsHubCommand extends CommandBase {
   TurretSpinnerSubsystem turn;
