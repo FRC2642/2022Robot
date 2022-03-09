@@ -18,7 +18,7 @@ public class TurretSpinnerSubsystem extends SubsystemBase {
   //creates limit switches for turret
   public DigitalInput clockwiseSwitch = new DigitalInput(Constants.CLOCKWISE_SWITCH_ID);
   public DigitalInput counterClockwiseSwitch = new DigitalInput(Constants.COUNTER_CLOCKWISE_SWITCH_ID );//on when not pressed (inverted)
-  public CANSparkMax turretMotor = new CANSparkMax(Constants.TURRET_SPIINER_MOTOR, MotorType.kBrushless);
+  public CANSparkMax turretMotor = new CANSparkMax(Constants.TURRET_SPINNER_ID, MotorType.kBrushless);
 
 
   /** Creates a new TurretSpinnerSubsystem. */

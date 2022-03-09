@@ -4,13 +4,26 @@
 
 package frc.robot;
 
+import javax.crypto.spec.DHPrivateKeySpec;
+import javax.swing.plaf.synth.SynthScrollBarUI;
+
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
+import frc.robot.subsystems.TurretShooterSubsystem;
+import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.commands.BallFollowerCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,12 +36,24 @@ public class RobotContainer {
   private final DriveSubsystem drive = new DriveSubsystem();
   private final VisionSubsystem vision = new VisionSubsystem();
   public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
+  private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
+  private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final MagazineSubsystem magazine = new MagazineSubsystem();
+  private final ClimberSubsystem climb = new ClimberSubsystem();
   
 
   private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
 
   public static XboxController driveController = new XboxController(0);
-  public static XboxController auxController = new XboxController(0);
+  public static XboxController auxController = new XboxController(1);
+
+  public final Joystick rightDriveStick = new Joystick(1);
+
+  private final Trigger leftTrigger = new Trigger(intake::getLeftTrigger);
+
+  public final Button driveButtonX = new JoystickButton(driveController, Constants.xButtonDrive);
+  public final Button driveButtonB = new JoystickButton(driveController, Constants.bButtonDrive); 
 
 
 
@@ -37,14 +62,62 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    //check negatives and positives (they're probably not right)
+    
     drive.setDefaultCommand(
       new RunCommand(
-        () -> drive.arcadeDrive(
+        
+        () -> drive.move(
+          
           driveController.getRawAxis(0) * 0.6,
-          -driveController.getRawAxis(1) * 0.6
-        ), drive
+          driveController.getRawAxis(1) * 0.6
+          ), drive
     ));
+
+    turretShooter.setDefaultCommand(
+      new RunCommand(
+        () -> 
+        turretShooter.setSpeed(
+          driveController.getRightTriggerAxis()
+          ), turretShooter
+          ));
+
+  magazine.setDefaultCommand(
+            new RunCommand(
+              () -> 
+              magazine.magStop(), magazine
+                ));
+
+    //has no limits (just for testing purposes)
+    turretSpinner.setDefaultCommand(
+      new RunCommand(
+        () -> turretSpinner.turnTurret(
+          driveController.getRawAxis(4) * 0.20
+          ), turretSpinner
+          ));
+
+    
+    intake.setDefaultCommand(
+      new RunCommand(
+        () -> {if (intake.getLeftTrigger()){
+          intake.intakeBigwheelOn();
+          intake.intakeMotorForward();
+          }
+          else{
+            intake.intakeMotorOff();
+            intake.intakeBigwheelOff();
+          }
+          }, intake)
+
+          
+    );
+    climb.setDefaultCommand(
+      new RunCommand(
+        () -> climb.moveElevator(
+         rightDriveStick.getRawAxis(0)
+        ), climb
+    ));
+
+    
 
 
   }
@@ -55,7 +128,23 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+
+
+    new JoystickButton(driveController, Button.kA.value).whenHeld(
+      new RunCommand(() -> magazine.magRun(),
+      magazine));
+
+    /*leftTrigger.whileActiveContinuous(
+      new RunCommand(() -> {intake.intakeMotorForward();
+        intake.intakeBigwheelOn();}, intake));*/
+        //leftTrigger.whileActiveContinuous(new RunCommand(intake.intakeMotorForward()), intake);
+        
+        
+    
+
+  
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
