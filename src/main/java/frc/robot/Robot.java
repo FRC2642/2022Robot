@@ -42,6 +42,14 @@ public class Robot extends TimedRobot {
 
   public volatile static ArrayList<Double> balls;
 
+  public static void writeBalls(ArrayList<Double> data) {
+    balls.clear();
+    balls.addAll(data);
+  }
+
+  public static ArrayList<Double> readBalls() {
+    return balls;
+  }
   public static double centerX = 0.0;
   public static double centerY = 0.0;
   public static final Object imgLock = new Object();
@@ -97,6 +105,9 @@ public class Robot extends TimedRobot {
               }
           }
       }
+    // Client if i ever get the jetson working
+    // VisionClient client = new VisionClient();
+    // client.start();
     });
   
     redBallVisionThread.start();
@@ -117,7 +128,7 @@ public class Robot extends TimedRobot {
   
     tapeVisionThread.start();
    // redBallVisionThread.stop();
-    //redBallVisionThread.stop(); (how do i get it to stop?)
+    //redBallVisionThread.stop(); (how do i get it to stop?) redBallVisionThread.interrupt();
 
 
   }
