@@ -18,7 +18,7 @@ public class DriveCommand extends CommandBase {
 
   @Override
   public void execute() {
-    drive.arcadeDrive(0.25, 0);
+    drive.move(0.25, 0);
   }
 
   @Override

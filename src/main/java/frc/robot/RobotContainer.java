@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.subsystems.VisionSubsystem;
+//import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.BallVisionSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -34,8 +34,8 @@ import frc.robot.commands.BallFollowerCommand;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
-  private final VisionSubsystem vision = new VisionSubsystem();
   public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
+  private final BallVisionSubsystem ballVision = new BallVisionSubsystem();
   private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
   private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
@@ -43,17 +43,14 @@ public class RobotContainer {
   private final ClimberSubsystem climb = new ClimberSubsystem();
   
 
-  private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
+  private final Command ballFollowerCommand = new BallFollowerCommand(drive, ballVision);
 
   public static XboxController driveController = new XboxController(0);
   public static XboxController auxController = new XboxController(1);
 
   public final Joystick rightDriveStick = new Joystick(1);
 
-  private final Trigger leftTrigger = new Trigger(intake::getLeftTrigger);
-
-  public final Button driveButtonX = new JoystickButton(driveController, Constants.xButtonDrive);
-  public final Button driveButtonB = new JoystickButton(driveController, Constants.bButtonDrive); 
+  public final JoystickButton A_Button = new JoystickButton(driveController, Button.kA.value);
 
 
 
@@ -131,7 +128,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
 
-    new JoystickButton(driveController, Button.kA.value).whenHeld(
+    A_Button.whenHeld(
       new RunCommand(() -> magazine.magRun(),
       magazine));
 
