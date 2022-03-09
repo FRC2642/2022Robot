@@ -38,6 +38,10 @@ public class Robot extends TimedRobot {
   public VisionThread redBallVisionThread;
   public VisionThread tapeVisionThread;
 
+  // ball data if i ever get the jetson working
+
+  public volatile static ArrayList<Double> balls;
+
   public static double centerX = 0.0;
   public static double centerY = 0.0;
   public static final Object imgLock = new Object();
