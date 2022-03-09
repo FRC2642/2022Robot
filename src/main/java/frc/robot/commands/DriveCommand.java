@@ -9,16 +9,22 @@ import frc.robot.subsystems.DriveSubsystem;
 public class DriveCommand extends CommandBase {
 
   private DriveSubsystem drive;
+  private double speed = 0.25;
+  private double turn = 0;
   
   public DriveCommand(DriveSubsystem drive) {
     this.drive = drive;
     addRequirements(drive);
+    SmartDashboard.putNumber("speed", speed);
+    SmartDashboard.putNumber("turn", turn);
   }
   
 
   @Override
   public void execute() {
-    drive.move(0.25, 0);
+    var s = SmartDashboard.getNumber("speed", speed);
+    var d = SmartDashboard.getNumber("turn", turn);
+    drive.move(s, d);
   }
 
   @Override

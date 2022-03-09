@@ -157,7 +157,7 @@ public class TapeVisionSubsystem extends SubsystemBase {
 
 //    return HubInFrameReason.NOT_DETECTED;
   }
-  private Object[] getClosestInSetFrom(Vector2d[] contours, int index){
+/*  private Object[] getClosestInSetFrom(Vector2d[] contours, int index){
       double smallestD = Double.MAX_VALUE;
       int smallestI = 0;
       for (int i = index + 1; i < contours.length; ++i){
@@ -168,7 +168,7 @@ public class TapeVisionSubsystem extends SubsystemBase {
         }
       }
       return new Object[] { smallestI, smallestD };
-  }
+  } */
   
   public enum HubInFrameReason{
     DETECTED,

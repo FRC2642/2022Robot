@@ -78,7 +78,7 @@ public class RobotContainer {
           ), turretShooter
           ));
 
-  magazine.setDefaultCommand(
+    magazine.setDefaultCommand(
             new RunCommand(
               () -> 
               magazine.magStop(), magazine
