@@ -100,7 +100,7 @@ public class RobotContainer {
           ));
 
     
-    /*intake.setDefaultCommand(
+    intake.setDefaultCommand(
       new RunCommand(
         () -> {if (intake.getLeftTrigger()){
           //intake.intakePistonRetract();
@@ -115,7 +115,7 @@ public class RobotContainer {
           }, intake)
 
           
-    );*/
+    );
     climb.setDefaultCommand(
       new RunCommand(
         () -> climb.moveElevator(
