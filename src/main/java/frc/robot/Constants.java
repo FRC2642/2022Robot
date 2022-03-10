@@ -34,10 +34,10 @@ public static final int MAGAZINE_BELT_MOTOR_ID = 13;
 
 
     //incorrect piston ids
-public static final int INTAKE_FORWARDLEFTPISTON_ID = 8;
-public static final int INTAKE_FORWARDRIGHTPISTON_ID = 9; 
-public static final int INTAKE_REVERSELEFTPISTON_ID = 10;
-public static final int INTAKE_REVERSERIGHTPISTON_ID = 11; 
+public static final int INTAKE_FORWARDLEFTPISTON_ID = 0;
+//public static final int INTAKE_FORWARDRIGHTPISTON_ID = 0; 
+public static final int INTAKE_REVERSELEFTPISTON_ID = 0;
+//public static final int INTAKE_REVERSERIGHTPISTON_ID = 11; 
 
 public static final double INTAKE_WHEEL_SPEED = .7;
 public static final double BIG_WHEEL_SPEED = .7;
