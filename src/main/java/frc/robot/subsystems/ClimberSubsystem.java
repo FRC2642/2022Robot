@@ -22,11 +22,11 @@ public class ClimberSubsystem extends SubsystemBase {
   //Encoder elevatorEncoder = new Encoder(0, 0);
   public ClimberSubsystem() {}
 
-  public void pistonFoward(){
+  public void climbPistonFoward(){
     climbPistonOne.set(true);
     //climbPistonTwo.set(DoubleSolenoid.Value.kForward);
    }
-   public void pistonBackward(){
+   public void climbPistonBackward(){
      climbPistonOne.set(false);
      //climbPistonTwo.set(DoubleSolenoid.Value.kReverse);
    }
