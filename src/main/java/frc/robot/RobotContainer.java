@@ -15,6 +15,7 @@ import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -25,6 +26,7 @@ import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.commands.BallFollowerCommand;
+import frc.robot.commands.BallFollowerIntakeCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
 /**
@@ -46,6 +48,7 @@ public class RobotContainer {
   
 
   private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
+  private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, vision, drive);
 
   public static XboxController driveController = new XboxController(0);
   public static XboxController auxController = new XboxController(1);
@@ -70,16 +73,19 @@ public class RobotContainer {
     drive.setDefaultCommand(
       new RunCommand(
         () -> drive.move(
-        driveController.getRawAxis(0) * 0.6,
-        driveController.getRawAxis(1) * 0.6
+        //Math.signum(driveController.getRawAxis(0)) * Math.pow(driveController.getRawAxis(0),2),
+        //Math.signum(driveController.getRawAxis(1)) * Math.pow(driveController.getRawAxis(1),2)
+       -driveController.getRawAxis(1) * 0.6,
+        driveController.getRawAxis(0) *0.6
           ), drive
-    ));
+    ));  //this code sucks
 
     turretShooter.setDefaultCommand(
       new RunCommand(
         () -> 
         turretShooter.setSpeed(
-          driveController.getRightTriggerAxis()
+          auxController.getRightTriggerAxis()
+          //0.43
           ), turretShooter
           ));
 
@@ -92,8 +98,8 @@ public class RobotContainer {
     //has no limits (just for testing purposes)
     turretSpinner.setDefaultCommand(
       new RunCommand(
-        () -> turretSpinner.turnTurret(
-          driveController.getRawAxis(4) * 0.20
+        () -> turretSpinner.manuelTurnTurret(
+          auxController.getRawAxis(4) * 0.20
           ), turretSpinner
           ));
 
@@ -117,7 +123,7 @@ public class RobotContainer {
     climb.setDefaultCommand(
       new RunCommand(
         () -> climb.moveElevator(
-         -driveController.getRawAxis(5)
+         -auxController.getRawAxis(5)
         ), climb
     ));
 
@@ -142,8 +148,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-
-    new JoystickButton(driveController, Button.kA.value).whenHeld(
+    //left trigger
+    new JoystickButton(auxController, Button.kA.value).whenHeld(
       new RunCommand(() -> magazine.magRun(),
       magazine));
 
@@ -151,8 +157,12 @@ public class RobotContainer {
     
     //new JoystickButton(driveController, Button.kY.value).whenPressed(intakePistonRetract);
 
-    new JoystickButton(driveController, Button.kB.value)
-    .whenPressed(new InstantCommand(intake::intakePistonExtend));
+    new JoystickButton(auxController, Button.kY.value)
+    .whenPressed(new InstantCommand(turretSpinner::turretHoodUp));
+
+    new JoystickButton(auxController, Button.kA.value)
+    .whenPressed(new InstantCommand(turretSpinner::turretHoodDown));
+
 
     new JoystickButton(driveController, Button.kX.value)
     .whenPressed(new InstantCommand(intake::intakePistonRetract));
@@ -185,6 +195,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return ballFollowerCommand;
+    return ballIntaker;
   }
 }

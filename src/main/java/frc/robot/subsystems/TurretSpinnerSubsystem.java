@@ -64,7 +64,7 @@ public class TurretSpinnerSubsystem extends SubsystemBase {
       if (counterClockwiseSwitchOn()) {
         turnTurret(0);
       } else {
-        turnTurret(-speed);
+        turnTurret(speed);
       }
     }
   }
