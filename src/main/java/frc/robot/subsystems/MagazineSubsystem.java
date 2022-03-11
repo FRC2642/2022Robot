@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
@@ -24,6 +26,10 @@ public void magStop(){
   magBeltMotor.set(0);
 }
 
+public boolean getAuxLeftTrigger() {
+  double ltrigger = RobotContainer.auxController.getLeftTriggerAxis();
+  return (ltrigger > .5);
+}
 
   @Override
   public void periodic() {
