@@ -49,7 +49,6 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
   
-
   
   //Drive methods
   public void stop(){
@@ -74,6 +73,10 @@ public class DriveSubsystem extends SubsystemBase {
   public void setpointPID(double setpoint) {
     PIDcontrol.setSetpoint(setpoint);
   }
+
+  public void resetPID(){
+    PIDcontrol.reset();
+  }
   
   //Gyro Methods
   public double getYaw(){
@@ -84,6 +87,14 @@ public class DriveSubsystem extends SubsystemBase {
     pigeon.setYaw(0.0);
   }
 
+  //Encoder Methods
+  public double getEncoderDistance(){
+    return frontRight.getSelectedSensorPosition();
+  }
+
+  public void resetEncoder(){
+    frontRight.setSelectedSensorPosition(0);
+  }
   
 
   
