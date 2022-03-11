@@ -28,7 +28,9 @@ public class BallFollowerCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    drive.resetPID();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
 
@@ -60,10 +62,10 @@ public class BallFollowerCommand extends CommandBase {
       drive.move(0, rotationValue * -0.3);
     }*/
     if(vision.getCenterX() < 70){ //left
-      drive.move(0, -1.0); //(0, -0.4)
+      drive.move(0, -0.4); //(0, -0.4)
     }
     else if(vision.getCenterX() > 90){ //right
-      drive.move(0, 1.0); //(0, 0.4)
+      drive.move(0, 0.4); //(0, 0.4)
     }
     else{
       drive.move(0.0,0.0);
