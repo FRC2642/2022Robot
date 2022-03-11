@@ -35,7 +35,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
   public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
-  private final BallVisionSubsystem ballVision = new BallVisionSubsystem();
+  public final BallVisionSubsystem ballVision = new BallVisionSubsystem();
   private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
   private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();

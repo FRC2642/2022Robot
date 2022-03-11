@@ -38,8 +38,6 @@ public class Robot extends TimedRobot {
   public VisionThread redBallVisionThread;
   public VisionThread tapeVisionThread;
 
-  public static double centerX = 0.0;
-  public static double centerY = 0.0;
   public static final Object imgLock = new Object();
   public Rect rect = new Rect();
   public boolean isSquare;
@@ -85,8 +83,8 @@ public class Robot extends TimedRobot {
               //centerY = 2*r.y + r.height - (240/2);
               if (Math.abs(rect.width - rect.height) < Constants.MIN_NUM_PIXELS_RECT_SIMILARITY){
                 isSquare = true;
-                centerX = r.x +(0.5*r.width);
-                centerY = r.y +(0.5*r.height);
+                m_robotContainer.ballVision.setCenterX(r.x +(0.5*r.width));
+                m_robotContainer.ballVision.setCenterY(r.y +(0.5*r.height));
               }
               else { 
                 isSquare = false;
@@ -132,7 +130,6 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
 
-    SmartDashboard.putNumber("centerX", centerX);
     SmartDashboard.putNumber("width", rect.width); 
     SmartDashboard.putNumber("height", rect.height);
     SmartDashboard.putBoolean("is square",isSquare);
