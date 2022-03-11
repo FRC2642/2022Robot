@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.drive.Vector2d;
 import frc.robot.Constants;
 
 /** Add your docs here. */
-public class FeetToInches {
+public class DistanceCalculator {
     private double inches;
 
-    public double calculate(double feet){
+    public double feetToInches(double feet){
         return feet * 12;
     }
 

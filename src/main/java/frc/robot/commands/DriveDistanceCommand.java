@@ -6,12 +6,12 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.utils.FeetToInches;
+import frc.robot.utils.DistanceCalculator;
 
 public class DriveDistanceCommand extends CommandBase {
   DriveSubsystem drive;
   double distance;
-  FeetToInches convert;
+  DistanceCalculator convert;
   public DriveDistanceCommand(DriveSubsystem drive, double distance) {
     this.drive = drive;
     this.distance = distance;
@@ -27,7 +27,7 @@ public class DriveDistanceCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((drive.getEncoderDistance()/2048) * 18.8495559215 < convert.calculate(10)){
+    if ((drive.getEncoderDistance()/2048) * 18.8495559215 < convert.feetToInches(10)){
       drive.move(0.3, 0);
     }
   }
