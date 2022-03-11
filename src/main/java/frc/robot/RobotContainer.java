@@ -88,7 +88,7 @@ public class RobotContainer {
     ));*/ 
 
     //sicko and slow modes (check if this works, if not go back to above drive command)
-    drive.setDefaultCommand(driveCommand); 
+    //drive.setDefaultCommand(driveCommand); 
 
 
     turretShooter.setDefaultCommand(
@@ -112,7 +112,7 @@ public class RobotContainer {
           ));
 
     
-    /*intake.setDefaultCommand(
+    intake.setDefaultCommand(
       new RunCommand(
         () -> {if (intake.getLeftTrigger()){
           //intake.intakePistonRetract();
@@ -124,7 +124,7 @@ public class RobotContainer {
             intake.intakeMotorOff();
             intake.intakeBigwheelOff();
           }
-          }, intake)*/
+          }, intake));
       
     //intake.setDefaultCommand(intakeOffCommand);
 
@@ -138,6 +138,19 @@ public class RobotContainer {
     ));
 
 
+    drive.setDefaultCommand(new RunCommand(() ->{ 
+    if(getDriveLeftTrigger()){
+      drive.move(-driveController.getRawAxis(1) * .80,(driveController.getRawAxis(0) * .80));
+    }
+    //slower turn, fast straight
+    else if(getDriveRightTrigger()){
+      drive.move(-driveController.getRawAxis(1) * .70,(driveController.getRawAxis(0) * .30));
+    }
+    //normal drive
+    else{
+      drive.move(-driveController.getRawAxis(1) * .6,(driveController.getRawAxis(0) * .45));
+    }
+  },drive));
 
 
 
@@ -154,6 +167,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+
+    
     //runs magazine
     auxLeftTrigger.whileActiveContinuous(new RunCommand(() -> magazine.magRun(), magazine));
 
@@ -169,10 +184,10 @@ public class RobotContainer {
 
     //check these bumper values, I'm not sure which is which
     new JoystickButton(driveController, 6)
-    .whenPressed(intakeOffCommand);
+    .whenPressed(new InstantCommand(intake::intakePistonExtend, intake));
 
     new JoystickButton(driveController, 5)
-    .whenPressed(intakeOutCommand);
+    .whenPressed(new InstantCommand(intake::intakePistonRetract, intake));
 
 
 

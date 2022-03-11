@@ -24,6 +24,7 @@ public class IntakeOutCommand extends CommandBase {
   public void execute() {
     intake.intakePistonExtend();
     intake.intakeMotorForward();
+    intake.intakeBigwheelOn();
   }
 
   // Called once the command ends or is interrupted.

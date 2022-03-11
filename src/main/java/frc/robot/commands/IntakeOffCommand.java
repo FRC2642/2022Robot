@@ -26,6 +26,7 @@ public class IntakeOffCommand extends CommandBase {
   public void execute() {
     intake.intakeMotorOff();
     intake.intakePistonRetract();
+    intake.intakeBigwheelOff();
   }
 
   // Called once the command ends or is interrupted.
