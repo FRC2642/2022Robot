@@ -67,8 +67,6 @@ public class RobotContainer {
   private final Command intakeOutCommand = new IntakeOutCommand(intake);
   private final Command intakeOffCommand = new IntakeOffCommand(intake);
 
-
-  //public final Button driveButtonX = new JoystickButton(driveController, Constants.xButtonDrive);
   //public final Button driveButtonB = new JoystickButton(driveController, Constants.bButtonDrive); 
 
 

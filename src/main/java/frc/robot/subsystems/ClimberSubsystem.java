@@ -18,7 +18,6 @@ public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
   CANSparkMax elevatorMotor = new CANSparkMax(14, MotorType.kBrushless);
   Solenoid climbPistonOne = new Solenoid(PneumaticsModuleType.REVPH, 8);
-  //DoubleSolenoid climbPistonTwo = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 2);
   //Encoder elevatorEncoder = new Encoder(0, 0);
   public ClimberSubsystem() {
     elevatorMotor.restoreFactoryDefaults();
