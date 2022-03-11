@@ -23,7 +23,7 @@ public class ClimbPistonOffCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climb.pistonOff();
+    //climb.pistonOff();
   }
 
   // Called once the command ends or is interrupted.

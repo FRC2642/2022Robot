@@ -13,8 +13,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-//import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -25,6 +25,8 @@ import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.commands.BallFollowerCommand;
+import frc.robot.commands.IntakePistonExtendCommand;
+import frc.robot.commands.IntakePistonRetractCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -52,7 +54,9 @@ public class RobotContainer {
 
   private final Trigger leftTrigger = new Trigger(intake::getLeftTrigger);
 
- // public final Button driveButtonX = new JoystickButton(driveController, Constants.xButtonDrive);
+  private final Command intakePistonExtend = new IntakePistonExtendCommand(intake);
+  private final Command intakePistonRetract = new IntakePistonRetractCommand(intake);
+
   //public final Button driveButtonB = new JoystickButton(driveController, Constants.bButtonDrive); 
 
 
@@ -65,11 +69,9 @@ public class RobotContainer {
     
     drive.setDefaultCommand(
       new RunCommand(
-        
         () -> drive.move(
-          
-          driveController.getRawAxis(0)*driveController.getRawAxis(0) * 0.5,
-          driveController.getRawAxis(1)*driveController.getRawAxis(1) * 0.5
+        driveController.getRawAxis(0) * 0.6,
+        driveController.getRawAxis(1) * 0.6
           ), drive
     ));
 
@@ -99,10 +101,12 @@ public class RobotContainer {
     intake.setDefaultCommand(
       new RunCommand(
         () -> {if (intake.getLeftTrigger()){
+          //intake.intakePistonRetract();
           intake.intakeBigwheelOn();
           intake.intakeMotorForward();
           }
           else{
+            //intake.intakePistonExtend();
             intake.intakeMotorOff();
             intake.intakeBigwheelOff();
           }
@@ -113,9 +117,17 @@ public class RobotContainer {
     climb.setDefaultCommand(
       new RunCommand(
         () -> climb.moveElevator(
-         -driveController.getRawAxis(5)*0.3
+         -driveController.getRawAxis(5)
         ), climb
     ));
+
+    /*intake.setDefaultCommand(
+      new RunCommand(
+        () -> intake.intakePistonExtend(), intake
+    ));*/
+
+
+
 
     
 
@@ -134,6 +146,26 @@ public class RobotContainer {
     new JoystickButton(driveController, Button.kA.value).whenHeld(
       new RunCommand(() -> magazine.magRun(),
       magazine));
+
+    //new JoystickButton(driveController, Button.kX.value).whenPressed(intakePistonExtend);
+    
+    //new JoystickButton(driveController, Button.kY.value).whenPressed(intakePistonRetract);
+
+    new JoystickButton(driveController, Button.kB.value)
+    .whenPressed(new InstantCommand(intake::intakePistonExtend));
+
+    new JoystickButton(driveController, Button.kX.value)
+    .whenPressed(new InstantCommand(intake::intakePistonRetract));
+
+    new JoystickButton(driveController, 6)
+    .whenPressed(new InstantCommand(climb::climbPistonFoward));
+
+    new JoystickButton(driveController, 5)
+    .whenPressed(new InstantCommand(climb::climbPistonBackward));
+
+
+
+    
 
     /*leftTrigger.whileActiveContinuous(
       new RunCommand(() -> {intake.intakeMotorForward();
