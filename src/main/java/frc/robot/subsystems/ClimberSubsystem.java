@@ -20,7 +20,9 @@ public class ClimberSubsystem extends SubsystemBase {
   Solenoid climbPistonOne = new Solenoid(PneumaticsModuleType.REVPH, 8);
   //DoubleSolenoid climbPistonTwo = new DoubleSolenoid(PneumaticsModuleType.REVPH, 2, 2);
   //Encoder elevatorEncoder = new Encoder(0, 0);
-  public ClimberSubsystem() {}
+  public ClimberSubsystem() {
+    elevatorMotor.restoreFactoryDefaults();
+  }
 
   public void climbPistonFoward(){
     climbPistonOne.set(true);
