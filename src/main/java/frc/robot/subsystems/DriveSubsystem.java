@@ -10,6 +10,9 @@ import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+
+import javax.management.RuntimeOperationsException;
+
 //import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
@@ -48,10 +51,29 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     setpoint = 0;
 
+    frontLeft.configFactoryDefault();
+    backLeft.configFactoryDefault();
+    frontRight.configFactoryDefault();
+    backRight.configFactoryDefault();
+
+    frontRight.setInverted(true);
+    backRight.setInverted(true);
+
+
+
     frontLeft.setNeutralMode(NeutralMode.Brake);
     backLeft.setNeutralMode(NeutralMode.Brake);
     frontRight.setNeutralMode(NeutralMode.Brake);
     backRight.setNeutralMode(NeutralMode.Brake);
+
+    
+
+
+    /*frontLeft.configNeutralDeadband(0.01);
+    backLeft.configNeutralDeadband(0.01);
+    frontRight.configNeutralDeadband(0.01);
+    backRight.configNeutralDeadband(0.01);*/
+
 
 
   }
@@ -65,7 +87,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void move(double speed, double rotation){
    
-    diffDrive.arcadeDrive(speed, rotation);
+    diffDrive.arcadeDrive(speed, -rotation);
   }
   
 
