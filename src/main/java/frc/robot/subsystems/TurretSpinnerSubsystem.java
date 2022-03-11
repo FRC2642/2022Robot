@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotContainer;
@@ -19,6 +21,7 @@ public class TurretSpinnerSubsystem extends SubsystemBase {
   public DigitalInput clockwiseSwitch = new DigitalInput(Constants.CLOCKWISE_SWITCH_ID);
   public DigitalInput counterClockwiseSwitch = new DigitalInput(Constants.COUNTER_CLOCKWISE_SWITCH_ID );//on when not pressed (inverted)
   public CANSparkMax turretMotor = new CANSparkMax(Constants.TURRET_SPINNER_ID, MotorType.kBrushless);
+  public Solenoid turretHood = new Solenoid(PneumaticsModuleType.REVPH, 15);
 
 
   /** Creates a new TurretSpinnerSubsystem. */
@@ -41,6 +44,13 @@ public class TurretSpinnerSubsystem extends SubsystemBase {
 
   public boolean counterClockwiseSwitchOn() {
     return counterClockwiseSwitch.get();
+  }
+
+  public void turretHoodUp(){
+    turretHood.set(true);
+  }
+  public void turretHoodDown(){
+    turretHood.set(false);
   }
 
   public void manuelTurnTurret(double speed) {

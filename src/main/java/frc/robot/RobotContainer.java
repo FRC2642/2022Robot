@@ -159,6 +159,15 @@ public class RobotContainer {
     new JoystickButton(driveController, Button.kX.value)
     .whenPressed(new InstantCommand(intake::intakePistonRetract));
 
+    new JoystickButton(driveController, 6)
+    .whenPressed(new InstantCommand(climb::climbPistonFoward));
+
+    new JoystickButton(driveController, 5)
+    .whenPressed(new InstantCommand(climb::climbPistonBackward));
+
+
+
+    
 
     /*leftTrigger.whileActiveContinuous(
       new RunCommand(() -> {intake.intakeMotorForward();
