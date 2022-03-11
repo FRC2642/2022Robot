@@ -35,6 +35,8 @@ public class BallFollowerIntakeCommand extends SequentialCommandGroup {
     addCommands(new IntakePistonExtendCommand(intake),
                 new IntakeSpinForwardCommand(intake),
                 new BigWheelMove(intake),
-                new BallFollowerCommand(drive, vision));
+                new TimedDriveCommand(drive, 10.0));
+
+                //new BallFollowerCommand(drive, vision));
   }
 }

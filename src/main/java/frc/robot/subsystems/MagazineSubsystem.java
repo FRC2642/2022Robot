@@ -22,6 +22,11 @@ public CANSparkMax magBeltMotor;
 public void magRun(){
   magBeltMotor.set(0.6);
 }
+
+public void magReverse(){
+  magBeltMotor.set(-0.6);
+}
+
 public void magStop(){
   magBeltMotor.set(0);
 }

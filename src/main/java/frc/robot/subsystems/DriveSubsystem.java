@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -24,11 +25,15 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 //import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
- 
+import com.kauailabs.navx.frc.AHRS;
+
+
 
 public class DriveSubsystem extends SubsystemBase {
   //Variables
   public double setpoint;
+
+  public AHRS navx = new AHRS();
   /** Creates a new DriveSubsystem. */
   
   //Objects
@@ -105,14 +110,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
   
   //Gyro Methods
+  
   public double getYaw(){
-    return pigeon.getYaw();
+    return navx.getYaw();
   }
-
-  public void resetGyro(){
-    pigeon.setYaw(0.0);
-  }
-
   
 
   
@@ -121,5 +122,6 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("navx", getYaw());
   }
 }

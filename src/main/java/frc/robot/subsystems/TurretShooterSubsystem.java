@@ -19,20 +19,24 @@ public class TurretShooterSubsystem extends SubsystemBase {
   private SparkMaxPIDController pidController;
   private RelativeEncoder encoder;
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
+  public double targetVelocity;
+
 
   /** Creates a new TurretShooterSubsystem. */
   //turret hood in here
   public TurretShooterSubsystem() {
+    
     shooter = new CANSparkMax(Constants.TURRET_SHOOTER_ID, MotorType.kBrushless);
+    this.encoder = shooter.getEncoder();
     pidController= shooter.getPIDController();
-    kP = 6e-5; 
+    kP = 1; 
     kI = 0;
     kD = 0; 
     kIz = 0; 
     kFF = 0.000015; 
     kMaxOutput = 1; 
-    kMinOutput = -1;
-    maxRPM = 5700;
+    kMinOutput = 0;
+    maxRPM = 5600;
     pidController.setP(kP);
     pidController.setI(kI);
     pidController.setD(kD);
@@ -47,11 +51,19 @@ public class TurretShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Feed Forward", kFF);
     SmartDashboard.putNumber("Max Output", kMaxOutput);
     SmartDashboard.putNumber("Min Output", kMinOutput);
+
+    
   }
 
   public void setSpeed(double speed){
     
-    pidController.setReference(speed * maxRPM, CANSparkMax.ControlType.kVelocity);
+    pidController.setReference(speed, CANSparkMax.ControlType.kVelocity);
+    targetVelocity = speed;
+
+  }
+
+  public double getShooterSpeed(){
+    return encoder.getVelocity();
   }
   
   public void stop(){
@@ -73,6 +85,8 @@ public class TurretShooterSubsystem extends SubsystemBase {
        double ff = SmartDashboard.getNumber("Feed Forward", 0);
        double max = SmartDashboard.getNumber("Max Output", 0);
        double min = SmartDashboard.getNumber("Min Output", 0);
+
+       SmartDashboard.putNumber("shooter speed", getShooterSpeed());
    
        // if PID coefficients on SmartDashboard have changed, write new values to controller
        if((p != kP)) { pidController.setP(p); kP = p; }

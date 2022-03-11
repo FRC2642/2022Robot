@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
@@ -137,16 +138,16 @@ public class RobotContainer {
 
 
     drive.setDefaultCommand(new RunCommand(() ->{ 
-    if(getDriveLeftTrigger()){
-      drive.move(-driveController.getRawAxis(1) * .80,(driveController.getRawAxis(0) * .80));
+    if(getDriveRightTrigger()){
+      drive.move(-driveController.getRawAxis(1) * .90,(driveController.getRawAxis(0) * .90));
     }
     //slower turn, fast straight
-    else if(getDriveRightTrigger()){
-      drive.move(-driveController.getRawAxis(1) * .70,(driveController.getRawAxis(0) * .30));
+    else if(getDriveLeftTrigger()){
+      drive.move(-driveController.getRawAxis(1) * .45,(driveController.getRawAxis(0) * .45));
     }
     //normal drive
     else{
-      drive.move(-driveController.getRawAxis(1) * .6,(driveController.getRawAxis(0) * .45));
+      drive.move(-driveController.getRawAxis(1) * .6,(driveController.getRawAxis(0) * .60));
     }
   },drive));
 
@@ -171,7 +172,7 @@ public class RobotContainer {
     auxLeftTrigger.whileActiveContinuous(new RunCommand(() -> magazine.magRun(), magazine));
 
     //runs shooter (need to figure out speed)
-    auxRightTrigger.whileActiveContinuous(new RunCommand(() -> turretShooter.setSpeed(0.43), turretShooter));
+    auxRightTrigger.whileActiveContinuous(new RunCommand(() -> turretShooter.setSpeed(1500), turretShooter));
     
     //changes turret hood
     new JoystickButton(auxController, Button.kY.value)
@@ -201,6 +202,9 @@ public class RobotContainer {
 
     new JoystickButton(driveController, Button.kY.value)
     .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.70), turretShooter));
+
+    new JoystickButton(auxController, 5)
+    .whenHeld(new RunCommand(magazine::magReverse, magazine));
 
 
 
