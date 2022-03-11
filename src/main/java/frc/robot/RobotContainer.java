@@ -83,9 +83,8 @@ public class RobotContainer {
     turretShooter.setDefaultCommand(
       new RunCommand(
         () -> 
-        turretShooter.setSpeed(
-          auxController.getRightTriggerAxis()
-          //0.43
+        turretShooter.setRPM(
+          4000.0 //RPM's  -  ,max RPMs for a neo is 5676
           ), turretShooter
           ));
 
