@@ -175,6 +175,25 @@ public class RobotContainer {
     .whenPressed(intakeOutCommand);
 
 
+
+    //preset shooting powers (change to speeds)
+    new JoystickButton(driveController, Button.kA.value)
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.80), turretShooter));
+
+    new JoystickButton(driveController, Button.kB.value)
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.60), turretShooter));
+
+    new JoystickButton(driveController, Button.kX.value)
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.50), turretShooter));
+
+    new JoystickButton(driveController, Button.kY.value)
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.70), turretShooter));
+
+
+
+
+
+
     //not using climb pistons right now
     /*new JoystickButton(driveController, 6)
     .whenPressed(new InstantCommand(climb::climbPistonFoward));
