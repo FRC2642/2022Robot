@@ -21,28 +21,28 @@ public class TapeVisionSubsystem extends SubsystemBase {
 
   private final ArrayList<Vector2d> tapeContourPositions = new ArrayList<Vector2d>();
   public static  int NUM_TAPE_ON_HUB = 1;
-  public static  double TAPE_LENGTH_TOLERANCE = 0.25;
+/*  public static  double TAPE_LENGTH_TOLERANCE = 0.25;
   public static  double TAPE_HEIGHT_TOLERANCE = 0.25;
   public static  double TAPE_NOISE_TOLERANCE = 0.25;
-  public static  double TAPE_IN_LINE_TOLERANCE = 0.25;
+  public static  double TAPE_IN_LINE_TOLERANCE = 0.25;*/
 
   @Override
   public void periodic() {
-    NUM_TAPE_ON_HUB = (int)(SmartDashboard.getNumber("NUM_TAPE_ON_HUB", 6.0));
-    TAPE_LENGTH_TOLERANCE = SmartDashboard.getNumber("TAPE_LENGTH_TOLERANCE", 0.25);
-    TAPE_HEIGHT_TOLERANCE = SmartDashboard.getNumber("TAPE_HEIGHT_TOLERANCE", 0.25);
-    TAPE_NOISE_TOLERANCE = SmartDashboard.getNumber("TAPE_NOISE_TOLERANCE", 0.25);
-    TAPE_IN_LINE_TOLERANCE = SmartDashboard.getNumber("TAPE_IN_LINE_TOLERANCE", 0.25);
+//    NUM_TAPE_ON_HUB = (int)(SmartDashboard.getNumber("NUM_TAPE_ON_HUB", 6.0));
+//    TAPE_LENGTH_TOLERANCE = SmartDashboard.getNumber("TAPE_LENGTH_TOLERANCE", 0.25);
+  //  TAPE_HEIGHT_TOLERANCE = SmartDashboard.getNumber("TAPE_HEIGHT_TOLERANCE", 0.25);
+  //  TAPE_NOISE_TOLERANCE = SmartDashboard.getNumber("TAPE_NOISE_TOLERANCE", 0.25);
+  //  TAPE_IN_LINE_TOLERANCE = SmartDashboard.getNumber("TAPE_IN_LINE_TOLERANCE", 0.25);
 
   }
   /** Creates a new VisionSubsystem. */
   //all vision (tape and ball) go in here (change variable names as necessary)
   public TapeVisionSubsystem() {
-    SmartDashboard.putNumber("NUM_TAPE_ON_HUB", 10.25);
-    SmartDashboard.getNumber("TAPE_LENGTH_TOLERANCE", 10.25);
-    SmartDashboard.putNumber("TAPE_HEIGHT_TOLERANCE", 10.25);
-    SmartDashboard.putNumber("TAPE_NOISE_TOLERANCE", 10.25);
-    SmartDashboard.putNumber("TAPE_IN_LINE_TOLERANCE", 10.25);
+ //   SmartDashboard.putNumber("NUM_TAPE_ON_HUB", 10.25);
+ //   SmartDashboard.getNumber("TAPE_LENGTH_TOLERANCE", 10.25);
+   // SmartDashboard.putNumber("TAPE_HEIGHT_TOLERANCE", 10.25);
+    //SmartDashboard.putNumber("TAPE_NOISE_TOLERANCE", 10.25);
+    //SmartDashboard.putNumber("TAPE_IN_LINE_TOLERANCE", 10.25);
   }
 
   public Iterator<Vector2d> getDetections(){
@@ -173,3 +173,4 @@ public class TapeVisionSubsystem extends SubsystemBase {
   }
   
 }
+

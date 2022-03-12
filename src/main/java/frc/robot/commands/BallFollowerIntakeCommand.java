@@ -11,6 +11,9 @@ import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakeSpinForwardCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.MagazineSubsystem;
+import frc.robot.subsystems.TurretShooterSubsystem;
+import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.IntakePistonRetractCommand;
 
@@ -22,8 +25,12 @@ public class BallFollowerIntakeCommand extends SequentialCommandGroup {
   IntakeSubsystem intake;
   VisionSubsystem vision;
   DriveSubsystem drive;
+  TurretShooterSubsystem shooter;
+  MagazineSubsystem mag;
+  TurretSpinnerSubsystem spinner;
   
-  public BallFollowerIntakeCommand(IntakeSubsystem intake, VisionSubsystem vison, DriveSubsystem drive) {
+  public BallFollowerIntakeCommand(IntakeSubsystem intake, VisionSubsystem vison, DriveSubsystem drive, 
+  TurretShooterSubsystem shooter, MagazineSubsystem mag, TurretSpinnerSubsystem spinner) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
@@ -31,11 +38,12 @@ public class BallFollowerIntakeCommand extends SequentialCommandGroup {
     this.intake = intake;
     this.vision = vison;
     this.drive = drive;
+    this.shooter = shooter;
+    this.spinner = spinner;
 
-    addCommands(new IntakePistonExtendCommand(intake),
-                new IntakeSpinForwardCommand(intake),
-                new BigWheelMove(intake),
-                new TimedDriveCommand(drive, 10.0));
+    addCommands(new ShooterCommand(shooter),
+                new TimedDriveCommand(drive, 5),
+                new MagazineRunCommand(mag));
 
                 //new BallFollowerCommand(drive, vision));
   }

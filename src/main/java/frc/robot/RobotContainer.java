@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -33,6 +34,8 @@ import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
+import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.TurnTowardsHubCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -52,7 +55,8 @@ public class RobotContainer {
   
 
   private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
-  private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, vision, drive);
+  private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, vision, drive, 
+                                turretShooter, magazine, turretSpinner);
 
   public static XboxController driveController = new XboxController(0);
   public static XboxController auxController = new XboxController(1);
@@ -67,6 +71,7 @@ public class RobotContainer {
   private final Command intakePistonRetract = new IntakePistonRetractCommand(intake);
   private final Command intakeOutCommand = new IntakeOutCommand(intake);
   private final Command intakeOffCommand = new IntakeOffCommand(intake);
+  private final Command tapeFollow = new TurnTowardsHubCommand(turretSpinner, tapeVision);
 
   //public final Button driveButtonB = new JoystickButton(driveController, Constants.bButtonDrive); 
 
@@ -132,7 +137,7 @@ public class RobotContainer {
     climb.setDefaultCommand(
       new RunCommand(
         () -> climb.moveElevator(
-         -auxController.getRawAxis(5)
+         auxController.getRawAxis(5)
         ), climb
     ));
 
@@ -143,7 +148,7 @@ public class RobotContainer {
     }
     //slower turn, fast straight
     else if(getDriveLeftTrigger()){
-      drive.move(-driveController.getRawAxis(1) * .45,(driveController.getRawAxis(0) * .45));
+      drive.move(-driveController.getRawAxis(1) * .50,(driveController.getRawAxis(0) * .50));
     }
     //normal drive
     else{
@@ -251,6 +256,17 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return ballIntaker;
+    //return ballIntaker;
+    //return tapeFollow;
+    /*Command auto = new RunCommand(() -> turretShooter.setSpeed(1500), turretShooter).andThen
+    (new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(1)).andThen(
+      new RunCommand(() -> magazine.magRun()));*/
+
+    //Command auto = new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(4).andThen(new RunCommand(() -> turretShooter.setSpeed(500), turretShooter));
+    Command auto = new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(2).andThen(new RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
+      new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
+      new RunCommand(() -> magazine.magRun(), magazine));
+    
+    return auto;
   }
 }

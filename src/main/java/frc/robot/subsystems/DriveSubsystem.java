@@ -54,6 +54,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   //Constructor
   public DriveSubsystem() {
+    navx.calibrate();
     setpoint = 0;
 
     frontLeft.configFactoryDefault();

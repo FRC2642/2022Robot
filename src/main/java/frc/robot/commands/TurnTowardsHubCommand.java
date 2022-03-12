@@ -38,10 +38,10 @@ public class TurnTowardsHubCommand extends CommandBase {
     SmartDashboard.putString("hub", "center x: " + center.x + "center y: " + center.y);
 
     if(center.x < 70){
-      turn.turnTurret(-.25);
+      turn.manuelTurnTurret(-.25);
     }
     else if(center.x > 90) {
-      turn.turnTurret(.25);
+      turn.manuelTurnTurret(.25);
     }
     else{
       turn.turnTurret(0);
