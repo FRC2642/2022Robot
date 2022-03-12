@@ -27,9 +27,9 @@ public class DriveDistanceCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if ((drive.getEncoderDistance()/2048) * 18.8495559215 < convert.feetToInches(10)){
-      drive.move(0.3, 0);
-    }
+    
+    drive.move(0.3, 0);
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +39,11 @@ public class DriveDistanceCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if ((drive.getEncoderDistance()/2048) * 18.8495559215 < convert.feetToInches(10)){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 }
