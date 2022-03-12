@@ -79,6 +79,6 @@ public class BallFollowerCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return false;
+    return vision.getCenterY() < 10;
   }
 }
