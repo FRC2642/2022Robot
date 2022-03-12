@@ -16,12 +16,14 @@ import frc.robot.subsystems.VisionSubsystem;
 public class TurnTowardsHubCommand extends CommandBase {
   TurretSpinnerSubsystem turn;
   TapeVisionSubsystem vision;
+  double setpoint;
+  double rotationValue;
   /** Creates a new AimAtRetroReflectiveCommand. */
   public TurnTowardsHubCommand(TurretSpinnerSubsystem turn, TapeVisionSubsystem vision) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.turn = turn;
     this.vision = vision;
-
+    this.setpoint = 0;
     addRequirements(turn, vision);
   }
 
@@ -37,14 +39,29 @@ public class TurnTowardsHubCommand extends CommandBase {
     SmartDashboard.putString("hub finder", vision.hubInFrame(center, size).toString());
     SmartDashboard.putString("hub", "center x: " + center.x + "center y: " + center.y);
 
-    if(center.x < 70){
-      turn.turnTurret(-.25);
+     if(center.x <= 50){ //left
+      System.out.println("Left");
+      turn.turnTurret(-0.4);
+      SmartDashboard.putNumber("CenterX", center.x);
     }
-    else if(center.x > 90) {
-      turn.turnTurret(.25);
+    else if (center.x >= 110){
+      System.out.println("Right");
+      turn.turnTurret(0.4);
+      SmartDashboard.putNumber("CenterX", center.x);
     }
     else{
-      turn.turnTurret(0);
+      System.out.println("PID Movement");
+      setpoint = 80;
+     
+      rotationValue = turn.calculatePID(center.x, setpoint);
+      
+      if (rotationValue > 1){
+        rotationValue = 1;
+      }
+      else if(rotationValue < -1){
+        rotationValue = -1;
+      }
+      turn.turnTurret(rotationValue * 0.5);
     }
 
   }

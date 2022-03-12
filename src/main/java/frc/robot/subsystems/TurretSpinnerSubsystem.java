@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +20,7 @@ public class TurretSpinnerSubsystem extends SubsystemBase {
   public DigitalInput clockwiseSwitch = new DigitalInput(Constants.CLOCKWISE_SWITCH_ID);
   public DigitalInput counterClockwiseSwitch = new DigitalInput(Constants.COUNTER_CLOCKWISE_SWITCH_ID );//on when not pressed (inverted)
   public CANSparkMax turretMotor = new CANSparkMax(Constants.TURRET_SPINNER_ID, MotorType.kBrushless);
-
+  private PIDController PIDcontrol;
 
   /** Creates a new TurretSpinnerSubsystem. */
   public TurretSpinnerSubsystem() {}
@@ -57,5 +58,22 @@ public class TurretSpinnerSubsystem extends SubsystemBase {
         turnTurret(-speed);
       }
     }
+  }
+
+  //PID Methods
+  public double calculatePID(double measurement, double setpoint){
+    return PIDcontrol.calculate(measurement, setpoint);
+  }
+  
+  public void setPIDCoefficients(double propCoefficient, double integralCoefficient, double deriativeCoefficient){
+    PIDcontrol.setPID(propCoefficient, integralCoefficient, deriativeCoefficient);
+  }
+
+  public void setpointPID(double setpoint) {
+    PIDcontrol.setSetpoint(setpoint);
+  }
+
+  public void resetPID(){
+    PIDcontrol.reset();
   }
 }
