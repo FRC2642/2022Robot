@@ -21,28 +21,28 @@ public class TapeVisionSubsystem extends SubsystemBase {
 
   private final ArrayList<Vector2d> tapeContourPositions = new ArrayList<Vector2d>();
   public static  int NUM_TAPE_ON_HUB = 1;
-  public static  double TAPE_LENGTH_TOLERANCE = 0.25;
+/*  public static  double TAPE_LENGTH_TOLERANCE = 0.25;
   public static  double TAPE_HEIGHT_TOLERANCE = 0.25;
   public static  double TAPE_NOISE_TOLERANCE = 0.25;
-  public static  double TAPE_IN_LINE_TOLERANCE = 0.25;
+  public static  double TAPE_IN_LINE_TOLERANCE = 0.25;*/
 
   @Override
   public void periodic() {
-    NUM_TAPE_ON_HUB = (int)(SmartDashboard.getNumber("NUM_TAPE_ON_HUB", 6.0));
-    TAPE_LENGTH_TOLERANCE = SmartDashboard.getNumber("TAPE_LENGTH_TOLERANCE", 0.25);
-    TAPE_HEIGHT_TOLERANCE = SmartDashboard.getNumber("TAPE_HEIGHT_TOLERANCE", 0.25);
-    TAPE_NOISE_TOLERANCE = SmartDashboard.getNumber("TAPE_NOISE_TOLERANCE", 0.25);
-    TAPE_IN_LINE_TOLERANCE = SmartDashboard.getNumber("TAPE_IN_LINE_TOLERANCE", 0.25);
+//    NUM_TAPE_ON_HUB = (int)(SmartDashboard.getNumber("NUM_TAPE_ON_HUB", 6.0));
+//    TAPE_LENGTH_TOLERANCE = SmartDashboard.getNumber("TAPE_LENGTH_TOLERANCE", 0.25);
+  //  TAPE_HEIGHT_TOLERANCE = SmartDashboard.getNumber("TAPE_HEIGHT_TOLERANCE", 0.25);
+  //  TAPE_NOISE_TOLERANCE = SmartDashboard.getNumber("TAPE_NOISE_TOLERANCE", 0.25);
+  //  TAPE_IN_LINE_TOLERANCE = SmartDashboard.getNumber("TAPE_IN_LINE_TOLERANCE", 0.25);
 
   }
   /** Creates a new VisionSubsystem. */
   //all vision (tape and ball) go in here (change variable names as necessary)
   public TapeVisionSubsystem() {
-    SmartDashboard.putNumber("NUM_TAPE_ON_HUB", 10.25);
-    SmartDashboard.getNumber("TAPE_LENGTH_TOLERANCE", 10.25);
-    SmartDashboard.putNumber("TAPE_HEIGHT_TOLERANCE", 10.25);
-    SmartDashboard.putNumber("TAPE_NOISE_TOLERANCE", 10.25);
-    SmartDashboard.putNumber("TAPE_IN_LINE_TOLERANCE", 10.25);
+ //   SmartDashboard.putNumber("NUM_TAPE_ON_HUB", 10.25);
+ //   SmartDashboard.getNumber("TAPE_LENGTH_TOLERANCE", 10.25);
+   // SmartDashboard.putNumber("TAPE_HEIGHT_TOLERANCE", 10.25);
+    //SmartDashboard.putNumber("TAPE_NOISE_TOLERANCE", 10.25);
+    //SmartDashboard.putNumber("TAPE_IN_LINE_TOLERANCE", 10.25);
   }
 
   public Iterator<Vector2d> getDetections(){
@@ -82,7 +82,6 @@ public class TapeVisionSubsystem extends SubsystemBase {
       cache[i - 1] = cache[i] - cache[i - 1];
     }
     cache[cache.length - 1] = Double.MAX_VALUE;
-
     //find groups
     ArrayList<Vector2d[]> sets = new ArrayList<Vector2d[]>();
     ArrayList<Vector2d> current = new ArrayList<>();
@@ -101,13 +100,11 @@ public class TapeVisionSubsystem extends SubsystemBase {
       }
     }
     current.clear();
-
     //determine which groups could be the hub
     //are there enough tapes?
     ArrayList<Vector2d[]> largeEnoughSets = new ArrayList<Vector2d[]>();
     for (Vector2d[] set : sets) if (set.length > NUM_TAPE_ON_HUB) largeEnoughSets.add(set);
     if (largeEnoughSets.isEmpty()) return HubInFrameReason.NOT_ENOUGH_TAPES;
-
     //does it look long?
     ArrayList<Vector2d[]> longEnoughSets = new ArrayList<Vector2d[]>();
     for (Vector2d[] set : largeEnoughSets) {
@@ -117,7 +114,6 @@ public class TapeVisionSubsystem extends SubsystemBase {
       if (Math.abs(set[set.length - 1].y - set[0].y)  > TAPE_HEIGHT_TOLERANCE) longEnoughSets.add(set);
     }
     if (longEnoughSets.isEmpty()) return HubInFrameReason.NO_SETS_MATCH_SIZE;
-
     //do any sets look like a line?
     for (Vector2d[] set : longEnoughSets) {
       //calculate average y of points
@@ -126,7 +122,6 @@ public class TapeVisionSubsystem extends SubsystemBase {
         num += point.y;
       }
       double avg = num / set.length;
-
       //see if any points stray too far away from the centerline
       boolean strayed = false;
       for(Vector2d point : set) {
@@ -144,7 +139,6 @@ public class TapeVisionSubsystem extends SubsystemBase {
        /* Arrays.sort(set, new Vector2dComparator(Vector2dComparator.Axis.X));
         hubPosition.x = (set[set.length - 1].x + set[0].x)/2; //use midpoint formula for x 
         hubSizeInFrame.x = (set[0].x - set[set.length - 1].x);
-
         Arrays.sort(set, new Vector2dComparator(Vector2dComparator.Axis.Y));
         hubPosition.y = (set[set.length - 1].y + set[0].y)/2; //use midpoint formula for y 
         hubSizeInFrame.y = (set[0].y - set[set.length - 1].y); */

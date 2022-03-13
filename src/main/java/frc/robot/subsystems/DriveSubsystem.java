@@ -5,14 +5,19 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+
+import javax.management.RuntimeOperationsException;
+
 //import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -20,11 +25,15 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 //import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
- 
+import com.kauailabs.navx.frc.AHRS;
+
+
 
 public class DriveSubsystem extends SubsystemBase {
   //Variables
   public double setpoint;
+
+  public AHRS navx = new AHRS();
   /** Creates a new DriveSubsystem. */
   
   //Objects
@@ -45,7 +54,33 @@ public class DriveSubsystem extends SubsystemBase {
 
   //Constructor
   public DriveSubsystem() {
+    navx.calibrate();
     setpoint = 0;
+
+    frontLeft.configFactoryDefault();
+    backLeft.configFactoryDefault();
+    frontRight.configFactoryDefault();
+    backRight.configFactoryDefault();
+
+    frontRight.setInverted(true);
+    backRight.setInverted(true);
+
+
+
+    frontLeft.setNeutralMode(NeutralMode.Brake);
+    backLeft.setNeutralMode(NeutralMode.Brake);
+    frontRight.setNeutralMode(NeutralMode.Brake);
+    backRight.setNeutralMode(NeutralMode.Brake);
+
+    
+
+
+    /*frontLeft.configNeutralDeadband(0.01);
+    backLeft.configNeutralDeadband(0.01);
+    frontRight.configNeutralDeadband(0.01);
+    backRight.configNeutralDeadband(0.01);*/
+
+
 
   }
   
@@ -58,7 +93,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   public void move(double speed, double rotation){
    
-    diffDrive.arcadeDrive(speed, rotation);
+    diffDrive.arcadeDrive(speed, -rotation);
   }
   
 
@@ -76,14 +111,10 @@ public class DriveSubsystem extends SubsystemBase {
   }
   
   //Gyro Methods
+  
   public double getYaw(){
-    return pigeon.getYaw();
+    return navx.getYaw();
   }
-
-  public void resetGyro(){
-    pigeon.setYaw(0.0);
-  }
-
   
 
   
@@ -92,5 +123,6 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("navx", getYaw());
   }
 }

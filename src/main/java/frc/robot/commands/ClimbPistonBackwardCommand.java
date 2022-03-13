@@ -24,7 +24,7 @@ public class ClimbPistonBackwardCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climb.pistonBackward();
+    climb.climbPistonBackward();
   }
 
   // Called once the command ends or is interrupted.

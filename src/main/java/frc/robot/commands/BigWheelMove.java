@@ -5,15 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class ClimbPistonOffCommand extends CommandBase {
-  ClimberSubsystem climb;
-  /** Creates a new ClimbPistonOffCommand. */
-  public ClimbPistonOffCommand(ClimberSubsystem climb) {
-    this.climb = climb;
-    addRequirements(climb);
+public class BigWheelMove extends CommandBase {
+  /** Creates a new BigWheelMove. */
+  IntakeSubsystem intake;
+  public BigWheelMove(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
@@ -23,7 +23,7 @@ public class ClimbPistonOffCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //climb.pistonOff();
+    intake.intakeBigwheelOn();
   }
 
   // Called once the command ends or is interrupted.

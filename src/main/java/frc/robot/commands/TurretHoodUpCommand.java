@@ -4,16 +4,19 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
+import javax.swing.SpinnerListModel;
 
-public class ClimbPistonOffCommand extends CommandBase {
-  ClimberSubsystem climb;
-  /** Creates a new ClimbPistonOffCommand. */
-  public ClimbPistonOffCommand(ClimberSubsystem climb) {
-    this.climb = climb;
-    addRequirements(climb);
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.TurretShooterSubsystem;
+import frc.robot.subsystems.TurretSpinnerSubsystem;
+
+public class TurretHoodUpCommand extends CommandBase {
+  TurretSpinnerSubsystem spinner;
+  /** Creates a new TurretHoodUpCommand. */
+  public TurretHoodUpCommand(TurretSpinnerSubsystem spinner) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.spinner = spinner;
+    addRequirements(spinner);
   }
 
   // Called when the command is initially scheduled.
@@ -23,7 +26,7 @@ public class ClimbPistonOffCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //climb.pistonOff();
+    spinner.turretHoodUp();
   }
 
   // Called once the command ends or is interrupted.
