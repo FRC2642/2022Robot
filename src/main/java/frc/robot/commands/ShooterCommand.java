@@ -5,16 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.TurretShooterSubsystem;
 
-public class IntakeOffCommand extends CommandBase {
-    IntakeSubsystem intake;
-  /** Creates a new IntakeOffCommand. */
-  public IntakeOffCommand(IntakeSubsystem intake) {
+public class ShooterCommand extends CommandBase {
+  /** Creates a new ShooterCommand. */
+  TurretShooterSubsystem shooter;
+  public ShooterCommand(TurretShooterSubsystem shooter) {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    this.intake = intake;
-    addRequirements(intake);
+    this.shooter = shooter;
+    addRequirements(shooter);
   }
 
   // Called when the command is initially scheduled.
@@ -24,9 +23,7 @@ public class IntakeOffCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intakeMotorOff();
-    //intake.intakePistonRetract();
-    //intake.intakeBigwheelOff();
+    shooter.setSpeed(1500);
   }
 
   // Called once the command ends or is interrupted.

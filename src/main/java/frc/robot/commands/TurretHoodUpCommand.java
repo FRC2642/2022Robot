@@ -4,17 +4,19 @@
 
 package frc.robot.commands;
 
+import javax.swing.SpinnerListModel;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.TurretShooterSubsystem;
+import frc.robot.subsystems.TurretSpinnerSubsystem;
 
-public class IntakeOffCommand extends CommandBase {
-    IntakeSubsystem intake;
-  /** Creates a new IntakeOffCommand. */
-  public IntakeOffCommand(IntakeSubsystem intake) {
+public class TurretHoodUpCommand extends CommandBase {
+  TurretSpinnerSubsystem spinner;
+  /** Creates a new TurretHoodUpCommand. */
+  public TurretHoodUpCommand(TurretSpinnerSubsystem spinner) {
     // Use addRequirements() here to declare subsystem dependencies.
-
-    this.intake = intake;
-    addRequirements(intake);
+    this.spinner = spinner;
+    addRequirements(spinner);
   }
 
   // Called when the command is initially scheduled.
@@ -24,9 +26,7 @@ public class IntakeOffCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intakeMotorOff();
-    //intake.intakePistonRetract();
-    //intake.intakeBigwheelOff();
+    spinner.turretHoodUp();
   }
 
   // Called once the command ends or is interrupted.

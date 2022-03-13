@@ -72,6 +72,8 @@ public class Robot extends TimedRobot {
     turretcam.setResolution(320, 240);    //160X120
     turretcam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
+    
+
     //pdh.clearStickyFaults();
     
 
@@ -97,7 +99,7 @@ public class Robot extends TimedRobot {
   
     redBallVisionThread.start();
 
-     /*tapeVisionThread = new VisionThread(intakecam, new RetroReflectivePipeline(), pipeline -> {
+     tapeVisionThread = new VisionThread(turretcam, new RetroReflectivePipeline(), pipeline -> {
       m_robotContainer.tapeVision.clearDetections();
       for (var contour : pipeline.filterContoursOutput()) {
           Rect r = Imgproc.boundingRect(contour);
@@ -109,9 +111,9 @@ public class Robot extends TimedRobot {
                 m_robotContainer.tapeVision.addDetection(new Vector2d(rX, rY));
               }
         }
-    });*/
+    });
   
-    //tapeVisionThread.start();
+    tapeVisionThread.start();
    // redBallVisionThread.stop();
     //redBallVisionThread.stop(); (how do i get it to stop?)
 
