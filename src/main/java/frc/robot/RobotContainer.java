@@ -110,13 +110,13 @@ public class RobotContainer {
                 ));
 
     //with limit switches
-    turretSpinner.setDefaultCommand(
+    /*turretSpinner.setDefaultCommand(
       new RunCommand(
         () -> turretSpinner.manuelTurnTurret(
           auxController.getRawAxis(4) * 0.40
           ), turretSpinner
           ));
-
+*/
     
     intake.setDefaultCommand(
       new RunCommand(
