@@ -35,7 +35,9 @@ import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
-import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.MagazineRunWhenRPMReachedCommand;
+import frc.robot.commands.StartShooterCommand;
+import frc.robot.commands.TimedDriveCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -263,10 +265,18 @@ public class RobotContainer {
       new RunCommand(() -> magazine.magRun()));*/
 
     //Command auto = new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(4).andThen(new RunCommand(() -> turretShooter.setSpeed(500), turretShooter));
-    Command auto = new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(2).andThen(new RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
+  /*  Command auto = 
+    new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(2).andThen(new RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
       new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
       new RunCommand(() -> magazine.magRun(), magazine));
-    
+    */
+
+
+    //start shooter (will instantly finish), then drive backwards for 4 seconds at -0.3 speed. Then run the magazine when the rpm is reached on the turret.
+    Command auto = 
+      new StartShooterCommand(turretShooter, 1500).andThen(new TimedDriveCommand(drive, 4.0, -0.3)).andThen(new MagazineRunWhenRPMReachedCommand(magazine))
+      .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake));
+      
     return auto;
   }
 }

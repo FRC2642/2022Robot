@@ -35,7 +35,7 @@ public class BallFollowerIntakeCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-
+/*
     this.intake = intake;
     this.vision = vison;
     this.drive = drive;
@@ -47,5 +47,6 @@ public class BallFollowerIntakeCommand extends SequentialCommandGroup {
                 new MagazineRunCommand(mag));
 
                 //new BallFollowerCommand(drive, vision));
+                */
   }
 }

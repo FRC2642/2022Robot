@@ -5,15 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MagazineSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class MagazineRunCommand extends CommandBase {
-  MagazineSubsystem mag;
-  /** Creates a new MagazineRunCommand. */
-  public MagazineRunCommand(MagazineSubsystem mag) {
+public class RunIntakeCommand extends CommandBase {
+  IntakeSubsystem intake;
+  /** Creates a new IntakeOn. */
+  public RunIntakeCommand(IntakeSubsystem intake) {
+    this.intake = intake;
+    addRequirements(intake);
     // Use addRequirements() here to declare subsystem dependencies.
-    this.mag = mag;
-    addRequirements(mag);
   }
 
   // Called when the command is initially scheduled.
@@ -23,13 +23,15 @@ public class MagazineRunCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mag.magRun();
+    //feed bigwheel speed every 22ms
+    intake.intakeBigwheelOn();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    mag.magStop();
+    
+    intake.intakeBigwheelOff();
   }
 
   // Returns true when the command should end.
