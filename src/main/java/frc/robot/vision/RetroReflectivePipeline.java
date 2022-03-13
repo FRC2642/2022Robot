@@ -59,7 +59,7 @@ public class RetroReflectivePipeline implements VisionPipeline {
 		// Step HSL_Threshold0:
 		Mat hslThresholdInput = resizeImageOutput;
 		double[] hslThresholdHue = Constants.HSL_HUE_WHITE;
-		double[] hslThresholdSaturation =Constants.HSL_SAT_WHITE;
+		double[] hslThresholdSaturation = Constants.HSL_SAT_WHITE;
 		double[] hslThresholdLuminance = Constants.HSL_LUM_WHITE;
 		hslThreshold(hslThresholdInput, hslThresholdHue, hslThresholdSaturation, hslThresholdLuminance, hslThresholdOutput);
 

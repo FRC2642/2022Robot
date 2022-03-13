@@ -5,36 +5,30 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MagazineSubsystem;
+import frc.robot.subsystems.TurretShooterSubsystem;
 
-public class MagazineRunCommand extends CommandBase {
-  MagazineSubsystem mag;
-  /** Creates a new MagazineRunCommand. */
-  public MagazineRunCommand(MagazineSubsystem mag) {
+public class StartShooterCommand extends CommandBase {
+  /** Creates a new ShooterCommand. */
+  TurretShooterSubsystem shooter;
+  double rpm;
+  public StartShooterCommand(TurretShooterSubsystem shooter, double rpm) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.mag = mag;
-    addRequirements(mag);
+    this.shooter = shooter;
+    this.rpm = rpm;
+    addRequirements(shooter);
   }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    mag.magRun();
+    shooter.setSpeed(rpm);
   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    mag.magStop();
-  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    //we instantly finish because the shooter uses a closed loop PID and can run without being called constantly
+    return true;
   }
 }

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.subsystems.VisionSubsystem;
+//import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.BallVisionSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -34,7 +35,9 @@ import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
-import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.MagazineRunWhenRPMReachedCommand;
+import frc.robot.commands.StartShooterCommand;
+import frc.robot.commands.TimedDriveCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -45,8 +48,8 @@ import frc.robot.commands.TurnTowardsHubCommand;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
-  private final VisionSubsystem vision = new VisionSubsystem();
   public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
+  public final BallVisionSubsystem ballVision = new BallVisionSubsystem();
   private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
   private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
@@ -54,9 +57,8 @@ public class RobotContainer {
   private final ClimberSubsystem climb = new ClimberSubsystem();
   
 
-  private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
-  private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, vision, drive, 
-                                turretShooter, magazine, turretSpinner);
+  private final Command ballFollowerCommand = new BallFollowerCommand(drive, ballVision);
+  private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, ballVision, drive, turretShooter, magazine, turretSpinner);
 
   public static XboxController driveController = new XboxController(0);
   public static XboxController auxController = new XboxController(1);
@@ -101,7 +103,7 @@ public class RobotContainer {
         turretShooter.stop(), turretShooter
           ));
 
-  magazine.setDefaultCommand(
+    magazine.setDefaultCommand(
             new RunCommand(
               () -> 
               magazine.magStop(), magazine
@@ -276,17 +278,20 @@ public class RobotContainer {
       new RunCommand(() -> magazine.magRun()));*/
 
     //Command auto = new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(4).andThen(new RunCommand(() -> turretShooter.setSpeed(500), turretShooter));
-    /*Command auto = new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(3).andThen(new RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
+  /*  Command auto = 
+    new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(2).andThen(new
+     RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
       new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
-      new RunCommand(() -> magazine.magRun(), magazine));*/
+      new RunCommand(() -> magazine.magRun(), magazine));
+    */
 
-      Command auto = 
-      new RunCommand(() -> drive.move(0.4,0),drive).withTimeout(1).andThen(
-        new RunCommand(()-> turretShooter.setSpeed(800), turretShooter)).alongWith(
-      new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
-      new RunCommand(() -> magazine.magRun(), magazine)).andThen(new RunCommand((
-      ) -> drive.move(-0.4,0),drive).withTimeout(5));
-    
+
+    //start shooter (will instantly finish), then drive backwards for 4 seconds at -0.3 speed. Then run the magazine when the rpm is reached on the turret.
+    Command auto = 
+      new StartShooterCommand(turretShooter, 650).andThen(new TimedDriveCommand(drive, 1.0, 0.4)).andThen(new MagazineRunWhenRPMReachedCommand(magazine)).withTimeout(5).andThen(
+        new TimedDriveCommand(drive, 5.0, -0.4))
+      .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));
+      
     return auto;
   }
 }
