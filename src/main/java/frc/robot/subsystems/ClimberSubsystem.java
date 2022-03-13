@@ -37,7 +37,15 @@ public class ClimberSubsystem extends SubsystemBase {
    }*/
 
   public void moveElevator(double speed){
-   elevatorMotor.set(speed);
+   elevatorMotor.set(0.6);
+  }
+
+  public void moveElevatorDown(double downSpeed){
+    elevatorMotor.set(-0.6);
+  }
+
+  public void climberStop(){
+    elevatorMotor.set(0);
   }
   /*public double getElevatorEncoder(){
     return elevatorEncoder.get();

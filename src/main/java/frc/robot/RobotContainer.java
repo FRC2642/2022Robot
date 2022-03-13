@@ -108,12 +108,12 @@ public class RobotContainer {
                 ));
 
     //with limit switches
-    turretSpinner.setDefaultCommand(
+    /*turretSpinner.setDefaultCommand(
       new RunCommand(
         () -> turretSpinner.manuelTurnTurret(
           auxController.getRawAxis(4) * 0.40
           ), turretSpinner
-          ));
+          ));*/
 
     
     intake.setDefaultCommand(
@@ -136,9 +136,8 @@ public class RobotContainer {
    
     climb.setDefaultCommand(
       new RunCommand(
-        () -> climb.moveElevator(
-         auxController.getRawAxis(5)
-        ), climb
+        () -> climb.climberStop()
+        ,climb
     ));
 
 
@@ -194,19 +193,33 @@ public class RobotContainer {
     .whenPressed(new InstantCommand(intake::intakePistonRetract, intake));
 
 
+    //climber up and down
+    new JoystickButton(auxController, Button.kX.value)
+    .whileHeld(new RunCommand(() -> climb.moveElevator(0.60), climb));
+
+    new JoystickButton(auxController, Button.kB.value)
+    .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-0.60), climb));
+
+
+    /*new JoystickButton(auxController, Button.kB.value)
+    .whenHeld(new RunCommand(climb::moveElevatorDown(0.5), climb));*/
+
+
 
     //preset shooting powers (change to speeds)
+    new JoystickButton(driveController, Button.kX.value)
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(650), turretShooter));
+
     new JoystickButton(driveController, Button.kA.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.80), turretShooter));
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(1000), turretShooter));
 
     new JoystickButton(driveController, Button.kB.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.60), turretShooter));
-
-    new JoystickButton(driveController, Button.kX.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.50), turretShooter));
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(2000), turretShooter));
 
     new JoystickButton(driveController, Button.kY.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.70), turretShooter));
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(2500), turretShooter));
+
+
 
     new JoystickButton(auxController, 5)
     .whenHeld(new RunCommand(magazine::magReverse, magazine));
@@ -263,9 +276,16 @@ public class RobotContainer {
       new RunCommand(() -> magazine.magRun()));*/
 
     //Command auto = new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(4).andThen(new RunCommand(() -> turretShooter.setSpeed(500), turretShooter));
-    Command auto = new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(2).andThen(new RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
+    /*Command auto = new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(3).andThen(new RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
       new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
-      new RunCommand(() -> magazine.magRun(), magazine));
+      new RunCommand(() -> magazine.magRun(), magazine));*/
+
+      Command auto = 
+      new RunCommand(() -> drive.move(0.4,0),drive).withTimeout(1).andThen(
+        new RunCommand(()-> turretShooter.setSpeed(800), turretShooter)).alongWith(
+      new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
+      new RunCommand(() -> magazine.magRun(), magazine)).andThen(new RunCommand((
+      ) -> drive.move(-0.4,0),drive).withTimeout(5));
     
     return auto;
   }
