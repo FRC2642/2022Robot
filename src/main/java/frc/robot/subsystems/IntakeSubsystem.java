@@ -13,15 +13,17 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 
 public class IntakeSubsystem extends SubsystemBase {
 
   CANSparkMax intakeMotor = new CANSparkMax(Constants.INTAKE_MOTOR_ID, MotorType.kBrushless);
   CANSparkMax intakeBigwheel = new CANSparkMax(Constants.INTAKE_BIGWHEEL_ID, MotorType.kBrushless);
 //unknown pneumatics module type - CTREPCM needs to be replaced
-  DoubleSolenoid leftIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_FORWARDLEFTPISTON_ID, Constants.INTAKE_REVERSELEFTPISTON_ID);
-  DoubleSolenoid rightIntakePiston = new DoubleSolenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_FORWARDRIGHTPISTON_ID, Constants.INTAKE_REVERSERIGHTPISTON_ID);
+  //Solenoid leftIntakePiston = new Solenoid(PneumaticsModuleType.REVPH, Constants.INTAKE_FORWARDLEFTPISTON_ID);
+  Solenoid rightIntakePiston = new Solenoid(PneumaticsModuleType.REVPH, 0);
 
   /** Creates a new IntakeSubsystem. */
   //big wheel is going to go in intake
@@ -60,8 +62,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intakePistonExtend() {
-    leftIntakePiston.set(Value.kForward);
-    rightIntakePiston.set(Value.kForward); 
+    //leftIntakePiston.set(true);
+      rightIntakePiston.set(true); 
   }
 
   /*public void retractIntake() {
@@ -81,8 +83,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void intakePistonRetract() {
-    leftIntakePiston.set(Value.kReverse);
-    rightIntakePiston.set(Value.kReverse);
+    //leftIntakePiston.set(false);
+    rightIntakePiston.set(false);
   }
 
   public boolean getLeftTrigger() {

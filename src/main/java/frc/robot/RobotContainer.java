@@ -4,20 +4,38 @@
 
 package frc.robot;
 
+import javax.crypto.spec.DHPrivateKeySpec;
 import javax.swing.plaf.synth.SynthScrollBarUI;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.commands.BallFollowerCommand;
+import frc.robot.commands.BallFollowerIntakeCommand;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.IntakeOffCommand;
+import frc.robot.commands.IntakeOutCommand;
+import frc.robot.commands.IntakePistonExtendCommand;
+import frc.robot.commands.IntakePistonRetractCommand;
+import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.TurnTowardsHubCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -32,14 +50,30 @@ public class RobotContainer {
   private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
   private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final MagazineSubsystem magazine = new MagazineSubsystem();
+  private final ClimberSubsystem climb = new ClimberSubsystem();
   
 
   private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
+  private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, vision, drive, 
+                                turretShooter, magazine, turretSpinner);
 
   public static XboxController driveController = new XboxController(0);
-  public static XboxController auxController = new XboxController(0);
+  public static XboxController auxController = new XboxController(1);
 
-  private final Trigger leftTrigger = new Trigger(intake::getLeftTrigger);
+  public final Joystick rightDriveStick = new Joystick(1);
+  
+  private final Trigger auxLeftTrigger = new Trigger(magazine::getAuxLeftTrigger);
+  private final Trigger auxRightTrigger = new Trigger(turretShooter::getAuxRightTrigger);
+
+  private final Command driveCommand = new DriveCommand(drive);
+  private final Command intakePistonExtend = new IntakePistonExtendCommand(intake);
+  private final Command intakePistonRetract = new IntakePistonRetractCommand(intake);
+  private final Command intakeOutCommand = new IntakeOutCommand(intake);
+  private final Command intakeOffCommand = new IntakeOffCommand(intake);
+  private final Command tapeFollow = new TurnTowardsHubCommand(turretSpinner, tapeVision);
+
+  //public final Button driveButtonB = new JoystickButton(driveController, Constants.bButtonDrive); 
 
 
 
@@ -51,43 +85,78 @@ public class RobotContainer {
     
     /*drive.setDefaultCommand(
       new RunCommand(
-        
         () -> drive.move(
-          
-          driveController.getRawAxis(0) * 0.6,
-          driveController.getRawAxis(1) * 0.6
+       -driveController.getRawAxis(1) * 0.6,
+        driveController.getRawAxis(0) *0.6
           ), drive
-    ));*/
+    ));*/ 
+
+    //sicko and slow modes (check if this works, if not go back to above drive command)
+    //drive.setDefaultCommand(driveCommand); 
+
 
     turretShooter.setDefaultCommand(
       new RunCommand(
         () -> 
-        turretShooter.setSpeed(
-          driveController.getRightTriggerAxis()
-          ), turretShooter
+        turretShooter.stop(), turretShooter
           ));
 
-    //has no limits (just for testing purposes)
-    /*turretSpinner.setDefaultCommand(
+  magazine.setDefaultCommand(
+            new RunCommand(
+              () -> 
+              magazine.magStop(), magazine
+                ));
+
+    //with limit switches
+    turretSpinner.setDefaultCommand(
       new RunCommand(
-        () -> turretSpinner.turnTurret(
-          driveController.getRawAxis(4) * 0.20
+        () -> turretSpinner.manuelTurnTurret(
+          auxController.getRawAxis(4) * 0.40
           ), turretSpinner
-          ));*/
+          ));
 
     
     intake.setDefaultCommand(
       new RunCommand(
         () -> {if (intake.getLeftTrigger()){
+          //intake.intakePistonRetract();
           intake.intakeBigwheelOn();
           intake.intakeMotorForward();
           }
           else{
+            //intake.intakePistonExtend();
             intake.intakeMotorOff();
             intake.intakeBigwheelOff();
           }
-          }, intake)
-    );
+          }, intake));
+      
+    //intake.setDefaultCommand(intakeOffCommand);
+
+          
+   
+    climb.setDefaultCommand(
+      new RunCommand(
+        () -> climb.moveElevator(
+         auxController.getRawAxis(5)
+        ), climb
+    ));
+
+
+    drive.setDefaultCommand(new RunCommand(() ->{ 
+    if(getDriveRightTrigger()){
+      drive.move(-driveController.getRawAxis(1) * .90,(driveController.getRawAxis(0) * .90));
+    }
+    //slower turn, fast straight
+    else if(getDriveLeftTrigger()){
+      drive.move(-driveController.getRawAxis(1) * .50,(driveController.getRawAxis(0) * .50));
+    }
+    //normal drive
+    else{
+      drive.move(-driveController.getRawAxis(1) * .6,(driveController.getRawAxis(0) * .60));
+    }
+  },drive));
+
+
 
     
 
@@ -102,16 +171,83 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    /*leftTrigger.whileActiveContinuous(
-      new RunCommand(() -> {intake.intakeMotorForward();
-        intake.intakeBigwheelOn();}, intake));*/
-        //leftTrigger.whileActiveContinuous(new RunCommand(intake.intakeMotorForward()), intake);
+
+    
+    //runs magazine
+    auxLeftTrigger.whileActiveContinuous(new RunCommand(() -> magazine.magRun(), magazine));
+
+    //runs shooter (need to figure out speed)
+    auxRightTrigger.whileActiveContinuous(new RunCommand(() -> turretShooter.setSpeed(1500), turretShooter));
+    
+    //changes turret hood
+    new JoystickButton(auxController, Button.kY.value)
+    .whenPressed(new InstantCommand(turretSpinner::turretHoodUp));
+
+    new JoystickButton(auxController, Button.kA.value)
+    .whenPressed(new InstantCommand(turretSpinner::turretHoodDown));
+
+    //check these bumper values, I'm not sure which is which
+    new JoystickButton(driveController, 6)
+    .whenPressed(new InstantCommand(intake::intakePistonExtend, intake));
+
+    new JoystickButton(driveController, 5)
+    .whenPressed(new InstantCommand(intake::intakePistonRetract, intake));
+
+
+
+    //preset shooting powers (change to speeds)
+    new JoystickButton(driveController, Button.kA.value)
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.80), turretShooter));
+
+    new JoystickButton(driveController, Button.kB.value)
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.60), turretShooter));
+
+    new JoystickButton(driveController, Button.kX.value)
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.50), turretShooter));
+
+    new JoystickButton(driveController, Button.kY.value)
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.70), turretShooter));
+
+    new JoystickButton(auxController, 5)
+    .whenHeld(new RunCommand(magazine::magReverse, magazine));
+
+
+
+
+
+
+    //not using climb pistons right now
+    /*new JoystickButton(driveController, 6)
+    .whenPressed(new InstantCommand(climb::climbPistonFoward));
+
+    new JoystickButton(driveController, 5)
+    .whenPressed(new InstantCommand(climb::climbPistonBackward));*/
+
+
+    //new JoystickButton(driveController, Button.kX.value).whenPressed(intakePistonExtend);
+    
+    //new JoystickButton(driveController, Button.kY.value).whenPressed(intakePistonRetract);
+
+
+
+
         
         
     
 
   
   }
+  public static boolean getDriveLeftTrigger(){
+    double lTrigger = driveController.getLeftTriggerAxis();
+    return (lTrigger > .5);
+
+  }
+
+  public static boolean getDriveRightTrigger(){
+    double rTrigger = driveController.getRightTriggerAxis();
+    return (rTrigger > .5);
+  }
+
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -120,6 +256,17 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return ballFollowerCommand;
+    //return ballIntaker;
+    //return tapeFollow;
+    /*Command auto = new RunCommand(() -> turretShooter.setSpeed(1500), turretShooter).andThen
+    (new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(1)).andThen(
+      new RunCommand(() -> magazine.magRun()));*/
+
+    //Command auto = new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(4).andThen(new RunCommand(() -> turretShooter.setSpeed(500), turretShooter));
+    Command auto = new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(2).andThen(new RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
+      new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
+      new RunCommand(() -> magazine.magRun(), magazine));
+    
+    return auto;
   }
 }

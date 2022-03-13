@@ -62,15 +62,17 @@ public class Robot extends TimedRobot {
     
     //intake camera setup
     intakecam = CameraServer.startAutomaticCapture(0);
-    intakecam.setFPS(10);
+    intakecam.setFPS(60);
     intakecam.setResolution(320, 240);    //160X120
     intakecam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
     //turret camera setup
     turretcam = CameraServer.startAutomaticCapture(1);
-    turretcam.setFPS(10);
+    turretcam.setFPS(60);
     turretcam.setResolution(320, 240);    //160X120
     turretcam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+
+    
 
     //pdh.clearStickyFaults();
     
@@ -97,7 +99,7 @@ public class Robot extends TimedRobot {
   
     redBallVisionThread.start();
 
-     tapeVisionThread = new VisionThread(intakecam, new RetroReflectivePipeline(), pipeline -> {
+     tapeVisionThread = new VisionThread(turretcam, new RetroReflectivePipeline(), pipeline -> {
       m_robotContainer.tapeVision.clearDetections();
       for (var contour : pipeline.filterContoursOutput()) {
           Rect r = Imgproc.boundingRect(contour);
