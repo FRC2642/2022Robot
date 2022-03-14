@@ -124,11 +124,13 @@ public class RobotContainer {
           //intake.intakePistonRetract();
           intake.intakeBigwheelOn();
           intake.intakeMotorForward();
+          magazine.magReverse();
           }
           else{
             //intake.intakePistonExtend();
             intake.intakeMotorOff();
             intake.intakeBigwheelOff();
+            magazine.magStop();
           }
           }, intake));
       
@@ -219,7 +221,7 @@ public class RobotContainer {
     .whileHeld(new RunCommand(() -> turretShooter.setSpeed(2000), turretShooter));
 
     new JoystickButton(driveController, Button.kY.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(2500), turretShooter));
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(3500), turretShooter));
 
 
 
@@ -288,9 +290,14 @@ public class RobotContainer {
 
     //start shooter (will instantly finish), then drive backwards for 4 seconds at -0.3 speed. Then run the magazine when the rpm is reached on the turret.
     Command auto = 
-      new StartShooterCommand(turretShooter, 650).andThen(new TimedDriveCommand(drive, 1.0, 0.4)).andThen(new MagazineRunWhenRPMReachedCommand(magazine)).withTimeout(5).andThen(
-        new TimedDriveCommand(drive, 5.0, -0.4))
-      .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));
+      /*new StartShooterCommand(turretShooter, 650).andThen(new TimedDriveCommand(drive, 1.0, 0.4)).andThen(new MagazineRunWhenRPMReachedCommand(magazine)).withTimeout(5).andThen(
+        new TimedDriveCommand(drive, 3.0, -0.4))
+      .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
+
+      new StartShooterCommand(turretShooter, 1500).andThen(new MagazineRunWhenRPMReachedCommand(magazine)).withTimeout(5).andThen(
+        new TimedDriveCommand(drive, 1.0, -0.4))
+      .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake));
+
       
     return auto;
   }
