@@ -12,9 +12,7 @@ import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-
-import java.sql.Time;
-import java.util.concurrent.TimeUnit;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -30,26 +28,38 @@ public class TestAutoCommand extends SequentialCommandGroup {
   
   public TestAutoCommand() {
     
-    //Get another ball and shoots them both at start
-    addCommands(new ShooterCommand(turret)); //Start speeding up the shooter
-    addCommands(new IntakeOutCommand(intake)); //Drop intake out
-    addCommands(new IntakeSpinForwardCommand(intake)); //Activate intake
-    addCommands(new DriveDistanceCommand(drive, 8)); //Drive 8 feet
-    addCommands(new TurnDegreesCommand(drive, 0.5, -90)); //Turn towards hub some
-    addCommands(new TurnTowardsHubCommand(turretSpinner, tapeVision)); //Turret turn towards hub
+
+
+    //-----Get another ball and shoots them both at start-----\\
+
+    //Start speeding up the shooter and drop intake
+    addCommands(new ShooterCommand(turret).alongWith(new IntakeOutCommand(intake)));
+    //Activate intake and drive 8 feet 
+    addCommands(new IntakeSpinForwardCommand(intake).alongWith(new DriveDistanceCommand(drive, 8))); 
+    //Turn turret towards hub and turn left 90 degrees
+    addCommands(new TurnDegreesCommand(drive, 0.5, -90).alongWith(new TurnTowardsHubCommand(turretSpinner, tapeVision))); 
     addCommands(new TurretHoodUpCommand(turretSpinner)); //Angles the hood
     addCommands(new BigWheelMove(intake)); //Bring ball into magazine
-    addCommands(new MagazineRunCommand(magazine)); //Shoots
-    addCommands(new ShooterCommand(turret));
-    addCommands(new BigWheelMove(intake));
-    addCommands(new MagazineRunCommand(magazine));
+    addCommands(new MagOnCommand(magazine)); //Shoots
+    //Turn big wheel and magazine off
+    addCommands(new BigWheelOffCommand(intake).alongWith(new MagOffCommand(magazine))); 
+    //Speed up turret and move ball into magazine
+    addCommands(new ShooterCommand(turret).alongWith(new BigWheelMove(intake))); 
+    addCommands(new WaitCommand(2));
+    addCommands(new MagazineRunCommand(magazine)); //Shoot
 
-    //Second run for balls
-    addCommands(new ShooterCommand(turret)); //Speed turret back up
-    addCommands(new BallFollowerCommand(drive, vision)); //Get more balls
-    addCommands(new TurnTowardsHubCommand(turretSpinner, tapeVision)); //Turret face hub
+    //-----Second run for balls-----\\
+
+    //Speed turret back up and look for balls
+    addCommands(new ShooterCommand(turret).alongWith(new BallFollowerCommand(drive, vision))); 
+    //Drive and get ball while turret turns to hub
+    addCommands(new DriveDistanceCommand(drive, 1).alongWith(new TurnTowardsHubCommand(turretSpinner, tapeVision))); 
     addCommands(new BigWheelMove(intake)); //Bring ball into magazine
-    addCommands(new MagazineRunCommand(magazine)); //Shoots
+    //Wait a litle longer for turret to spin up and turn big wheel off
+    addCommands(new BigWheelOffCommand(intake).alongWith(new WaitCommand(1))); 
+    addCommands(new MagOnCommand(magazine)); //Shoots
+    addCommands(new MagOffCommand(magazine)); //Turns magazine off
+
     
   }
 }

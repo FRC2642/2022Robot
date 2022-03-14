@@ -5,15 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.TurretShooterSubsystem;
+import frc.robot.subsystems.MagazineSubsystem;
 
-public class ShooterCommand extends CommandBase {
-  /** Creates a new ShooterCommand. */
-  TurretShooterSubsystem shooter;
-  public ShooterCommand(TurretShooterSubsystem shooter) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.shooter = shooter;
-    addRequirements(shooter);
+public class MagOnCommand extends CommandBase {
+  MagazineSubsystem magazine;
+  public MagOnCommand(MagazineSubsystem magazine) {
+    this.magazine = magazine;
+    addRequirements(magazine);
   }
 
   // Called when the command is initially scheduled.
@@ -23,7 +21,7 @@ public class ShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setSpeed(2500);
+    magazine.magRun();
   }
 
   // Called once the command ends or is interrupted.
