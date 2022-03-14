@@ -18,17 +18,25 @@ import frc.robot.Robot;
 import frc.robot.utils.Vector2dComparator;
 
 public class TapeVisionSubsystem extends SubsystemBase {
+  public enum HubInFrameReason{
+    DETECTED,
+    NULL_EXCEPTION,
+    NOT_DETECTED,
+    NOT_ENOUGH_TAPES,
+    NO_SETS_MATCH_SIZE
+  }
 
   private final ArrayList<Vector2d> tapeContourPositions = new ArrayList<Vector2d>();
   public static  int NUM_TAPE_ON_HUB = 1;
-/*  public static  double TAPE_LENGTH_TOLERANCE = 0.25;
+  public static  double TAPE_LENGTH_TOLERANCE = 0.25;
   public static  double TAPE_HEIGHT_TOLERANCE = 0.25;
   public static  double TAPE_NOISE_TOLERANCE = 0.25;
-  public static  double TAPE_IN_LINE_TOLERANCE = 0.25;*/
+  public static  double TAPE_IN_LINE_TOLERANCE = 0.25;
+  
 
   @Override
   public void periodic() {
-//    NUM_TAPE_ON_HUB = (int)(SmartDashboard.getNumber("NUM_TAPE_ON_HUB", 6.0));
+    NUM_TAPE_ON_HUB = (int)(SmartDashboard.getNumber("NUM_TAPE_ON_HUB", 6.0));
 //    TAPE_LENGTH_TOLERANCE = SmartDashboard.getNumber("TAPE_LENGTH_TOLERANCE", 0.25);
   //  TAPE_HEIGHT_TOLERANCE = SmartDashboard.getNumber("TAPE_HEIGHT_TOLERANCE", 0.25);
   //  TAPE_NOISE_TOLERANCE = SmartDashboard.getNumber("TAPE_NOISE_TOLERANCE", 0.25);
@@ -44,7 +52,7 @@ public class TapeVisionSubsystem extends SubsystemBase {
     //SmartDashboard.putNumber("TAPE_NOISE_TOLERANCE", 10.25);
     //SmartDashboard.putNumber("TAPE_IN_LINE_TOLERANCE", 10.25);
   }
-
+  public static Object[] object;
   public Iterator<Vector2d> getDetections(){
     return tapeContourPositions.iterator();
   }
@@ -62,7 +70,7 @@ public class TapeVisionSubsystem extends SubsystemBase {
 
    /* if (hubPosition == null || hubSizeInFrame == null) return HubInFrameReason.NULL_EXCEPTION; */
     if (tapeContourPositions.size() < NUM_TAPE_ON_HUB) return HubInFrameReason.NOT_ENOUGH_TAPES;
-/*
+
     //FIND HUB FROM POINTS
     Vector2d[] contours = new Vector2d[tapeContourPositions.size()];
     double[] cache = new double[tapeContourPositions.size()];
@@ -131,7 +139,7 @@ public class TapeVisionSubsystem extends SubsystemBase {
         }
       }
       if (!strayed){ //if we didnt stray, this set passed all the tests
-*/  
+ 
      //   Vector2d[] array = new Vector2d[tapeContourPositions.size()]; //comment this out when doing full test
         
       //  var set = tapeContourPositions.toArray(array);
@@ -146,30 +154,28 @@ public class TapeVisionSubsystem extends SubsystemBase {
         hubPosition.x = firstTape.x;
         hubPosition.y = firstTape.y;
         return HubInFrameReason.DETECTED;
-  //    }
- //   }
-
-//    return HubInFrameReason.NOT_DETECTED;
-  }
-/*  private Object[] getClosestInSetFrom(Vector2d[] contours, int index){
-      double smallestD = Double.MAX_VALUE;
-      int smallestI = 0;
-      for (int i = index + 1; i < contours.length; ++i){
-        double d = Math.sqrt(contours[i].x*contours[i].x + contours[index].y*contours[index].y);
-        if (d < smallestD) {
-          smallestD = d;
-          smallestI = i;
-        }
       }
-      return new Object[] { smallestI, smallestD };
-  } */
+    }
+
+    return HubInFrameReason.NOT_DETECTED;
   
-  public enum HubInFrameReason{
-    DETECTED,
-    NULL_EXCEPTION,
-    NOT_DETECTED,
-    NOT_ENOUGH_TAPES,
-    NO_SETS_MATCH_SIZE
-  }
   
+  
+  
+    }
+    
+  
+  private static Object[] getClosestInSetFrom(Vector2d[] contours, int index){
+    double smallestD = Double.MAX_VALUE;
+    int smallestI = 0;
+    for (int i = index + 1; i < contours.length; ++i){
+      double d = Math.sqrt(contours[i].x*contours[i].x + contours[index].y*contours[index].y);
+      if (d < smallestD) {
+        smallestD = d;
+        smallestI = i;
+      }
+    }
+    object = new Object[]{ smallestI, smallestD };
+    return object;
+} 
 }
