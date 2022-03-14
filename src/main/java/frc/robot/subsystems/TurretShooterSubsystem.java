@@ -56,7 +56,7 @@ public class TurretShooterSubsystem extends SubsystemBase {
   }
 
   public void setSpeed(double speed){
-    
+    //shooter.set(speed);
     pidController.setReference(speed, CANSparkMax.ControlType.kVelocity);
     targetVelocity = speed;
 

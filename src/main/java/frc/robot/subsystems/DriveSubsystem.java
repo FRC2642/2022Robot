@@ -117,6 +117,9 @@ public class DriveSubsystem extends SubsystemBase {
   public double getYaw(){
     return navx.getYaw();
   }
+  public void resetGyro(){
+    navx.reset();
+  }
   
   //Encoder Methods
   public double getEncoderDistance(){
