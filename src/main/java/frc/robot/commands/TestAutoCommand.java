@@ -44,7 +44,7 @@ public class TestAutoCommand extends SequentialCommandGroup {
     //Turn big wheel and magazine off
     addCommands(new BigWheelOffCommand(intake).alongWith(new MagOffCommand(magazine))); 
     //Speed up turret and move ball into magazine
-    addCommands(new ShooterCommand(turret).alongWith(new BigWheelMove(intake))); 
+    addCommands(new ShooterCommand(turret));
     addCommands(new WaitCommand(2));
     addCommands(new MagazineRunCommand(magazine)); //Shoot
 
@@ -56,7 +56,8 @@ public class TestAutoCommand extends SequentialCommandGroup {
     addCommands(new DriveDistanceCommand(drive, 1).alongWith(new TurnTowardsHubCommand(turretSpinner, tapeVision))); 
     addCommands(new BigWheelMove(intake)); //Bring ball into magazine
     //Wait a litle longer for turret to spin up and turn big wheel off
-    addCommands(new BigWheelOffCommand(intake).alongWith(new WaitCommand(1))); 
+    addCommands(new WaitCommand(1)); 
+    addCommands(new BigWheelOffCommand(intake));
     addCommands(new MagOnCommand(magazine)); //Shoots
     addCommands(new MagOffCommand(magazine)); //Turns magazine off
 
