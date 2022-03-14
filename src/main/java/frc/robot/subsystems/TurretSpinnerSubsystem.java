@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -22,16 +23,27 @@ public class TurretSpinnerSubsystem extends SubsystemBase {
   public DigitalInput counterClockwiseSwitch = new DigitalInput(Constants.COUNTER_CLOCKWISE_SWITCH_ID );//on when not pressed (inverted)
   public CANSparkMax turretMotor = new CANSparkMax(Constants.TURRET_SPINNER_ID, MotorType.kBrushless);
   public Solenoid turretHood = new Solenoid(PneumaticsModuleType.REVPH, 15);
-
+  
 
   /** Creates a new TurretSpinnerSubsystem. */
-  public TurretSpinnerSubsystem() {}
+  public TurretSpinnerSubsystem() {
+
+  }
 
   //incorporate vision for aiming
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  
+  public void setP(double value){
+    turretMotor.getPIDController().setP(value);
+  }
+
+  public void setReference(double value){
+    turretMotor.getPIDController().setReference(value, CANSparkMax.ControlType.kPosition);
   }
 
   public void turnTurret(double speed) {

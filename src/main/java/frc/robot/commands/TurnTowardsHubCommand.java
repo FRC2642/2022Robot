@@ -16,6 +16,7 @@ import frc.robot.subsystems.VisionSubsystem;
 public class TurnTowardsHubCommand extends CommandBase {
   TurretSpinnerSubsystem turn;
   TapeVisionSubsystem vision;
+  
   /** Creates a new AimAtRetroReflectiveCommand. */
   public TurnTowardsHubCommand(TurretSpinnerSubsystem turn, TapeVisionSubsystem vision) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -36,15 +37,15 @@ public class TurnTowardsHubCommand extends CommandBase {
     Vector2d size = new Vector2d();
     SmartDashboard.putString("hub finder", vision.hubInFrame(center, size).toString());
     SmartDashboard.putString("hub", "center x: " + center.x + "center y: " + center.y);
-
-    if(center.x < 70){
+    turn.setP(0.2);
+    if(center.x < 30){
       turn.manuelTurnTurret(-.25);
     }
-    else if(center.x > 90) {
+    else if(center.x > 120) {
       turn.manuelTurnTurret(.25);
     }
     else{
-      turn.turnTurret(0);
+      turn.setReference(center.x);
     }
 
   }
