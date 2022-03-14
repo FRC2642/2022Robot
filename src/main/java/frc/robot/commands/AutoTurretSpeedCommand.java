@@ -8,18 +8,21 @@ import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
+import frc.robot.subsystems.TurretSpinnerSubsystem;
 
 public class AutoTurretSpeedCommand extends CommandBase {
   TurretShooterSubsystem turret;
   TapeVisionSubsystem tapeVision;
+  TurretSpinnerSubsystem spinner;
   double speedValue;
   double max = 4500;
   double min = 1000;
   public static Object[] tape;
-  public AutoTurretSpeedCommand(TurretShooterSubsystem turret, TapeVisionSubsystem tapeVision) {
+  public AutoTurretSpeedCommand(TurretShooterSubsystem turret, TapeVisionSubsystem tapeVision, TurretSpinnerSubsystem spinner) {
     this.turret = turret;
+    this.spinner = spinner;
     this.tapeVision = tapeVision;
-    addRequirements(turret);
+    addRequirements(turret, spinner, tapeVision);
   }
 
   // Called when the command is initially scheduled.
@@ -32,14 +35,20 @@ public class AutoTurretSpeedCommand extends CommandBase {
     if (tapeVision.hubInFrame(new Vector2d(), new Vector2d()) == TapeVisionSubsystem.HubInFrameReason.DETECTED){
       tape = TapeVisionSubsystem.object;
       System.out.println(tape.length);
-      if (tape.length > 10/*Replace with realistic short range length*/){
-        speedValue = min * tape.length / 4;/*Replace with actual math*/
-      }
-      else if (tape.length < 100 /*Replace with realistic long range length*/){
-        speedValue = (max * tape.length) / 6; /*Replace with math*/
+      if (tape.length >= 10){//Replace with realistic short range length
+        speedValue = max * (tape.length * 0.3);
+        spinner.turretHoodDown();
       }
       else{
-        speedValue = (((max + min)/2) * tape.length) / 3; /*Replace with math*/
+        speedValue = max * (tape.length * 0.4);
+        spinner.turretHoodUp();
+      }
+      //speedValue = max / (tape.length * 0.3); //Could be a good formula
+      if (speedValue > max){
+        speedValue = max;
+      }
+      else if (speedValue < min){
+        speedValue = min;
       }
       turret.setSpeed(speedValue);
     }
