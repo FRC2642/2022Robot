@@ -47,7 +47,7 @@ public class TestAutoCommand extends SequentialCommandGroup {
     addCommands(new ShooterCommand(turret));
     addCommands(new WaitCommand(2));
     addCommands(new MagazineRunCommand(magazine)); //Shoot
-
+    
     //-----Second run for balls-----\\
 
     //Speed turret back up and look for balls
