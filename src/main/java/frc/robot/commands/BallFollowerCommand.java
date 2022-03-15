@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.utils.CounterTimer;
+
 
 public class BallFollowerCommand extends CommandBase {
   DriveSubsystem drive;
@@ -15,6 +17,9 @@ public class BallFollowerCommand extends CommandBase {
   double error;
   double setpoint;
   double rotationValue;
+  CounterTimer timer;
+  boolean end;
+  
   /** Creates a new BallFollowerCommand. */
   public BallFollowerCommand(DriveSubsystem drive, VisionSubsystem vision) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -25,6 +30,8 @@ public class BallFollowerCommand extends CommandBase {
 
     addRequirements(drive,vision);
   }
+
+  
 
   // Called when the command is initially scheduled.
   @Override
@@ -60,16 +67,26 @@ public class BallFollowerCommand extends CommandBase {
       drive.move(0, rotationValue * -0.3);
     }*/
     if(vision.getCenterX() < 70){ //left
+      timer.stopTimer();
       drive.move(0.0, -0.3); //(0, -0.4)
+      
     }
     else if(vision.getCenterX() > 90){ //right
+      timer.stopTimer();
       drive.move(0.0, 0.3); //(0, 0.4)
+     
     }
     else{
+      try {
+        timer.activateTimer();
+      } catch (InterruptedException timeRanOut) {
+        end = true;
+      }
       drive.move(0.3,0.0);
     }
 
-
+    
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -81,6 +98,11 @@ public class BallFollowerCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (end == true){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 }
