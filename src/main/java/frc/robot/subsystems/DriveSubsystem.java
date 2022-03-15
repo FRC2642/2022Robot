@@ -116,6 +116,13 @@ public class DriveSubsystem extends SubsystemBase {
     return navx.getYaw();
   }
   
+  public void resetGyro(){
+    navx.reset();
+  }
+
+  public void calibrateGyro(){
+    navx.calibrate();
+  }
 
   
 
@@ -123,6 +130,6 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("navx", getYaw());
+    SmartDashboard.putNumber("Gyro heading", getYaw());
   }
 }
