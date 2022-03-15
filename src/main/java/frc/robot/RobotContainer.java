@@ -221,7 +221,7 @@ public class RobotContainer {
     .whileHeld(new RunCommand(() -> turretShooter.setSpeed(2000), turretShooter));
 
     new JoystickButton(driveController, Button.kY.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(3500), turretShooter));
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));
 
 
 
