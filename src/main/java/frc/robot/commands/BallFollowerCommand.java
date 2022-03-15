@@ -7,16 +7,16 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.BallVisionSubsystem;
 
 public class BallFollowerCommand extends CommandBase {
   DriveSubsystem drive;
-  VisionSubsystem vision;
+  BallVisionSubsystem vision;
   double error;
   double setpoint;
   double rotationValue;
   /** Creates a new BallFollowerCommand. */
-  public BallFollowerCommand(DriveSubsystem drive, VisionSubsystem vision) {
+  public BallFollowerCommand(DriveSubsystem drive, BallVisionSubsystem vision) {
     // Use addRequirements() here to declare subsystem dependencies.
     
     this.drive = drive;
@@ -72,15 +72,13 @@ public class BallFollowerCommand extends CommandBase {
 
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     drive.stop();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return vision.getCenterY() < 10;
   }
 }

@@ -13,10 +13,14 @@ public class TimedDriveCommand extends CommandBase {
   DriveSubsystem drive;
   Timer timer;
   Double seconds;
+  Double speed;
 
-  public TimedDriveCommand(DriveSubsystem drive, double seconds) {
+  public TimedDriveCommand(DriveSubsystem drive, double seconds, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
+    this.seconds = seconds;
+    this.speed = speed;
+    timer = new Timer();
     addRequirements(drive);
   }
 
@@ -31,7 +35,7 @@ public class TimedDriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.move(0.3,0);
+    drive.move(speed,0);
   }
 
   // Called once the command ends or is interrupted.
@@ -43,13 +47,6 @@ public class TimedDriveCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
-    if (timer.get() >= seconds){
-      return true;
-    }
-    else{
-      return false;
-    }
-    
+    return timer.get() >= seconds;
   }
 }

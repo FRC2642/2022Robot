@@ -9,12 +9,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakeSpinForwardCommand;
+import frc.robot.subsystems.BallVisionSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.commands.IntakePistonRetractCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -23,18 +24,18 @@ import frc.robot.commands.IntakePistonRetractCommand;
 public class BallFollowerIntakeCommand extends SequentialCommandGroup {
   /** Creates a new BallFollowerIntakeCommand. */
   IntakeSubsystem intake;
-  VisionSubsystem vision;
+  BallVisionSubsystem vision;
   DriveSubsystem drive;
   TurretShooterSubsystem shooter;
   MagazineSubsystem mag;
   TurretSpinnerSubsystem spinner;
   
-  public BallFollowerIntakeCommand(IntakeSubsystem intake, VisionSubsystem vison, DriveSubsystem drive, 
+  public BallFollowerIntakeCommand(IntakeSubsystem intake, BallVisionSubsystem vison, DriveSubsystem drive, 
   TurretShooterSubsystem shooter, MagazineSubsystem mag, TurretSpinnerSubsystem spinner) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-
+/*
     this.intake = intake;
     this.vision = vison;
     this.drive = drive;
@@ -46,5 +47,6 @@ public class BallFollowerIntakeCommand extends SequentialCommandGroup {
                 new MagazineRunCommand(mag));
 
                 //new BallFollowerCommand(drive, vision));
+                */
   }
 }
