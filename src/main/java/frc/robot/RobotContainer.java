@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -34,6 +35,7 @@ import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
+import frc.robot.commands.ResetGyro;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
 /**
@@ -171,6 +173,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
+    SmartDashboard.putData(new ResetGyro());
 
     
     //runs magazine
