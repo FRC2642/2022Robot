@@ -30,11 +30,13 @@ import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.BallFollowerIntakeCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.TimedDriveCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -263,10 +265,10 @@ public class RobotContainer {
       new RunCommand(() -> magazine.magRun()));*/
 
     //Command auto = new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(4).andThen(new RunCommand(() -> turretShooter.setSpeed(500), turretShooter));
-    Command auto = new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(2).andThen(new RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
+    /*Command auto = new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(2).andThen(new RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
       new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
-      new RunCommand(() -> magazine.magRun(), magazine));
+      new RunCommand(() -> magazine.magRun(), magazine));*/
     
-    return auto;
+    return new TimedDriveCommand(drive, 5);
   }
 }

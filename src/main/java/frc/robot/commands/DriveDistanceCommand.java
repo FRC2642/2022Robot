@@ -11,7 +11,7 @@ import frc.robot.utils.DistanceCalculator;
 public class DriveDistanceCommand extends CommandBase {
   DriveSubsystem drive;
   double distance;
-  DistanceCalculator convert;
+  DistanceCalculator convert = new DistanceCalculator();
   public DriveDistanceCommand(DriveSubsystem drive, double distance) {
     this.drive = drive;
     this.distance = distance;
