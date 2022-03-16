@@ -35,10 +35,13 @@ import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
+import frc.robot.commands.MagazineRunCommand;
 import frc.robot.commands.MagazineRunWhenRPMReachedCommand;
 import frc.robot.commands.StartShooterCommand;
 import frc.robot.commands.TimedDriveCommand;
+import frc.robot.commands.TimedMagazineRunCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
+import frc.robot.commands.WaitForRPMReachedCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -294,8 +297,10 @@ public class RobotContainer {
         new TimedDriveCommand(drive, 3.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
 
-      new StartShooterCommand(turretShooter, 1500).andThen(new MagazineRunWhenRPMReachedCommand(magazine)).withTimeout(5).andThen(
-        new TimedDriveCommand(drive, 1.0, -0.4))
+      new StartShooterCommand(turretShooter, 1500)
+      .andThen(new WaitForRPMReachedCommand())
+      .andThen(new TimedMagazineRunCommand(magazine,3.0))
+      .andThen(new TimedDriveCommand(drive, 1.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake));
 
       
