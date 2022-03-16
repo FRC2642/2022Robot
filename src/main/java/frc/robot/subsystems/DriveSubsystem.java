@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -33,7 +34,7 @@ public class DriveSubsystem extends SubsystemBase {
   //Variables
   public double setpoint;
 
-  public AHRS navx = new AHRS();
+  
   /** Creates a new DriveSubsystem. */
   
   //Objects
@@ -54,7 +55,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   //Constructor
   public DriveSubsystem() {
-    navx.calibrate();
+    
     setpoint = 0;
 
     frontLeft.configFactoryDefault();
@@ -110,19 +111,16 @@ public class DriveSubsystem extends SubsystemBase {
     PIDcontrol.setSetpoint(setpoint);
   }
   
-  //Gyro Methods
   
-  public double getYaw(){
-    return navx.getYaw();
-  }
   
 
+  
   
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("navx", getYaw());
+    
   }
 }
