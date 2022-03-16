@@ -31,7 +31,6 @@ public class MagazineRunWhenRPMReachedCommand extends CommandBase {
   public void execute() {
     if (TurretShooterSubsystem.isCloseToSetRPM()) {
       mag.magRun();
-<<<<<<< HEAD
       if (magTimer == null) {
         magTimer = new Timer();
         magTimer.start();
@@ -42,8 +41,6 @@ public class MagazineRunWhenRPMReachedCommand extends CommandBase {
       
       //cancel the timer
       magTimer = null;
-=======
->>>>>>> accb991ae487f142e718f97e1a82d5c2abc0b500
     }
     
   }
