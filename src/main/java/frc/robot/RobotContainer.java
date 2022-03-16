@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -35,6 +36,7 @@ import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
+import frc.robot.commands.ResetEncoder;
 import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.TimedDriveCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
@@ -174,7 +176,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
 
-    
+    SmartDashboard.putData(new ResetEncoder(drive));
     //runs magazine
     auxLeftTrigger.whileActiveContinuous(new RunCommand(() -> magazine.magRun(), magazine));
 
@@ -269,6 +271,6 @@ public class RobotContainer {
       new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
       new RunCommand(() -> magazine.magRun(), magazine));*/
     
-    return new TimedDriveCommand(drive, 5);
+    return new DriveDistanceCommand(drive, 5);
   }
 }

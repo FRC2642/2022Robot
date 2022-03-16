@@ -32,15 +32,15 @@ import com.kauailabs.navx.frc.AHRS;
 public class DriveSubsystem extends SubsystemBase {
   //Variables
   public double setpoint;
-
+  
   public AHRS navx = new AHRS();
   /** Creates a new DriveSubsystem. */
   
   //Objects
-  WPI_TalonFX frontLeft = new WPI_TalonFX(Constants.FRONT_LEFT_TALON_ID);
-  WPI_TalonFX backLeft = new WPI_TalonFX(Constants.BACK_LEFT_TALON_ID);
-  WPI_TalonFX frontRight = new WPI_TalonFX(Constants.FRONT_RIGHT_TALON_ID);
-  WPI_TalonFX backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON_ID);
+  public WPI_TalonFX frontLeft = new WPI_TalonFX(Constants.FRONT_LEFT_TALON_ID);
+  public WPI_TalonFX backLeft = new WPI_TalonFX(Constants.BACK_LEFT_TALON_ID);
+  public WPI_TalonFX frontRight = new WPI_TalonFX(Constants.FRONT_RIGHT_TALON_ID);
+  public WPI_TalonFX backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON_ID);
 
   
   MotorControllerGroup rightMotors = new MotorControllerGroup(frontRight, backRight);
@@ -49,7 +49,7 @@ public class DriveSubsystem extends SubsystemBase {
   DifferentialDrive diffDrive = new DifferentialDrive(rightMotors, leftMotors);
   public PIDController PIDcontrol = new PIDController(0,0,0);
 
-
+  
   //Constructor
   public DriveSubsystem() {
     navx.calibrate();
@@ -71,7 +71,7 @@ public class DriveSubsystem extends SubsystemBase {
     backRight.setNeutralMode(NeutralMode.Brake);
 
     
-
+    
 
     /*frontLeft.configNeutralDeadband(0.01);
     backLeft.configNeutralDeadband(0.01);
@@ -137,7 +137,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Encoder:", getEncoderDistance());
     SmartDashboard.putNumber("Gyro heading:", getYaw());
   }
 }

@@ -14,7 +14,7 @@ public class DistanceCalculator {
     private double inches;
 
     public double feetToInches(double feet){
-        return feet * 12;
+        return feet * 12.0;
     }
 
 }

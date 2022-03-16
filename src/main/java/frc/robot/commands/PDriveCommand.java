@@ -6,29 +6,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.utils.DistanceCalculator;
 
-public class DriveDistanceCommand extends CommandBase {
+public class PDriveCommand extends CommandBase {
   DriveSubsystem drive;
-  double distance;
-  DistanceCalculator convert = new DistanceCalculator();
-  public DriveDistanceCommand(DriveSubsystem drive, double distance) {
+  public PDriveCommand(DriveSubsystem drive) {
     this.drive = drive;
-    this.distance = distance;
+    drive.setPIDCoefficients(0.2, 0, 0);
     addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    drive.resetEncoder();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     
-    drive.move(0.3, 0);
     
   }
 
@@ -36,14 +30,9 @@ public class DriveDistanceCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end. 11027
+  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if ((drive.getEncoderDistance()/17117.0) * 18.8495559215 < convert.feetToInches(5)){
-      return false;
-    }
-    else{
-      return true;
-    }
+    return false;
   }
 }
