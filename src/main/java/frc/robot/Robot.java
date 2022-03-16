@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.ArrayList;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
@@ -32,6 +34,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  public static final AHRS navx = new AHRS();
   public static UsbCamera intakecam;
   public static UsbCamera turretcam;
   //public VideoSink camServer;
