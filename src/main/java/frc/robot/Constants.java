@@ -14,6 +14,9 @@ package frc.robot;
  */
 public final class Constants {
 
+//something
+public static final double RUN_MAG_TIME = 3;
+
 //drive constants (correct can ids)
 public static final int FRONT_LEFT_TALON_ID = 1;
 public static final int BACK_LEFT_TALON_ID = 2;

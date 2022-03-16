@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 
@@ -21,10 +23,24 @@ public class MagazineRunWhenRPMReachedCommand extends CommandBase {
   @Override
   public void initialize() {}
 
+  Timer magTimer = null;
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (TurretShooterSubsystem.isCloseToSetRPM()) mag.magRun();
+    if (TurretShooterSubsystem.isCloseToSetRPM()) {
+      mag.magRun();
+      if (magTimer == null) {
+        magTimer = new Timer();
+        magTimer.start();
+      }
+    }
+    else {
+      mag.magStop();
+      
+      //cancel the timer
+      magTimer = null;
+    }
     
   }
 
@@ -37,6 +53,6 @@ public class MagazineRunWhenRPMReachedCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return magTimer != null && magTimer.get() > Constants.RUN_MAG_TIME;
   }
 }
