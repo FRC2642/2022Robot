@@ -12,18 +12,21 @@ import frc.robot.subsystems.TurretShooterSubsystem;
 
 public class MagazineRunWhenRPMReachedCommand extends CommandBase {
   MagazineSubsystem mag;
+  Timer magTimer = new Timer();
   /** Creates a new MagazineRunCommand. */
   public MagazineRunWhenRPMReachedCommand(MagazineSubsystem mag) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.mag = mag;
     addRequirements(mag);
+    
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    magTimer.reset();
+  }
 
-  Timer magTimer = null;
 
   // Called every time the scheduler runs while the command is scheduled.
 
@@ -31,16 +34,12 @@ public class MagazineRunWhenRPMReachedCommand extends CommandBase {
   public void execute() {
     if (TurretShooterSubsystem.isCloseToSetRPM()) {
       mag.magRun();
-      if (magTimer == null) {
-        magTimer = new Timer();
-        magTimer.start();
-      }
+      magTimer.start(); //LMAO
+      
     }
     else {
+      magTimer.reset(); //LMFAOO
       mag.magStop();
-      
-      //cancel the timer
-      magTimer = null;
     }
     
   }
@@ -54,6 +53,6 @@ public class MagazineRunWhenRPMReachedCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return magTimer != null && magTimer.get() > Constants.RUN_MAG_TIME;
+    return magTimer.get() > Constants.RUN_MAG_TIME;
   }
 }
