@@ -37,8 +37,8 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   
   //Objects
-  WPI_TalonFX frontLeft = new WPI_TalonFX(Constants.FRONT_LEFT_TALON_ID);
-  WPI_TalonFX backLeft = new WPI_TalonFX(Constants.BACK_LEFT_TALON_ID);
+  WPI_TalonFX frontLeft = new WPI_TalonFX(Constants.FRONT_LEFT_TALON_ID); //.configVoltageCompSaturation(voltage, timeoutMs);
+  WPI_TalonFX backLeft = new WPI_TalonFX(Constants.BACK_LEFT_TALON_ID); //.configOpenloopRamp(seconds to full speed???)
   WPI_TalonFX frontRight = new WPI_TalonFX(Constants.FRONT_RIGHT_TALON_ID);
   WPI_TalonFX backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON_ID);
 
@@ -65,6 +65,11 @@ public class DriveSubsystem extends SubsystemBase {
     frontRight.setInverted(true);
     backRight.setInverted(true);
 
+    frontLeft.configOpenloopRamp(0.75);
+    backLeft.configOpenloopRamp(0.75);
+    frontRight.configOpenloopRamp(0.75);
+    backRight.configOpenloopRamp(0.75);
+    
 
 
     frontLeft.setNeutralMode(NeutralMode.Brake);
@@ -72,7 +77,7 @@ public class DriveSubsystem extends SubsystemBase {
     frontRight.setNeutralMode(NeutralMode.Brake);
     backRight.setNeutralMode(NeutralMode.Brake);
 
-    
+    //frontLeft.setVoltage(3);
 
 
     /*frontLeft.configNeutralDeadband(0.01);
@@ -91,9 +96,12 @@ public class DriveSubsystem extends SubsystemBase {
     move(0, 0);
   }
 
+ 
   public void move(double speed, double rotation){
    
     diffDrive.arcadeDrive(speed, -rotation);
+
+    //diffDrive.arcadeDrive(xSpeed, zRotation);
   }
   
 
