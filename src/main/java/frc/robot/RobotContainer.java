@@ -297,10 +297,10 @@ public class RobotContainer {
         new TimedDriveCommand(drive, 3.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
 
-      new StartShooterCommand(turretShooter, 1500)
-      .andThen(new WaitForRPMReachedCommand())
-      .andThen(new TimedMagazineRunCommand(magazine,3.0))
-      .andThen(new DriveDistanceCommand(drive, 5.0, -0.4))
+      new StartShooterCommand(turretShooter, 1500).andThen(
+        new WaitForRPMReachedCommand(),
+        new TimedMagazineRunCommand(magazine,3.0),
+        new DriveDistanceCommand(drive, 5.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake));
 
       
