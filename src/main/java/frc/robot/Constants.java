@@ -35,6 +35,9 @@ public static final int INTAKE_BIGWHEEL_ID = 11;
 //magazine motors (correct can id)
 public static final int MAGAZINE_BELT_MOTOR_ID = 13;
 
+//drive motor encoder
+public static final double ENCODER_TICKS_PER_FOOT = 11027.0;
+
 
     //incorrect piston ids
 public static final int INTAKE_FORWARDLEFTPISTON_ID = 0;

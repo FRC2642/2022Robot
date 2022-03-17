@@ -31,12 +31,12 @@ import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.BallFollowerIntakeCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
 import frc.robot.commands.MagazineRunCommand;
-import frc.robot.commands.MagazineRunWhenRPMReachedCommand;
 import frc.robot.commands.StartShooterCommand;
 import frc.robot.commands.TimedDriveCommand;
 import frc.robot.commands.TimedMagazineRunCommand;
@@ -300,7 +300,7 @@ public class RobotContainer {
       new StartShooterCommand(turretShooter, 1500)
       .andThen(new WaitForRPMReachedCommand())
       .andThen(new TimedMagazineRunCommand(magazine,3.0))
-      .andThen(new TimedDriveCommand(drive, 1.0, -0.4))
+      .andThen(new DriveDistanceCommand(drive, 5.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake));
 
       

@@ -116,6 +116,17 @@ public class DriveSubsystem extends SubsystemBase {
     return navx.getYaw();
   }
   
+  
+  //Encoder Methods
+  public double getEncoderDistance(){
+    return frontRight.getSelectedSensorPosition();
+  }
+
+  public void resetEncoder(){
+    frontRight.setSelectedSensorPosition(0);
+  }
+  
+
 
   
 
