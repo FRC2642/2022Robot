@@ -25,7 +25,7 @@ public class PDriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    rotationValue = drive.calculatePID(drive.navx.getYaw(), setpoint);
+    rotationValue = drive.calculatePID(drive.navx.getPitch(), setpoint);
     
     if (rotationValue > 1){
       rotationValue = 1;
