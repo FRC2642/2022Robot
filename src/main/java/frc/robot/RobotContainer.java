@@ -211,7 +211,7 @@ public class RobotContainer {
 
 
     //preset shooting powers (change to speeds)
-    new JoystickButton(driveController, Button.kX.value)
+    /*new JoystickButton(driveController, Button.kX.value)
     .whileHeld(new RunCommand(() -> turretShooter.setSpeed(650), turretShooter));
 
     new JoystickButton(driveController, Button.kA.value)
@@ -221,7 +221,14 @@ public class RobotContainer {
     .whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
 
     new JoystickButton(driveController, Button.kY.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));*/
+
+    new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(650), turretShooter));
+    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
+    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(2000), turretShooter));
+    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));
+
+
 
 
 
