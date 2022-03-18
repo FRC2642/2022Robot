@@ -7,12 +7,14 @@ package frc.robot;
 import javax.crypto.spec.DHPrivateKeySpec;
 import javax.swing.plaf.synth.SynthScrollBarUI;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.VisionSubsystem;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -21,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -28,6 +31,7 @@ import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.BallFollowerIntakeCommand;
 import frc.robot.commands.DriveCommand;
@@ -49,16 +53,15 @@ import frc.robot.commands.TurnTowardsHubCommand;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
-  private final VisionSubsystem vision = new VisionSubsystem();
   public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
+  
   private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
   private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final MagazineSubsystem magazine = new MagazineSubsystem();
   private final ClimberSubsystem climb = new ClimberSubsystem();
-  
+  private final VisionSubsystem vision = new VisionSubsystem();
 
-  private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
   private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, vision, drive, 
                                 turretShooter, magazine, turretSpinner);
 
@@ -126,11 +129,13 @@ public class RobotContainer {
           //intake.intakePistonRetract();
           intake.intakeBigwheelOn();
           intake.intakeMotorForward();
+          magazine.magReverse();
           }
           else{
             //intake.intakePistonExtend();
             intake.intakeMotorOff();
             intake.intakeBigwheelOff();
+            magazine.magStop();
           }
           }, intake));
       
