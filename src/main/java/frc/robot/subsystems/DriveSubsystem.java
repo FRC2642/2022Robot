@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
+
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -23,10 +23,9 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
-//import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 
 
@@ -50,12 +49,13 @@ public class DriveSubsystem extends SubsystemBase {
   DifferentialDrive diffDrive = new DifferentialDrive(rightMotors, leftMotors);
   public PIDController PIDcontrol = new PIDController(0,0,0);
 
+  public PigeonIMU pigeon = new PigeonIMU(18);
   
 
 
   //Constructor
   public DriveSubsystem() {
-    Robot.navx.calibrate();
+    //Robot.navx.calibrate();
     setpoint = 0;
 
     frontLeft.configFactoryDefault();
@@ -114,16 +114,18 @@ public class DriveSubsystem extends SubsystemBase {
   //Gyro Methods
   
   public double getYaw(){
-    return Robot.navx.getYaw();
+    return pigeon.getYaw();
+    //return Robot.navx.getYaw();
   }
   
   public void resetGyro(){
-    Robot.navx.reset();
+    pigeon.setYaw(0);
+    //Robot.navx.reset();
   }
 
-  public void calibrateGyro(){
+  /*public void calibrateGyro(){
     Robot.navx.calibrate();
-  }
+  }*/
 
   
 

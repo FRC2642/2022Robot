@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  public static final AHRS navx = new AHRS();
+  //public static final AHRS navx = new AHRS();
   public static UsbCamera intakecam;
   public static UsbCamera turretcam;
   //public VideoSink camServer;
@@ -58,7 +58,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    navx.calibrate();
+    //navx.calibrate();
     
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
@@ -137,14 +137,14 @@ public class Robot extends TimedRobot {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
-    SmartDashboard.putNumber("Gyro Yaw", navx.getYaw());
-    SmartDashboard.putNumber("Gyro Pitch", navx.getPitch());
-    SmartDashboard.putNumber("Gyro Roll", navx.getRoll());
+    //SmartDashboard.putNumber("Gyro Yaw", navx.getYaw());
+    //SmartDashboard.putNumber("Gyro Pitch", navx.getPitch());
+    //SmartDashboard.putNumber("Gyro Roll", navx.getRoll());
     SmartDashboard.putNumber("centerX", centerX);
     SmartDashboard.putNumber("width", rect.width); 
     SmartDashboard.putNumber("height", rect.height);
     SmartDashboard.putBoolean("is square",isSquare);
-    SmartDashboard.putBoolean("Calibrating:",navx.isCalibrating());
+    //SmartDashboard.putBoolean("Calibrating:",navx.isCalibrating());
     CommandScheduler.getInstance().run();
   }
 

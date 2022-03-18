@@ -173,7 +173,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    SmartDashboard.putData(new ResetGyro());
+    SmartDashboard.putData(new ResetGyro(drive));
 
     
     //runs magazine
