@@ -14,12 +14,14 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.vision.BlurContour;
 import frc.robot.vision.RetroReflectivePipeline;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -73,10 +75,23 @@ public class Robot extends TimedRobot {
     
 
     //pdh.clearStickyFaults();
+    double[] hue = null;
+    double[] sat = null;
+    double[] lum = null;
     
-
+    var alliance = DriverStation.getAlliance();
+    if (alliance == Alliance.Blue) {
+      hue = Constants.HSL_HUE_BLUE;
+      sat = Constants.HSL_SAT_BLUE;
+      lum = Constants.HSL_LUM_BLUE;
+    }
+    else if (alliance == Alliance.Red){
+      hue = Constants.HSL_HUE_RED;
+      sat = Constants.HSL_SAT_RED;
+      lum = Constants.HSL_LUM_RED;
+    }
     //vision thread to look for red balls
-    redBallVisionThread = new VisionThread(intakecam, new BlurContour(Constants.HSL_HUE_RED, Constants.HSL_SAT_RED, Constants.HSL_LUM_RED), pipeline -> {
+    redBallVisionThread = new VisionThread(intakecam, new BlurContour(hue, sat, lum), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
           Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
           synchronized (imgLock) {
