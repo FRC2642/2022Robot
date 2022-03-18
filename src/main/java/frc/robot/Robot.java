@@ -6,7 +6,7 @@ package frc.robot;
 
 import java.util.ArrayList;
 
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
@@ -36,7 +36,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  public static final AHRS navx = new AHRS();
   public static UsbCamera intakecam;
   public static UsbCamera turretcam;
   //public VideoSink camServer;
@@ -157,7 +156,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("width", rect.width); 
     SmartDashboard.putNumber("height", rect.height);
     SmartDashboard.putBoolean("is square",isSquare);
-    SmartDashboard.putNumber("navx", Robot.navx.getYaw());
+   // SmartDashboard.putNumber("navx", Robot.navx.getYaw());
 
     CommandScheduler.getInstance().run();
   }

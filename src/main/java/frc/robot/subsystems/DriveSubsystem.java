@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 //import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 
 
 
@@ -36,7 +36,7 @@ public class DriveSubsystem extends SubsystemBase {
   //Variables
   public double setpoint;
 
-  public AHRS navx = new AHRS(I2C.Port.kMXP);
+ // public AHRS navx = new AHRS(I2C.Port.kMXP);
   /** Creates a new DriveSubsystem. */
   
   //Objects
@@ -142,6 +142,6 @@ public class DriveSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
+    SmartDashboard.putNumber("encoder", getEncoderDistance());
   }
 }

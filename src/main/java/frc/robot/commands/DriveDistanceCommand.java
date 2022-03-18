@@ -43,7 +43,7 @@ public class DriveDistanceCommand extends CommandBase {
   // Returns true when the command should end. 11027
   @Override
   public boolean isFinished() {
-    if ((drive.getEncoderDistance()/17117.0) * 18.8495559215 < MathR.feetToInches(5)){
+    if ((drive.getEncoderDistance()/17117.0) * 18.8495559215 > MathR.feetToInches(5)){
       return false;
     }
     else{

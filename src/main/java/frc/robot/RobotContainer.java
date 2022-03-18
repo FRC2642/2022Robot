@@ -9,7 +9,7 @@ import java.time.Instant;
 import javax.crypto.spec.DHPrivateKeySpec;
 import javax.swing.plaf.synth.SynthScrollBarUI;
 
-import com.kauailabs.navx.frc.AHRS;
+//import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
@@ -329,7 +329,7 @@ public class RobotContainer {
       new StartShooterCommand(turretShooter, 1400).andThen(
         new WaitForRPMReachedCommand(),
         new TimedMagazineRunCommand(magazine,3.0),
-        new DriveDistanceCommand(drive, -5.0, -0.4))
+        new TimedDriveCommand(drive, 3.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake));
 
       
