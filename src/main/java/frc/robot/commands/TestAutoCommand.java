@@ -33,35 +33,25 @@ public class TestAutoCommand extends SequentialCommandGroup {
     //-----Get another ball and shoots them both at start-----\\
 
     //Start speeding up the shooter and drop intake
-    addCommands(new ShooterCommand(turret).alongWith(new IntakeOutCommand(intake)));
-    //Activate intake and drive 8 feet 
-    addCommands(new IntakeSpinForwardCommand(intake).alongWith(new DriveDistanceCommand(drive, 8)));
-    //Turn turret towards hub and turn left 90 degrees
-    addCommands(new TurnDegreesCommand(drive, 0.5, -180)); 
-    addCommands(new TurretHoodUpCommand(turretSpinner)); //Angles the hood
-    addCommands(new BigWheelMove(intake)); //Bring ball into magazine
-    addCommands(new MagOnCommand(magazine)); //Shoots
-    //Turn big wheel and magazine off
-    addCommands(new BigWheelOffCommand(intake).alongWith(new MagOffCommand(magazine)));
-    //Speed up turret and move ball into magazine
-    addCommands(new ShooterCommand(turret));
-    addCommands(new WaitCommand(2));
-    addCommands(new MagazineRunCommand(magazine)); //Shoot
-    
-    //-----Second run for balls-----\\
+    addCommands(new ShooterCommand(turret).alongWith(new IntakeOutCommand(intake)),
+    new IntakeSpinForwardCommand(intake).alongWith(new DriveDistanceCommand(drive, 8)),
+    new TurnDegreesCommand(drive, 0.5, -180),
+    new TurretHoodUpCommand(turretSpinner),
+    new BigWheelMove(intake),
+    new MagOnCommand(magazine),
+    new BigWheelOffCommand(intake).alongWith(new MagOffCommand(magazine)),
+    new ShooterCommand(turret),
+    new WaitCommand(2),
+    new MagazineRunCommand(magazine),
 
-    //Speed turret back up and look for balls
-    addCommands(new ShooterCommand(turret).alongWith(new BallFollowerCommand(drive, vision)));
-    //Drive and get ball while turret turns to hub
-    addCommands(new DriveDistanceCommand(drive, 1));
-    //Wait a litle longer for turret to spin up and turn big wheel off
-    addCommands(new WaitCommand(1));
-    addCommands(new BigWheelMove(intake)); //Bring ball into magazine
-    addCommands(new BigWheelOffCommand(intake));
-    addCommands(new MagOnCommand(magazine)); //Shoots
-    addCommands(new MagOffCommand(magazine)); //Turns magazine off
-
-    
+    new ShooterCommand(turret).alongWith(new BallFollowerCommand(drive, vision)),
+    new DriveDistanceCommand(drive, 1),
+    new WaitCommand(1),
+    new BigWheelMove(intake),
+    new BigWheelOffCommand(intake),
+    new MagOnCommand(magazine),
+    new MagOffCommand(magazine)
+    );
   }
 }
 
