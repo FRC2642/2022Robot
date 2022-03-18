@@ -51,6 +51,8 @@ public class TurretShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("p", kP);
     SmartDashboard.putNumber("i", kI);
     SmartDashboard.putNumber("d", kD);
+
+    //setReference()            this may be used to edit PID
   }
 
   public void setSpeed(double speed){
