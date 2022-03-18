@@ -10,4 +10,7 @@ public class MathR {
         return Math.max(Math.min(ceiling, value), floor);
     }
     
+    public static double feetToInches(double feet){
+        return feet * 12;
+    }
 }

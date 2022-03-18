@@ -85,6 +85,14 @@ public class DriveSubsystem extends SubsystemBase {
 
   }
   
+  //Encoder Methods
+  public double getEncoderDistance(){
+    return frontRight.getSelectedSensorPosition();
+  }
+
+  public void resetEncoder(){
+    frontRight.setSelectedSensorPosition(0);
+  }
 
   
   //Drive methods
