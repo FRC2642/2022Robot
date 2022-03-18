@@ -23,6 +23,8 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SPI;
 //import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import com.kauailabs.navx.frc.AHRS;
@@ -33,7 +35,7 @@ public class DriveSubsystem extends SubsystemBase {
   //Variables
   public double setpoint;
 
-  public AHRS navx = new AHRS();
+  public AHRS navx = new AHRS(I2C.Port.kMXP);
   /** Creates a new DriveSubsystem. */
   
   //Objects
@@ -49,13 +51,13 @@ public class DriveSubsystem extends SubsystemBase {
   DifferentialDrive diffDrive = new DifferentialDrive(rightMotors, leftMotors);
   public PIDController PIDcontrol = new PIDController(0,0,0);
 
-  public PigeonIMU pigeon = new PigeonIMU(Constants.pigeonID);
 
 
   //Constructor
   public DriveSubsystem() {
     navx.calibrate();
     setpoint = 0;
+    
 
     frontLeft.configFactoryDefault();
     backLeft.configFactoryDefault();
