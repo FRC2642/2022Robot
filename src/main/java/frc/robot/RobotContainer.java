@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
 import javax.crypto.spec.DHPrivateKeySpec;
 import javax.swing.plaf.synth.SynthScrollBarUI;
 
@@ -207,6 +209,14 @@ public class RobotContainer {
     new JoystickButton(auxController, Button.kB.value)
     .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-0.60), climb));
 
+    
+    new JoystickButton(auxController, Button.kStart.value)
+    .whenPressed(new InstantCommand(() -> climb.climbPistonFoward(), climb));
+
+    
+    new JoystickButton(auxController, Button.kBack.value)
+    .whenPressed(new InstantCommand(() -> climb.climbPistonBackward(), climb));
+
 
     /*new JoystickButton(auxController, Button.kB.value)
     .whenHeld(new RunCommand(climb::moveElevatorDown(0.5), climb));*/
@@ -225,6 +235,8 @@ public class RobotContainer {
 
     new JoystickButton(driveController, Button.kY.value)
     .whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));*/
+
+    
 
     new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(650), turretShooter));
     new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
