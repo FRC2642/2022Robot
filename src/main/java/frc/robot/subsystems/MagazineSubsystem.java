@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
@@ -13,6 +15,8 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class MagazineSubsystem extends SubsystemBase {
   /** Creates a new MagazineSubsystem. */
 public CANSparkMax magBeltMotor;
+
+DigitalInput lightSensor = new DigitalInput(0);
 
   public MagazineSubsystem() {
 
@@ -36,8 +40,13 @@ public boolean getAuxLeftTrigger() {
   return (ltrigger > .5);
 }
 
+public boolean isBallThere(){
+  return ! lightSensor.get();
+}
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putBoolean("is ball there", isBallThere());
   }
 }

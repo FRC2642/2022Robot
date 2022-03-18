@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.subsystems.VisionSubsystem;
+//import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.BallVisionSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -37,6 +38,8 @@ import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
 import frc.robot.commands.ShooterCommand;
+import frc.robot.commands.MagazineRunWhenRPMReachedCommand;
+import frc.robot.commands.StartShooterCommand;
 import frc.robot.commands.TimedDriveCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
 /**
@@ -48,8 +51,8 @@ import frc.robot.commands.TurnTowardsHubCommand;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem drive = new DriveSubsystem();
-  private final VisionSubsystem vision = new VisionSubsystem();
   public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
+  public final BallVisionSubsystem ballVision = new BallVisionSubsystem();
   private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
   private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
@@ -57,9 +60,8 @@ public class RobotContainer {
   private final ClimberSubsystem climb = new ClimberSubsystem();
   
 
-  private final Command ballFollowerCommand = new BallFollowerCommand(drive, vision);
-  private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, vision, drive, 
-                                turretShooter, magazine, turretSpinner);
+  private final Command ballFollowerCommand = new BallFollowerCommand(drive, ballVision);
+  private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, ballVision, drive, turretShooter, magazine, turretSpinner);
 
   public static XboxController driveController = new XboxController(0);
   public static XboxController auxController = new XboxController(1);
@@ -105,19 +107,19 @@ public class RobotContainer {
         turretShooter.stop(), turretShooter
           ));
 
-  magazine.setDefaultCommand(
+    magazine.setDefaultCommand(
             new RunCommand(
               () -> 
               magazine.magStop(), magazine
                 ));
 
     //with limit switches
-    turretSpinner.setDefaultCommand(
+    /*turretSpinner.setDefaultCommand(
       new RunCommand(
         () -> turretSpinner.manuelTurnTurret(
           auxController.getRawAxis(4) * 0.40
           ), turretSpinner
-          ));
+          ));*/
 
     
     intake.setDefaultCommand(
@@ -126,11 +128,13 @@ public class RobotContainer {
           //intake.intakePistonRetract();
           intake.intakeBigwheelOn();
           intake.intakeMotorForward();
+          magazine.magReverse();
           }
           else{
             //intake.intakePistonExtend();
             intake.intakeMotorOff();
             intake.intakeBigwheelOff();
+            magazine.magStop();
           }
           }, intake));
       
@@ -140,9 +144,8 @@ public class RobotContainer {
    
     climb.setDefaultCommand(
       new RunCommand(
-        () -> climb.moveElevator(
-         auxController.getRawAxis(5)
-        ), climb
+        () -> climb.climberStop()
+        ,climb
     ));
 
 
@@ -198,19 +201,40 @@ public class RobotContainer {
     .whenPressed(new InstantCommand(intake::intakePistonRetract, intake));
 
 
+    //climber up and down
+    new JoystickButton(auxController, Button.kX.value)
+    .whileHeld(new RunCommand(() -> climb.moveElevator(0.60), climb));
+
+    new JoystickButton(auxController, Button.kB.value)
+    .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-0.60), climb));
+
+
+    /*new JoystickButton(auxController, Button.kB.value)
+    .whenHeld(new RunCommand(climb::moveElevatorDown(0.5), climb));*/
+
+
 
     //preset shooting powers (change to speeds)
+    /*new JoystickButton(driveController, Button.kX.value)
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(650), turretShooter));
+
     new JoystickButton(driveController, Button.kA.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.80), turretShooter));
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(1000), turretShooter));
 
     new JoystickButton(driveController, Button.kB.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.60), turretShooter));
-
-    new JoystickButton(driveController, Button.kX.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.50), turretShooter));
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
 
     new JoystickButton(driveController, Button.kY.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(0.70), turretShooter));
+    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));*/
+
+    new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(650), turretShooter));
+    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
+    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(2000), turretShooter));
+    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));
+
+
+
+
 
     new JoystickButton(auxController, 5)
     .whenHeld(new RunCommand(magazine::magReverse, magazine));
@@ -271,10 +295,28 @@ public class RobotContainer {
       new RunCommand(() -> magazine.magRun()));*/
 
     //Command auto = new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(4).andThen(new RunCommand(() -> turretShooter.setSpeed(500), turretShooter));
-    Command auto = new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(2).andThen(new RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
+  /*  Command auto = 
+    new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(2).andThen(new
+     RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
       new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
       new RunCommand(() -> magazine.magRun(), magazine));
+
     
     return new TimedDriveCommand(drive, 5);
+    */
+
+
+    //start shooter (will instantly finish), then drive backwards for 4 seconds at -0.3 speed. Then run the magazine when the rpm is reached on the turret.
+    Command auto = 
+      /*new StartShooterCommand(turretShooter, 650).andThen(new TimedDriveCommand(drive, 1.0, 0.4)).andThen(new MagazineRunWhenRPMReachedCommand(magazine)).withTimeout(5).andThen(
+        new TimedDriveCommand(drive, 3.0, -0.4))
+      .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
+
+      new StartShooterCommand(turretShooter, 1500).andThen(new MagazineRunWhenRPMReachedCommand(magazine)).withTimeout(5).andThen(
+        new TimedDriveCommand(drive, 1.0, -0.4))
+      .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake));
+
+      
+    return auto;
   }
 }
