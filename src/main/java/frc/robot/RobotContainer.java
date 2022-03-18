@@ -7,6 +7,8 @@ package frc.robot;
 import javax.crypto.spec.DHPrivateKeySpec;
 import javax.swing.plaf.synth.SynthScrollBarUI;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -35,6 +37,7 @@ import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
+import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.MagazineRunWhenRPMReachedCommand;
 import frc.robot.commands.StartShooterCommand;
 import frc.robot.commands.TimedDriveCommand;
@@ -68,6 +71,7 @@ public class RobotContainer {
   private final Trigger auxLeftTrigger = new Trigger(magazine::getAuxLeftTrigger);
   private final Trigger auxRightTrigger = new Trigger(turretShooter::getAuxRightTrigger);
 
+  
   private final Command driveCommand = new DriveCommand(drive);
   private final Command intakePistonExtend = new IntakePistonExtendCommand(intake);
   private final Command intakePistonRetract = new IntakePistonRetractCommand(intake);
@@ -261,6 +265,10 @@ public class RobotContainer {
 
   
   }
+
+  //Gyro Methods
+  
+  
   public static boolean getDriveLeftTrigger(){
     double lTrigger = driveController.getLeftTriggerAxis();
     return (lTrigger > .5);
@@ -292,6 +300,9 @@ public class RobotContainer {
      RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
       new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
       new RunCommand(() -> magazine.magRun(), magazine));
+
+    
+    return new TimedDriveCommand(drive, 5);
     */
 
 
