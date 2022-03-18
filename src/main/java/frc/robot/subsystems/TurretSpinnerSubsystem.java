@@ -18,9 +18,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 public class TurretSpinnerSubsystem extends SubsystemBase {
 
   //creates limit switches for turret
-  public DigitalInput clockwiseSwitch = new DigitalInput(Constants.CLOCKWISE_SWITCH_ID);
-  public DigitalInput counterClockwiseSwitch = new DigitalInput(Constants.COUNTER_CLOCKWISE_SWITCH_ID );//on when not pressed (inverted)
-  public CANSparkMax turretMotor = new CANSparkMax(Constants.TURRET_SPINNER_ID, MotorType.kBrushless);
+  public DigitalInput clockwiseSwitch = new DigitalInput(2);
+  public DigitalInput counterClockwiseSwitch = new DigitalInput(3 );//on when not pressed (inverted)
+ // public CANSparkMax turretMotor = new CANSparkMax(Constants.TURRET_SPINNER_ID, MotorType.kBrushless);
   public Solenoid turretHood = new Solenoid(PneumaticsModuleType.REVPH, 15);
 
 
@@ -35,7 +35,7 @@ public class TurretSpinnerSubsystem extends SubsystemBase {
   }
 
   public void turnTurret(double speed) {
-    turretMotor.set(speed);
+    //turretMotor.set(speed);
   }
   
   public boolean clockwiseSwitchOn() {

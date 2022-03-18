@@ -34,8 +34,8 @@ public class TurretShooterSubsystem extends SubsystemBase {
     this.encoder = shooter.getEncoder();
     pidController= shooter.getPIDController();
     kP = 0.001; 
-    kI = 5e-7; //8
-    kD = 0.03; 
+    kI = 3e-7; //8
+    kD = 0.035; 
     kIz = 0; 
     kFF = 0.5/5600; //0.000015; 
     kMaxOutput = 1; 

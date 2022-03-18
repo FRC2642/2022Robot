@@ -54,7 +54,7 @@ import frc.robot.commands.WaitForRPMReachedCommand;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem drive = new DriveSubsystem();
+  public final DriveSubsystem drive = new DriveSubsystem();
   public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
   public final BallVisionSubsystem ballVision = new BallVisionSubsystem();
   private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
@@ -326,10 +326,10 @@ public class RobotContainer {
         new TimedDriveCommand(drive, 3.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
 
-      new StartShooterCommand(turretShooter, 1500).andThen(
+      new StartShooterCommand(turretShooter, 1400).andThen(
         new WaitForRPMReachedCommand(),
         new TimedMagazineRunCommand(magazine,3.0),
-        new DriveDistanceCommand(drive, 5.0, -0.4))
+        new DriveDistanceCommand(drive, -5.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake));
 
       

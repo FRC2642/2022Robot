@@ -135,6 +135,7 @@ public class Robot extends TimedRobot {
     tapeVisionThread.start();
    // redBallVisionThread.stop();
     //redBallVisionThread.stop(); (how do i get it to stop?)
+    m_robotContainer.drive.resetEncoder();
 
 
   }
