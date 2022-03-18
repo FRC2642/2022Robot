@@ -5,16 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.utils.MathR;
 
 public class DriveDistanceCommand extends CommandBase {
   DriveSubsystem drive;
   double distance;
+  double speed;
   
-  public DriveDistanceCommand(DriveSubsystem drive, double distance) {
+  public DriveDistanceCommand(DriveSubsystem drive, double distance, double speed) {
     this.drive = drive;
     this.distance = distance;
+    this.speed = speed;
     addRequirements(drive);
   }
 
@@ -27,14 +29,15 @@ public class DriveDistanceCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    drive.move(0.3, 0);
+    drive.move(speed, 0);
     
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    drive.stop();
+  }
 
   // Returns true when the command should end. 11027
   @Override

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.time.Instant;
+
 import javax.crypto.spec.DHPrivateKeySpec;
 import javax.swing.plaf.synth.SynthScrollBarUI;
 
@@ -33,15 +35,17 @@ import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.BallFollowerIntakeCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
-import frc.robot.commands.ShooterCommand;
-import frc.robot.commands.MagazineRunWhenRPMReachedCommand;
+import frc.robot.commands.MagazineRunCommand;
 import frc.robot.commands.StartShooterCommand;
 import frc.robot.commands.TimedDriveCommand;
+import frc.robot.commands.TimedMagazineRunCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
+import frc.robot.commands.WaitForRPMReachedCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -208,6 +212,14 @@ public class RobotContainer {
     new JoystickButton(auxController, Button.kB.value)
     .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-0.60), climb));
 
+    
+    new JoystickButton(auxController, Button.kStart.value)
+    .whenPressed(new InstantCommand(() -> climb.climbPistonFoward(), climb));
+
+    
+    new JoystickButton(auxController, Button.kBack.value)
+    .whenPressed(new InstantCommand(() -> climb.climbPistonBackward(), climb));
+
 
     /*new JoystickButton(auxController, Button.kB.value)
     .whenHeld(new RunCommand(climb::moveElevatorDown(0.5), climb));*/
@@ -226,6 +238,8 @@ public class RobotContainer {
 
     new JoystickButton(driveController, Button.kY.value)
     .whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));*/
+
+    
 
     new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(650), turretShooter));
     new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
@@ -312,8 +326,10 @@ public class RobotContainer {
         new TimedDriveCommand(drive, 3.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
 
-      new StartShooterCommand(turretShooter, 1500).andThen(new MagazineRunWhenRPMReachedCommand(magazine)).withTimeout(5).andThen(
-        new TimedDriveCommand(drive, 1.0, -0.4))
+      new StartShooterCommand(turretShooter, 1500).andThen(
+        new WaitForRPMReachedCommand(),
+        new TimedMagazineRunCommand(magazine,3.0),
+        new DriveDistanceCommand(drive, 5.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake));
 
       

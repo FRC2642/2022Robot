@@ -14,6 +14,9 @@ package frc.robot;
  */
 public final class Constants {
 
+//something
+public static final double RUN_MAG_TIME = 3;
+
 //drive constants (correct can ids)
 public static final int FRONT_LEFT_TALON_ID = 1;
 public static final int BACK_LEFT_TALON_ID = 2;
@@ -31,6 +34,9 @@ public static final int INTAKE_BIGWHEEL_ID = 11;
 
 //magazine motors (correct can id)
 public static final int MAGAZINE_BELT_MOTOR_ID = 13;
+
+//drive motor encoder
+public static final double ENCODER_TICKS_PER_FOOT = 11027.0;
 
 
     //incorrect piston ids
