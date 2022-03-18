@@ -12,10 +12,11 @@ public class DriveDistanceCommand extends CommandBase {
   DriveSubsystem drive;
   double distance;
   double speed;
+  
   public DriveDistanceCommand(DriveSubsystem drive, double distance, double speed) {
     this.drive = drive;
     this.distance = distance;
-    this.speed= speed;
+    this.speed = speed;
     addRequirements(drive);
   }
 
@@ -41,6 +42,11 @@ public class DriveDistanceCommand extends CommandBase {
   // Returns true when the command should end. 11027
   @Override
   public boolean isFinished() {
-    return (drive.getEncoderDistance()/Constants.ENCODER_TICKS_PER_FOOT) > distance;
+    if ((drive.getEncoderDistance()/17117.0) * 18.8495559215 < MathR.feetToInches(5)){
+      return false;
+    }
+    else{
+      return true;
+    }
   }
 }
