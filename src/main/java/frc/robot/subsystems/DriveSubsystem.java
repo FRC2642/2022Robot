@@ -54,6 +54,7 @@ public class DriveSubsystem extends SubsystemBase {
 
 
 
+
   //Constructor
   public DriveSubsystem() {
     
@@ -68,10 +69,10 @@ public class DriveSubsystem extends SubsystemBase {
     frontRight.setInverted(true);
     backRight.setInverted(true);
 
-    frontLeft.configOpenloopRamp(0.75);
-    backLeft.configOpenloopRamp(0.75);
-    frontRight.configOpenloopRamp(0.75);
-    backRight.configOpenloopRamp(0.75);
+    frontLeft.configOpenloopRamp(0.25);
+    backLeft.configOpenloopRamp(0.25);
+    frontRight.configOpenloopRamp(0.25);
+    backRight.configOpenloopRamp(0.25);
     
 
 

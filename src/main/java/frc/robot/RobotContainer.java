@@ -64,8 +64,8 @@ public class RobotContainer {
   private final ClimberSubsystem climb = new ClimberSubsystem();
   
 
-  private final Command ballFollowerCommand = new BallFollowerCommand(drive, ballVision);
-  private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, ballVision, drive, turretShooter, magazine, turretSpinner);
+ // private final Command ballFollowerCommand = new BallFollowerCommand(drive, ballVision);
+  //private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, ballVision, drive, turretShooter, magazine, turretSpinner);
 
   public static XboxController driveController = new XboxController(0);
   public static XboxController auxController = new XboxController(1);
@@ -76,12 +76,12 @@ public class RobotContainer {
   private final Trigger auxRightTrigger = new Trigger(turretShooter::getAuxRightTrigger);
 
   
-  private final Command driveCommand = new DriveCommand(drive);
+ /* private final Command driveCommand = new DriveCommand(drive);
   private final Command intakePistonExtend = new IntakePistonExtendCommand(intake);
   private final Command intakePistonRetract = new IntakePistonRetractCommand(intake);
   private final Command intakeOutCommand = new IntakeOutCommand(intake);
   private final Command intakeOffCommand = new IntakeOffCommand(intake);
-  private final Command tapeFollow = new TurnTowardsHubCommand(turretSpinner, tapeVision);
+  private final Command tapeFollow = new TurnTowardsHubCommand(turretSpinner, tapeVision); */
 
   //public final Button driveButtonB = new JoystickButton(driveController, Constants.bButtonDrive); 
 
@@ -155,7 +155,7 @@ public class RobotContainer {
 
     drive.setDefaultCommand(new RunCommand(() ->{ 
     if(getDriveRightTrigger()){
-      drive.move(-driveController.getRawAxis(1) * .90,(driveController.getRawAxis(0) * .90));
+      drive.move(-driveController.getRawAxis(1) * .90,(driveController.getRawAxis(0) * .80));
     }
     //slower turn, fast straight
     else if(getDriveLeftTrigger()){
@@ -329,8 +329,9 @@ public class RobotContainer {
       new StartShooterCommand(turretShooter, 1400).andThen(
         new WaitForRPMReachedCommand(),
         new TimedMagazineRunCommand(magazine,3.0),
-        new TimedDriveCommand(drive, 3.0, -0.4))
-      .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake));
+        new TimedDriveCommand(drive, 3.0, -0.4)) 
+      .alongWith(
+        new RunCommand(() -> intake.intakeBigwheelOn(), intake));
 
       
     return auto;
