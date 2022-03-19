@@ -12,6 +12,7 @@ import frc.robot.RobotContainer;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.revrobotics.CANSparkMax.ControlType;
 
 import javax.management.RuntimeOperationsException;
 
@@ -45,7 +46,8 @@ public class DriveSubsystem extends SubsystemBase {
   WPI_TalonFX frontRight = new WPI_TalonFX(Constants.FRONT_RIGHT_TALON_ID);
   WPI_TalonFX backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON_ID);
 
-  
+  PigeonIMU pigeon = new PigeonIMU(Constants.pigeonID);
+
   MotorControllerGroup rightMotors = new MotorControllerGroup(frontRight, backRight);
   MotorControllerGroup leftMotors = new MotorControllerGroup(frontLeft, backLeft);
 
@@ -105,6 +107,10 @@ public class DriveSubsystem extends SubsystemBase {
     diffDrive.arcadeDrive(speed, -rotation);
 
     //diffDrive.arcadeDrive(xSpeed, zRotation);
+  }
+
+  public double getHeading(){
+    return pigeon.getYaw();
   }
   
 
