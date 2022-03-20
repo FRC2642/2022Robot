@@ -12,6 +12,7 @@ import frc.robot.RobotContainer;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.ctre.phoenix.sensors.PigeonIMU.CalibrationMode;
 import com.revrobotics.CANSparkMax.ControlType;
 
 import javax.management.RuntimeOperationsException;
@@ -61,6 +62,7 @@ public class DriveSubsystem extends SubsystemBase {
     
     setpoint = 0;
     
+    pigeon.enterCalibrationMode(CalibrationMode.BootTareGyroAccel);
 
     frontLeft.configFactoryDefault();
     backLeft.configFactoryDefault();
@@ -70,10 +72,10 @@ public class DriveSubsystem extends SubsystemBase {
     frontRight.setInverted(true);
     backRight.setInverted(true);
 
-    frontLeft.configOpenloopRamp(0.75);
-    backLeft.configOpenloopRamp(0.75);
-    frontRight.configOpenloopRamp(0.75);
-    backRight.configOpenloopRamp(0.75);
+    frontLeft.configOpenloopRamp(0.25);
+    backLeft.configOpenloopRamp(0.25);
+    frontRight.configOpenloopRamp(0.25);
+    backRight.configOpenloopRamp(0.25);
     
 
 
@@ -112,6 +114,10 @@ public class DriveSubsystem extends SubsystemBase {
   public double getHeading(){
     return pigeon.getYaw();
   }
+
+  public void resetHeading(){
+    pigeon.setYaw(0);
+  }
   
 
   //PID Methods
@@ -149,5 +155,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("encoder", getEncoderDistance());
+    SmartDashboard.putNumber("yaw", getHeading());
   }
 }

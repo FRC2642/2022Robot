@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -41,9 +42,11 @@ import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
 import frc.robot.commands.MagazineRunCommand;
+import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.StartShooterCommand;
 import frc.robot.commands.TimedDriveCommand;
 import frc.robot.commands.TimedMagazineRunCommand;
+import frc.robot.commands.TurnByGyroCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
 import frc.robot.commands.WaitForRPMReachedCommand;
 /**
@@ -64,7 +67,7 @@ public class RobotContainer {
   private final ClimberSubsystem climb = new ClimberSubsystem();
   
 
-  private final Command ballFollowerCommand = new BallFollowerCommand(drive, ballVision);
+  private final Command ballFollowerCommand = new BallFollowerCommand(drive, ballVision, magazine);
   private final SequentialCommandGroup ballIntaker = new BallFollowerIntakeCommand(intake, ballVision, drive, turretShooter, magazine, turretSpinner);
 
   public static XboxController driveController = new XboxController(0);
@@ -271,7 +274,7 @@ public class RobotContainer {
     //new JoystickButton(driveController, Button.kY.value).whenPressed(intakePistonRetract);
 
 
-
+    SmartDashboard.putData("reset yaw", new ResetGyroCommand(drive));
 
         
         
@@ -327,9 +330,14 @@ public class RobotContainer {
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
 
       new StartShooterCommand(turretShooter, 1400).andThen(
+        new ResetGyroCommand(drive),
         new WaitForRPMReachedCommand(),
         new TimedMagazineRunCommand(magazine,3.0),
-        new TimedDriveCommand(drive, 3.0, -0.4))
+        new TurnByGyroCommand(drive, 180, 0.4), 
+        new BallFollowerCommand(drive, ballVision, magazine),
+        new TurnByGyroCommand(drive, -1, 0.4),
+        new TimedDriveCommand(drive, 2, 0.4),
+        new TimedMagazineRunCommand(magazine, 3.0)) //FIX INTAKE PLEASE PLEASE PLEASE
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake));
 
       
