@@ -4,12 +4,13 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.utils.CounterTimer;
+
 
 
 public class BallFollowerCommand extends CommandBase {
@@ -17,7 +18,7 @@ public class BallFollowerCommand extends CommandBase {
   double error;
   double setpoint;
   double rotationValue;
-  CounterTimer timer;
+  Timer timer;
   boolean end;
   VisionSubsystem vision;
   
@@ -43,7 +44,7 @@ public class BallFollowerCommand extends CommandBase {
   @Override
   public void execute() {
     
-   /* if(vision.getCenterX() <= 30){ //left
+    if(vision.getCenterX() <= 30){ //left
       System.out.println("Left");
       drive.move(0, 0.3);
       SmartDashboard.putNumber("CenterX", vision.getCenterX());
@@ -66,22 +67,21 @@ public class BallFollowerCommand extends CommandBase {
         rotationValue = -1;
       }
       drive.move(0, rotationValue * -0.3);
-    }*/
+    }
     if(vision.getCenterX() < 70){ //left
-      timer.stopTimer();
+      timer.stop();
       drive.move(0.0, -0.3); //(0, -0.4)
       
     }
     else if(vision.getCenterX() > 90){ //right
-      timer.stopTimer();
+      timer.stop();
       drive.move(0.0, 0.3); //(0, 0.4)
      
     }
     else{
-      try {
-        timer.activateTimer();
-      } catch (InterruptedException timeRanOut) {
+      if (timer.get() > 2){
         end = true;
+        timer.stop();
       }
       drive.move(0.3,0.0);
     }

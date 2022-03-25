@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-
+import com.ctre.phoenix.sensors.PigeonIMU;
 
 import javax.management.RuntimeOperationsException;
 
@@ -34,7 +34,7 @@ public class DriveSubsystem extends SubsystemBase {
   //Variables
   public double setpoint;
   
-  public AHRS navx = new AHRS(I2C.Port.kMXP);
+  public PigeonIMU pigeon = new PigeonIMU(Constants.pigeonID);
   /** Creates a new DriveSubsystem. */
   
   //Objects
@@ -53,7 +53,6 @@ public class DriveSubsystem extends SubsystemBase {
   
   //Constructor
   public DriveSubsystem() {
-    navx.calibrate();
     
     setpoint = 0;
 
@@ -117,13 +116,11 @@ public class DriveSubsystem extends SubsystemBase {
   //Gyro Methods
   
   public double getYaw(){
-    return navx.getYaw();
+    return pigeon.getYaw();
   }
-  public void calibrateGyro(){
-    navx.calibrate();
-  }
+  
   public void resetGyro(){
-    navx.reset();
+    pigeon.setYaw(0);
   }
   
   //Encoder Methods

@@ -10,10 +10,13 @@ import frc.robot.subsystems.DriveSubsystem;
 public class PDriveCommand extends CommandBase {
   DriveSubsystem drive;
   double setpoint;
+  double speed;
   double rotationValue;
-  public PDriveCommand(DriveSubsystem drive, double setpoint) {
+  public PDriveCommand(DriveSubsystem drive, double setpoint, double speed) {
     this.drive = drive;
+    this.speed = speed;
     this.setpoint = setpoint;
+  
     drive.setPIDCoefficients(0.2, 0, 0);
     addRequirements(drive);
   }
@@ -25,7 +28,7 @@ public class PDriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    rotationValue = drive.calculatePID(drive.navx.getPitch(), setpoint);
+    rotationValue = drive.calculatePID(drive.getYaw(), setpoint);
     
     if (rotationValue > 1){
       rotationValue = 1;
@@ -33,6 +36,8 @@ public class PDriveCommand extends CommandBase {
     else if (rotationValue < -1){
       rotationValue = -1;
     }
+
+    drive.move(speed, rotationValue);
   }
 
   // Called once the command ends or is interrupted.
