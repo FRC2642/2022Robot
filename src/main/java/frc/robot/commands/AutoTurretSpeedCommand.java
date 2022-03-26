@@ -35,6 +35,7 @@ public class AutoTurretSpeedCommand extends CommandBase {
     if (tapeVision.hubInFrame(new Vector2d(), new Vector2d()) == TapeVisionSubsystem.HubInFrameReason.DETECTED){
       tape = TapeVisionSubsystem.object;
       
+      
       System.out.println(tape.length);
       if (tape.length >= 10){//Replace with realistic short range length
         speedValue = max / (tape.length * 0.25);

@@ -34,7 +34,7 @@ public class TestAutoCommand extends SequentialCommandGroup {
 
     //Start speeding up the shooter and drop intake
     addCommands(new ShooterCommand(turret).alongWith(new IntakeOutCommand(intake)),
-    new IntakeSpinForwardCommand(intake).alongWith(new DriveDistanceCommand(drive, 8)),
+    new IntakeSpinForwardCommand(intake).alongWith(new DriveDistanceCommand(drive, 5, 0)),
     new TurnDegreesCommand(drive, 0.5, -180),
     new TurretHoodUpCommand(turretSpinner),
     new BigWheelMove(intake),
@@ -45,7 +45,7 @@ public class TestAutoCommand extends SequentialCommandGroup {
     new MagazineRunCommand(magazine),
 
     new ShooterCommand(turret).alongWith(new BallFollowerCommand(drive, vision)),
-    new DriveDistanceCommand(drive, 1),
+    new DriveDistanceCommand(drive, 1, 0),
     new WaitCommand(1),
     new BigWheelMove(intake),
     new BigWheelOffCommand(intake),

@@ -9,5 +9,8 @@ public class MathR {
     public static double limit(double value, double floor, double ceiling){
         return Math.max(Math.min(ceiling, value), floor);
     }
+    public static double feetToInches(double feet){
+        return feet * 12.0;
+    }
     
 }
