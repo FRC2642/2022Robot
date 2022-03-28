@@ -1,4 +1,4 @@
-package dnn_botserver;
+package frc.robot.vision;
 
 import java.net.*;
 
@@ -8,6 +8,7 @@ import java.io.*;
 
 import com.google.gson.*;
 
+import frc.robot.subsystems.BallVisionSubsystem;
 
 
 public class ClientHandler extends Thread {
@@ -31,7 +32,7 @@ public class ClientHandler extends Thread {
             }
             Gson gson = new Gson();
             List<Double> data_out = gson.fromJson(data, List.class);
-            System.out.println(data_out);
+            BallVisionSubsystem.setCenterX(data_out.get(0));
             OutputStream clientOutput = client.getOutputStream();
             clientOutput.write("HTTP/1.1 200 OK\r\n".getBytes());
             clientOutput.write(("ContentType: application/json\r\n").getBytes());

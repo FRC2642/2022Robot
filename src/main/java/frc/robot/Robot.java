@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-
 //import com.kauailabs.navx.frc.AHRS;
 
 import org.opencv.core.Rect;
@@ -23,8 +21,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.vision.BlurContour;
 import frc.robot.vision.RetroReflectivePipeline;
+import frc.robot.vision.Server;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
+
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -78,7 +78,9 @@ public class Robot extends TimedRobot {
     turretcam.setResolution(320, 240);    //160X120
     turretcam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
-    
+    // start vision server
+    Server visionServer = new Server();
+    visionServer.start();
 
     //pdh.clearStickyFaults();
     double[] hue = null;
@@ -96,27 +98,27 @@ public class Robot extends TimedRobot {
       sat = Constants.HSL_SAT_RED;
       lum = Constants.HSL_LUM_RED;
     }
-    //vision thread to look for red balls
-    redBallVisionThread = new VisionThread(intakecam, new BlurContour(hue, sat, lum), pipeline -> {
-      if (!pipeline.filterContoursOutput().isEmpty()) {
-          Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-          synchronized (imgLock) {
-              rect = r;
-              //centerX = 2*r.x + r.width - (320/2);
-              //centerY = 2*r.y + r.height - (240/2);
-              if (Math.abs(rect.width - rect.height) < Constants.MIN_NUM_PIXELS_RECT_SIMILARITY){
-                isSquare = true;
-                m_robotContainer.ballVision.setCenterX(r.x +(0.5*r.width));
-                m_robotContainer.ballVision.setCenterY(r.y +(0.5*r.height));
-              }
-              else { 
-                isSquare = false;
-              }
-          }
-      }
-    });
+    //(old) vision thread to look for red balls
+    // redBallVisionThread = new VisionThread(intakecam, new BlurContour(hue, sat, lum), pipeline -> {
+    //   if (!pipeline.filterContoursOutput().isEmpty()) {
+    //       Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+    //       synchronized (imgLock) {
+    //           rect = r;
+    //           //centerX = 2*r.x + r.width - (320/2);
+    //           //centerY = 2*r.y + r.height - (240/2);
+    //           if (Math.abs(rect.width - rect.height) < Constants.MIN_NUM_PIXELS_RECT_SIMILARITY){
+    //             isSquare = true;
+    //             m_robotContainer.ballVision.setCenterX(r.x +(0.5*r.width));
+    //             m_robotContainer.ballVision.setCenterY(r.y +(0.5*r.height));
+    //           }
+    //           else { 
+    //             isSquare = false;
+    //           }
+    //       }
+    //   }
+    // });
   
-    redBallVisionThread.start();
+    // redBallVisionThread.start();
 
      tapeVisionThread = new VisionThread(turretcam, new RetroReflectivePipeline(), pipeline -> {
       m_robotContainer.tapeVision.clearDetections();

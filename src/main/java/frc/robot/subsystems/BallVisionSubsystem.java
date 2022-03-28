@@ -16,13 +16,13 @@ public class BallVisionSubsystem extends SubsystemBase {
 
   public BallVisionSubsystem() {}
 
-  private double centerX;
-  private double centerY;
+  private static volatile double centerX;
+  private static volatile double centerY;
 
-  public void setCenterX(double x){
+  public static void setCenterX(double x){
     centerX = x;
   }
-  public void setCenterY(double y){
+  public static void setCenterY(double y){
     centerY = y;
   }
 
