@@ -42,7 +42,24 @@ public class Robot extends TimedRobot {
   public VisionThread redBallVisionThread;
   public VisionThread tapeVisionThread;
 
+<<<<<<< HEAD
 
+=======
+  // ball data if i ever get the jetson working
+
+  public volatile static ArrayList<Double> balls;
+
+  public static void writeBalls(ArrayList<Double> data) {
+    balls.clear();
+    balls.addAll(data);
+  }
+
+  public static ArrayList<Double> readBalls() {
+    return balls;
+  }
+  public static double centerX = 0.0;
+  public static double centerY = 0.0;
+>>>>>>> 1a76274a10800ca31921db844aa748840638d66e
   public static final Object imgLock = new Object();
   public Rect rect = new Rect();
   public boolean isSquare;
@@ -87,6 +104,7 @@ public class Robot extends TimedRobot {
     double[] sat = null;
     double[] lum = null;
     
+<<<<<<< HEAD
     var alliance = DriverStation.getAlliance();
     if (alliance == Alliance.Blue) {
       hue = Constants.HSL_HUE_BLUE;
@@ -117,6 +135,31 @@ public class Robot extends TimedRobot {
     //       }
     //   }
     // });
+=======
+
+    //vision thread to look for red balls
+    redBallVisionThread = new VisionThread(intakecam, new BlurContour(Constants.HSL_HUE_RED, Constants.HSL_SAT_RED, Constants.HSL_LUM_RED), pipeline -> {
+      if (!pipeline.filterContoursOutput().isEmpty()) {
+          Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+          synchronized (imgLock) {
+              rect = r;
+              //centerX = 2*r.x + r.width - (320/2);
+              //centerY = 2*r.y + r.height - (240/2);
+              if (Math.abs(rect.width - rect.height) < Constants.MIN_NUM_PIXELS_RECT_SIMILARITY){
+                isSquare = true;
+                centerX = r.x +(0.5*r.width);
+                centerY = r.y +(0.5*r.height);
+              }
+              else { 
+                isSquare = false;
+              }
+          }
+      }
+    // Client if i ever get the jetson working
+    // VisionClient client = new VisionClient();
+    // client.start();
+    });
+>>>>>>> 1a76274a10800ca31921db844aa748840638d66e
   
     // redBallVisionThread.start();
 
@@ -136,9 +179,13 @@ public class Robot extends TimedRobot {
   
     tapeVisionThread.start();
    // redBallVisionThread.stop();
+<<<<<<< HEAD
     //redBallVisionThread.stop(); (how do i get it to stop?)
     m_robotContainer.drive.resetEncoder();
     //redBallVisionThread.stop(); (how do i get it to stop?)
+=======
+    //redBallVisionThread.stop(); (how do i get it to stop?) redBallVisionThread.interrupt();
+>>>>>>> 1a76274a10800ca31921db844aa748840638d66e
 
 
   }
