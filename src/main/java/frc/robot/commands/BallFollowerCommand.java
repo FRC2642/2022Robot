@@ -59,10 +59,10 @@ public class BallFollowerCommand extends CommandBase {
       }
       drive.move(0, rotationValue * -0.3);
     }*/
-    if(vision.getCenterX() < 70){ //left
+    if(vision.getCenterX() < 540){ //left
       drive.move(0.0, -0.35); //(0, -0.4)
     }
-    else if(vision.getCenterX() > 90){ //right
+    else if(vision.getCenterX() > 540){ //right
       drive.move(0.0, 0.35); //(0, 0.4)
     }
     else{
