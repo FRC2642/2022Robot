@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.BallVisionSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -32,8 +31,8 @@ import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.BallFollowerCommand;
-import frc.robot.commands.BallFollowerIntakeCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.commands.IntakeOffCommand;
@@ -44,7 +43,6 @@ import frc.robot.commands.MagazineRunCommand;
 import frc.robot.commands.StartShooterCommand;
 import frc.robot.commands.TimedDriveCommand;
 import frc.robot.commands.TimedMagazineRunCommand;
-import frc.robot.commands.TurnTowardsHubCommand;
 import frc.robot.commands.WaitForRPMReachedCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -56,12 +54,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem drive = new DriveSubsystem();
   public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
-  public final BallVisionSubsystem ballVision = new BallVisionSubsystem();
+  public final VisionSubsystem ballVision = new VisionSubsystem();
   private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
   private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final MagazineSubsystem magazine = new MagazineSubsystem();
   private final ClimberSubsystem climb = new ClimberSubsystem();
+  
   
 
  // private final Command ballFollowerCommand = new BallFollowerCommand(drive, ballVision);
