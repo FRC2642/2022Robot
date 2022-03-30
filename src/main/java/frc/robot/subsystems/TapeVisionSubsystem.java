@@ -34,7 +34,7 @@ public class TapeVisionSubsystem extends SubsystemBase {
 
   /** Creates a new TapeVisionSubsystem. */
   public TapeVisionSubsystem() {
-    camera = CameraServer.startAutomaticCapture(0);
+    camera = CameraServer.startAutomaticCapture(1);
 
     camera.setFPS(10);
     camera.setResolution(320, 240);
