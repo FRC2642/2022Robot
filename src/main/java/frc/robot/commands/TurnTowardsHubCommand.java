@@ -28,11 +28,13 @@ public class TurnTowardsHubCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double centerX= tapevision.getCenterX();
     /*if (centerX < 70)       drive.drive(0,-0.4);
     else if (centerX > 90)  drive.drive(0,0.4);
     else                    drive.drive(0,0);*/
-    drive.move(0,MathR.limit((centerX-80)/80+.1,-0.35,0.35));
+    drive.move(0,MathR.limit(tapevision.getNormalizedCenterX(),-0.35,0.35));
+
+    //something to try...
+    //drive.move(0, MathR.ramp(tapevision.getNormalizedCenterX(), 0.195, 3.7, 0.4, 0.1));
   }
 
   // Called once the command ends or is interrupted.
@@ -42,6 +44,6 @@ public class TurnTowardsHubCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(tapevision.getCenterX()-80)/80 < 0.2;
+    return Math.abs(tapevision.getNormalizedCenterX()) < 0.2;
   }
 }

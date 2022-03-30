@@ -61,6 +61,9 @@ public class TapeVisionSubsystem extends SubsystemBase {
   public double getCenterX(){
     return centerX;
   }
+  public double getNormalizedCenterX(){
+    return (getCenterX()-80)/80;
+  }
 
   
 
