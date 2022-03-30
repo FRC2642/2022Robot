@@ -4,25 +4,21 @@
 
 package frc.robot.commands;
 
-import java.util.Vector;
-
-import edu.wpi.first.wpilibj.drive.Vector2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
-import frc.robot.subsystems.TurretSpinnerSubsystem;
-import frc.robot.subsystems.BallVisionSubsystem;
+import frc.robot.utils.MathR;
 
 public class TurnTowardsHubCommand extends CommandBase {
-  TurretSpinnerSubsystem turn;
-  TapeVisionSubsystem vision;
-  /** Creates a new AimAtRetroReflectiveCommand. */
-  public TurnTowardsHubCommand(TurretSpinnerSubsystem turn, TapeVisionSubsystem vision) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    this.turn = turn;
-    this.vision = vision;
 
-    addRequirements(turn, vision);
+  private DriveSubsystem drive;
+  private TapeVisionSubsystem tapevision;
+  /** Creates a new TurnTowardsHubCommand. */
+  public TurnTowardsHubCommand(DriveSubsystem drive, TapeVisionSubsystem tapevision) {
+    this.drive = drive;
+    this.tapevision = tapevision;
+    addRequirements(drive, tapevision);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -32,21 +28,11 @@ public class TurnTowardsHubCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Vector2d center = new Vector2d();
-    Vector2d size = new Vector2d();
-    SmartDashboard.putString("hub finder", vision.hubInFrame(center, size).toString());
-    SmartDashboard.putString("hub", "center x: " + center.x + "center y: " + center.y);
-
-    if(center.x < 70){
-      turn.manuelTurnTurret(-.25);
-    }
-    else if(center.x > 90) {
-      turn.manuelTurnTurret(.25);
-    }
-    else{
-      turn.turnTurret(0);
-    }
-
+    double centerX= tapevision.getCenterX();
+    /*if (centerX < 70)       drive.drive(0,-0.4);
+    else if (centerX > 90)  drive.drive(0,0.4);
+    else                    drive.drive(0,0);*/
+    drive.move(0,MathR.limit((centerX-80)/80+.1,-0.35,0.35));
   }
 
   // Called once the command ends or is interrupted.
@@ -56,6 +42,6 @@ public class TurnTowardsHubCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Math.abs(tapevision.getCenterX()-80)/80 < 0.2;
   }
 }

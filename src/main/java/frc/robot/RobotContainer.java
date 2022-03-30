@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.subsystems.BallVisionSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -33,8 +32,8 @@ import frc.robot.subsystems.SonarSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.BallFollowerCommand;
-import frc.robot.commands.BallFollowerIntakeCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveDistanceCommand;
 import frc.robot.commands.IntakeOffCommand;
@@ -57,14 +56,15 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   public final DriveSubsystem drive = new DriveSubsystem();
   public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
-  public final BallVisionSubsystem ballVision = new BallVisionSubsystem();
-  public static final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
+  public final VisionSubsystem ballVision = new VisionSubsystem();
+  private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
   private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final MagazineSubsystem magazine = new MagazineSubsystem();
   private final ClimberSubsystem climb = new ClimberSubsystem();
   public static final SonarSubsystem sonar = new SonarSubsystem();
 
+  
   
 
  // private final Command ballFollowerCommand = new BallFollowerCommand(drive, ballVision);
@@ -324,18 +324,20 @@ public class RobotContainer {
 
 
     //start shooter (will instantly finish), then drive backwards for 4 seconds at -0.3 speed. Then run the magazine when the rpm is reached on the turret.
-    Command auto = 
+    Command auto = new BallFollowerCommand(drive, ballVision);
+    //  new TurnTowardsHubCommand(drive, tapeVision);
       /*new StartShooterCommand(turretShooter, 650).andThen(new TimedDriveCommand(drive, 1.0, 0.4)).andThen(new MagazineRunWhenRPMReachedCommand(magazine)).withTimeout(5).andThen(
         new TimedDriveCommand(drive, 3.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
 
-      new StartShooterCommand(turretShooter, 1400).andThen(
+   /*   new StartShooterCommand(turretShooter, 1200).andThen(
+        new TurnTowardsHubCommand(drive, tapeVision),
         new WaitForRPMReachedCommand(),
-        new TimedMagazineRunCommand(magazine,3.0),
-        new TimedDriveCommand(drive, 3.0, -0.4)) 
+        new TimedMagazineRunCommand(magazine,3.0)
+        //new TimedDriveCommand(drive, 3.0, -0.4)) 
       .alongWith(
-        new RunCommand(() -> intake.intakeBigwheelOn(), intake));
-
+        new RunCommand(() -> {intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake)));
+*/
       
     return auto;
   }

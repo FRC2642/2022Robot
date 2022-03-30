@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.vision.BlurContour;
-import frc.robot.vision.RetroReflectivePipeline;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.AddressableLED;
@@ -74,7 +73,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    
+/*
     //intake camera setup
     intakecam = CameraServer.startAutomaticCapture(0);
     intakecam.setFPS(60);
@@ -144,6 +143,7 @@ public class Robot extends TimedRobot {
     tapeVisionThread.start();
    // redBallVisionThread.stop();
     //redBallVisionThread.stop(); (how do i get it to stop?)
+    */
     m_robotContainer.drive.resetEncoder();
 
 

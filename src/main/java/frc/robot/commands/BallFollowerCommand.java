@@ -7,16 +7,17 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.BallVisionSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.utils.MathR;
 
 public class BallFollowerCommand extends CommandBase {
   DriveSubsystem drive;
-  BallVisionSubsystem vision;
+  VisionSubsystem vision;
   double error;
   double setpoint;
   double rotationValue;
   /** Creates a new BallFollowerCommand. */
-  public BallFollowerCommand(DriveSubsystem drive, BallVisionSubsystem vision) {
+  public BallFollowerCommand(DriveSubsystem drive, VisionSubsystem vision) {
     // Use addRequirements() here to declare subsystem dependencies.
     
     this.drive = drive;
@@ -59,15 +60,17 @@ public class BallFollowerCommand extends CommandBase {
       }
       drive.move(0, rotationValue * -0.3);
     }*/
-    if(vision.getCenterX() < 70){ //left
+   /* if(vision.getCenterX() < 70){ //left
       drive.move(0.0, -0.35); //(0, -0.4)
     }
     else if(vision.getCenterX() > 90){ //right
       drive.move(0.0, 0.35); //(0, 0.4)
     }
     else{
-      drive.move(0.35,0.0);
-    }
+      drive.move(0,0.0);
+    }*/
+    double turn = MathR.limit((vision.getCenterX()-80)/120,-0.4,0.4);
+    drive.move(turn < 0.2 ? 0.3 : 0,turn < 0.2 ? 0 : turn);
 
 
   }
@@ -79,6 +82,6 @@ public class BallFollowerCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return vision.getCenterY() < 10;
+    return false;
   }
 }
