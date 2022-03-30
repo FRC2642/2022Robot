@@ -47,7 +47,7 @@ public boolean isOneBallThere(){
 }
 
 public boolean areTwoBallsThere(){
-  return  lowerLightSensor.get();
+  return  lowerLightSensor.get() && upperLightSensor.get();
 }
 
 
