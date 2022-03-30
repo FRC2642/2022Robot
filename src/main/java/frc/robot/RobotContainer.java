@@ -29,6 +29,7 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
+import frc.robot.subsystems.SonarSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
@@ -57,11 +58,13 @@ public class RobotContainer {
   public final DriveSubsystem drive = new DriveSubsystem();
   public final TapeVisionSubsystem tapeVision = new TapeVisionSubsystem();
   public final BallVisionSubsystem ballVision = new BallVisionSubsystem();
-  private final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
+  public static final TurretShooterSubsystem turretShooter = new TurretShooterSubsystem();
   private final TurretSpinnerSubsystem turretSpinner = new TurretSpinnerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final MagazineSubsystem magazine = new MagazineSubsystem();
   private final ClimberSubsystem climb = new ClimberSubsystem();
+  public static final SonarSubsystem sonar = new SonarSubsystem();
+
   
 
  // private final Command ballFollowerCommand = new BallFollowerCommand(drive, ballVision);
@@ -240,7 +243,7 @@ public class RobotContainer {
     .whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));*/
 
     
-
+    //figure out presets for eliminated backspin
     new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(650), turretShooter));
     new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
     new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(2000), turretShooter));

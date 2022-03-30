@@ -26,6 +26,8 @@ public class TurretShooterSubsystem extends SubsystemBase {
   public double targetVelocity;
   public double range = 75;
 
+
+
   /** Creates a new TurretShooterSubsystem. */
   //turret hood in here
   public TurretShooterSubsystem() {
@@ -34,11 +36,11 @@ public class TurretShooterSubsystem extends SubsystemBase {
     this.encoder = shooter.getEncoder();
     pidController= shooter.getPIDController();
     kP = 0.001; 
-    kI = 3e-7; //8
-    kD = 0.035; 
+    kI = 2.6e-7; //8
+    kD = 0.035;//0.035; 
     kIz = 0; 
-    kFF = 0.5/5600; //0.000015; 
-    kMaxOutput = 1; 
+    kFF = 0.000089285714;//0.5/5600; //0.000015; 
+    kMaxOutput = 0.4; 
     kMinOutput = 0;
     maxRPM = 5600;
     pidController.setP(kP);
