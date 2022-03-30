@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SonarSubsystem extends SubsystemBase {
   /** Creates a new SonarSubsystem. */
-  AnalogInput sonar = new AnalogInput(2);
+  AnalogInput sonar = new AnalogInput(0);
   //Ultrasonic sonar = new Ultrasonic(pingChannel, echoChannel);
   public SonarSubsystem() {}
 

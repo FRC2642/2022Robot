@@ -43,11 +43,11 @@ public boolean getAuxLeftTrigger() {
 }
 
 public boolean isOneBallThere(){
-  return ! upperLightSensor.get();
+  return  upperLightSensor.get();
 }
 
 public boolean areTwoBallsThere(){
-  return ! lowerLightSensor.get();
+  return  lowerLightSensor.get();
 }
 
 

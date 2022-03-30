@@ -334,15 +334,14 @@ public class RobotContainer {
       // sets shooter speed to 1200 rpm, drives straight FORWARD with intake running until the 
       // lower light sensor senses a ball and then stops, searches for hub using tape vision pipeline
       // and stops when aimed, waits for shooter to reach rpm, and then runs magazine for 5 seconds
-      new StartShooterCommand(turretShooter, 1200).andThen(
+      new StartShooterCommand(turretShooter, 650).andThen(
+        new InstantCommand(() -> intake.intakePistonExtend(), intake),
+        new RunCommand(() -> {intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake),
         new DriveUntilBallFound(drive, magazine),
         new TurnTowardsHubCommand(drive, tapeVision),
         new WaitForRPMReachedCommand(),
-        new TimedMagazineRunCommand(magazine,5.0)
-        //new TimedDriveCommand(drive, 3.0, -0.4)) 
-      .alongWith(
-        new RunCommand(() -> {intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake))
-        .alongWith(new InstantCommand(turretSpinner::turretHoodUp)));
+        new TimedMagazineRunCommand(magazine,5.0).alongWith(
+        new RunCommand(() -> {intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake)));
 
       
     return auto;
