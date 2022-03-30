@@ -36,6 +36,7 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.DriveDistanceCommand;
+import frc.robot.commands.DriveUntilBallFound;
 import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
@@ -305,8 +306,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    //return ballIntaker;
-    //return tapeFollow;
     /*Command auto = new RunCommand(() -> turretShooter.setSpeed(1500), turretShooter).andThen
     (new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(1)).andThen(
       new RunCommand(() -> magazine.magRun()));*/
@@ -324,20 +323,27 @@ public class RobotContainer {
 
 
     //start shooter (will instantly finish), then drive backwards for 4 seconds at -0.3 speed. Then run the magazine when the rpm is reached on the turret.
-    Command auto = new BallFollowerCommand(drive, ballVision);
+     //new BallFollowerCommand(drive, ballVision);
     //  new TurnTowardsHubCommand(drive, tapeVision);
       /*new StartShooterCommand(turretShooter, 650).andThen(new TimedDriveCommand(drive, 1.0, 0.4)).andThen(new MagazineRunWhenRPMReachedCommand(magazine)).withTimeout(5).andThen(
         new TimedDriveCommand(drive, 3.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
 
-   /*   new StartShooterCommand(turretShooter, 1200).andThen(
+      Command auto =
+
+      // sets shooter speed to 1200 rpm, drives straight FORWARD with intake running until the 
+      // lower light sensor senses a ball and then stops, searches for hub using tape vision pipeline
+      // and stops when aimed, waits for shooter to reach rpm, and then runs magazine for 5 seconds
+      new StartShooterCommand(turretShooter, 1200).andThen(
+        new DriveUntilBallFound(drive, magazine),
         new TurnTowardsHubCommand(drive, tapeVision),
         new WaitForRPMReachedCommand(),
-        new TimedMagazineRunCommand(magazine,3.0)
+        new TimedMagazineRunCommand(magazine,5.0)
         //new TimedDriveCommand(drive, 3.0, -0.4)) 
       .alongWith(
-        new RunCommand(() -> {intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake)));
-*/
+        new RunCommand(() -> {intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake))
+        .alongWith(new InstantCommand(turretSpinner::turretHoodUp)));
+
       
     return auto;
   }
