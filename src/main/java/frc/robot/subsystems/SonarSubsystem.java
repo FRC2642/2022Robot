@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class SonarSubsystem extends SubsystemBase {
   /** Creates a new SonarSubsystem. */
   AnalogInput sonar = new AnalogInput(0);
+  private static SonarSubsystem instance;
   //Ultrasonic sonar = new Ultrasonic(pingChannel, echoChannel);
-  public SonarSubsystem() {}
+  public SonarSubsystem() { instance = this; }
 
-  public double getSonarDistance(){
+  //sensor readings
+  public static double getSonarDistance(){
 	  double valueToInches = 1 / 20.5;// 14.45
-	  double distanceX = sonar.getAverageValue();
+	  double distanceX = instance.sonar.getAverageValue();
 	  double distance = (distanceX - 237) * valueToInches + 12; // convert voltage into inches
 	  int distanceInt=(int) distance;
 	  return distanceInt;

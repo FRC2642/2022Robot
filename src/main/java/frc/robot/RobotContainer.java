@@ -4,11 +4,6 @@
 
 package frc.robot;
 
-import java.time.Instant;
-
-import javax.crypto.spec.DHPrivateKeySpec;
-import javax.swing.plaf.synth.SynthScrollBarUI;
-
 //import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -19,8 +14,6 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -33,20 +26,7 @@ import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.commands.BallFollowerCommand;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.DriveDistanceCommand;
-import frc.robot.commands.DriveUntilBallFound;
-import frc.robot.commands.IntakeOffCommand;
-import frc.robot.commands.IntakeOutCommand;
-import frc.robot.commands.IntakePistonExtendCommand;
-import frc.robot.commands.IntakePistonRetractCommand;
-import frc.robot.commands.MagazineRunCommand;
-import frc.robot.commands.StartShooterCommand;
-import frc.robot.commands.TimedDriveCommand;
-import frc.robot.commands.TimedMagazineRunCommand;
-import frc.robot.commands.TurnTowardsHubCommand;
-import frc.robot.commands.WaitForRPMReachedCommand;
+import frc.robot.commands.AutonomousCommandGroup;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -316,7 +296,7 @@ public class RobotContainer {
      RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
       new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
       new RunCommand(() -> magazine.magRun(), magazine));
-
+//LMAO
     
     return new TimedDriveCommand(drive, 5);
     */
@@ -329,24 +309,18 @@ public class RobotContainer {
         new TimedDriveCommand(drive, 3.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
 
-      Command auto = //new InstantCommand(() -> intake.intakePistonExtend(), intake);
+      Command auto = new AutonomousCommandGroup(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
 
       // sets shooter speed to 1200 rpm, drives straight FORWARD with intake running until the 
       // lower light sensor senses a ball and then stops, searches for hub using tape vision pipeline
       // and stops when aimed, waits for shooter to reach rpm, and then runs magazine for 5 seconds
-      new StartShooterCommand(turretShooter, 650).andThen(
-        new IntakePistonExtendCommand(intake),
-       // new InstantCommand(() -> intake.intakePistonExtend(), intake),
-        new DriveUntilBallFound(drive, magazine, intake),//.alongWith(new RunCommand(() -> { intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake)),
-        new TurnTowardsHubCommand(drive, tapeVision),
-        new WaitForRPMReachedCommand(),
-        new TimedMagazineRunCommand(magazine,5.0));
+      
      //   .alongWith(
         //  new InstantCommand(() -> intake.intakePistonExtend(), intake).andThen(
        //   new RunCommand(() -> { intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake))
           //);
 
-      //bruh im so done with this
+      //im so done with this bruh
     return auto;
   }
 }

@@ -31,9 +31,11 @@ public class TapeVisionSubsystem extends SubsystemBase {
 
 
   public static final Object imgLock = new Object();
+  private static TapeVisionSubsystem instance; 
 
   /** Creates a new TapeVisionSubsystem. */
   public TapeVisionSubsystem() {
+    instance = this;
     camera = CameraServer.startAutomaticCapture(1);
 
     camera.setFPS(10);
@@ -58,11 +60,16 @@ public class TapeVisionSubsystem extends SubsystemBase {
   
     visionthread.start();
   }
-  public double getCenterX(){
-    return centerX;
+
+  //vision functions
+  public static double getCenterX(){
+    return instance.centerX;
   }
-  public double getNormalizedCenterX(){
+  public static double getNormalizedCenterX(){
     return (getCenterX()-80)/80;
+  }
+  public static int numDetections(){
+    return instance.points.size();
   }
 
   

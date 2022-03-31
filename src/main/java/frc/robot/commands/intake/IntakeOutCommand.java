@@ -2,21 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakePistonExtendCommand extends CommandBase {
-    IntakeSubsystem intake;
-
-  /** Creates a new IntakeExtendCommand. */
-  public IntakePistonExtendCommand(IntakeSubsystem intake) {
+public class IntakeOutCommand extends CommandBase {
+  /** Creates a new IntakeOutCommand. */
+  IntakeSubsystem intake;
+  public IntakeOutCommand(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-   
-    this.intake = intake;
     addRequirements(intake);
-
   }
 
   // Called when the command is initially scheduled.
@@ -27,6 +23,8 @@ public class IntakePistonExtendCommand extends CommandBase {
   @Override
   public void execute() {
     intake.intakePistonExtend();
+    intake.intakeMotorForward();
+    intake.intakeBigwheelOn();
   }
 
   // Called once the command ends or is interrupted.

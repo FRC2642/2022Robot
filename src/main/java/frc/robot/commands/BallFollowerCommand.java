@@ -12,19 +12,16 @@ import frc.robot.utils.MathR;
 
 public class BallFollowerCommand extends CommandBase {
   DriveSubsystem drive;
-  VisionSubsystem vision;
   double error;
   double setpoint;
   double rotationValue;
   /** Creates a new BallFollowerCommand. */
-  public BallFollowerCommand(DriveSubsystem drive, VisionSubsystem vision) {
+  public BallFollowerCommand(DriveSubsystem drive) {
     // Use addRequirements() here to declare subsystem dependencies.
     
     this.drive = drive;
-    this.vision = vision;
-    drive.setPIDCoefficients(.2, 0, 0);
 
-    addRequirements(drive,vision);
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
@@ -69,7 +66,7 @@ public class BallFollowerCommand extends CommandBase {
     else{
       drive.move(0,0.0);
     }*/
-    double turn = MathR.limit((vision.getCenterX()-80)/120,-0.4,0.4);
+    double turn = MathR.limit((VisionSubsystem.getCenterX()-80)/120,-0.4,0.4);
     drive.move(turn < 0.2 ? 0.3 : 0,turn < 0.2 ? 0 : turn);
 
 

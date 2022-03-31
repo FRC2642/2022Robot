@@ -19,9 +19,10 @@ public CANSparkMax magBeltMotor;
 DigitalInput upperLightSensor = new DigitalInput(0);
 DigitalInput lowerLightSensor = new DigitalInput(1);
 
+private static MagazineSubsystem instance;
 
   public MagazineSubsystem() {
-
+    instance = this;
     magBeltMotor = new CANSparkMax(13, MotorType.kBrushless);
   }
 
@@ -42,19 +43,20 @@ public boolean getAuxLeftTrigger() {
   return (ltrigger > .5);
 }
 
-public boolean isOneBallThere(){
-  return  upperLightSensor.get();
+//sensor methods
+public static boolean isOneBallThere(){
+  return  instance.upperLightSensor.get();
 }
 
-public boolean areTwoBallsThere(){
-  return  lowerLightSensor.get() && upperLightSensor.get();
+public static boolean areTwoBallsThere(){
+  return  instance.lowerLightSensor.get() && instance.upperLightSensor.get();
 }
 
-public boolean getLowerLightSensor(){
-  return  lowerLightSensor.get();
+public static boolean getLowerLightSensor(){
+  return  instance.lowerLightSensor.get();
 }
-public boolean getUpperLightSensor(){
-  return  upperLightSensor.get();
+public static boolean getUpperLightSensor(){
+  return  instance.upperLightSensor.get();
 }
 
 

@@ -13,13 +13,11 @@ import frc.robot.utils.MathR;
 public class TurnTowardsHubCommand extends CommandBase {
 
   private DriveSubsystem drive;
-  private TapeVisionSubsystem tapevision;
   private Timer timer = new Timer();
   /** Creates a new TurnTowardsHubCommand. */
-  public TurnTowardsHubCommand(DriveSubsystem drive, TapeVisionSubsystem tapevision) {
+  public TurnTowardsHubCommand(DriveSubsystem drive) {
     this.drive = drive;
-    this.tapevision = tapevision;
-    addRequirements(drive, tapevision);
+    addRequirements(drive);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -35,10 +33,7 @@ public class TurnTowardsHubCommand extends CommandBase {
     /*if (centerX < 70)       drive.drive(0,-0.4);
     else if (centerX > 90)  drive.drive(0,0.4);
     else                    drive.drive(0,0);*/
-    drive.move(0,MathR.limit(tapevision.getNormalizedCenterX(),-0.35,0.35));
-
-    //something to try...
-    //drive.move(0, MathR.ramp(tapevision.getNormalizedCenterX(), 0.195, 3.7, 0.4, 0.1));
+    drive.move(0,MathR.limit(TapeVisionSubsystem.getNormalizedCenterX(),-0.35,0.35));
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +43,6 @@ public class TurnTowardsHubCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(tapevision.getNormalizedCenterX()) < 0.2;
+    return Math.abs(TapeVisionSubsystem.getNormalizedCenterX()) < 0.2;
   }
 }
