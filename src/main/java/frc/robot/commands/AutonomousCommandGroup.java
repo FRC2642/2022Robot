@@ -26,7 +26,7 @@ public class AutonomousCommandGroup extends SequentialCommandGroup {
       new IntakePistonExtendCommand(intake),
       new DriveUntilBallFoundCommand(drive, intake, mag),
       new TurnTowardsHubCommand(drive),
-      new TimedMagazineRunCommand(mag, 5.0),
+      new TimedShootCommand(mag, intake, 3.0),
       new StartShooterCommand(turretShooter, 0)
     );
 
