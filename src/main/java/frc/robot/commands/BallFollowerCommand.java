@@ -60,6 +60,7 @@ public class BallFollowerCommand extends CommandBase {
       SmartDashboard.putNumber("CenterX", vision.getCenterX());
       rotationValue = drive.calculatePID(vision.getCenterX(), setpoint);
       SmartDashboard.putNumber("RotationValue", rotationValue);
+      timer.start();
       if (rotationValue > 1){
         rotationValue = 1;
       }
@@ -79,6 +80,7 @@ public class BallFollowerCommand extends CommandBase {
      
     }
     else{
+      
       if (timer.get() > 2){
         end = true;
         timer.stop();
