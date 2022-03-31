@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
@@ -13,6 +14,7 @@ public class TurnTowardsHubCommand extends CommandBase {
 
   private DriveSubsystem drive;
   private TapeVisionSubsystem tapevision;
+  private Timer timer = new Timer();
   /** Creates a new TurnTowardsHubCommand. */
   public TurnTowardsHubCommand(DriveSubsystem drive, TapeVisionSubsystem tapevision) {
     this.drive = drive;
@@ -23,7 +25,9 @@ public class TurnTowardsHubCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timer.reset();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
