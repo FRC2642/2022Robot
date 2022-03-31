@@ -175,7 +175,8 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("width", rect.width); 
     SmartDashboard.putNumber("height", rect.height);
-    SmartDashboard.putBoolean("is square",isSquare);
+    SmartDashboard.putBoolean("hihihihihihihihihihihihi",isSquare);
+
    // SmartDashboard.putNumber("navx", Robot.navx.getYaw());
 
     CommandScheduler.getInstance().run();

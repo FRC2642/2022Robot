@@ -329,18 +329,24 @@ public class RobotContainer {
         new TimedDriveCommand(drive, 3.0, -0.4))
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
 
-      Command auto = new InstantCommand(() -> intake.intakePistonExtend(), intake);
+      Command auto = //new InstantCommand(() -> intake.intakePistonExtend(), intake);
 
       // sets shooter speed to 1200 rpm, drives straight FORWARD with intake running until the 
       // lower light sensor senses a ball and then stops, searches for hub using tape vision pipeline
       // and stops when aimed, waits for shooter to reach rpm, and then runs magazine for 5 seconds
-     /* new StartShooterCommand(turretShooter, 650).andThen(
-        new DriveUntilBallFound(drive, magazine),
+      new StartShooterCommand(turretShooter, 650).andThen(
+        new IntakePistonExtendCommand(intake),
+       // new InstantCommand(() -> intake.intakePistonExtend(), intake),
+        new DriveUntilBallFound(drive, magazine, intake),//.alongWith(new RunCommand(() -> { intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake)),
         new TurnTowardsHubCommand(drive, tapeVision),
         new WaitForRPMReachedCommand(),
-        new TimedMagazineRunCommand(magazine,5.0).alongWith(new RunCommand(() -> {intake.intakePistonExtend(); intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake)));
-*/
-      
+        new TimedMagazineRunCommand(magazine,5.0));
+     //   .alongWith(
+        //  new InstantCommand(() -> intake.intakePistonExtend(), intake).andThen(
+       //   new RunCommand(() -> { intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake))
+          //);
+
+      //bruh im so done with this
     return auto;
   }
 }

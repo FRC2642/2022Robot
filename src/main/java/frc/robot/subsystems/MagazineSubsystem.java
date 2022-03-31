@@ -50,12 +50,19 @@ public boolean areTwoBallsThere(){
   return  lowerLightSensor.get() && upperLightSensor.get();
 }
 
+public boolean getLowerLightSensor(){
+  return  lowerLightSensor.get();
+}
+public boolean getUpperLightSensor(){
+  return  upperLightSensor.get();
+}
+
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("is ball there", isOneBallThere());
-    SmartDashboard.putBoolean("is 2nd ball there", areTwoBallsThere());
+    SmartDashboard.putBoolean("upper light sensor", getUpperLightSensor());
+    SmartDashboard.putBoolean("lower light sensor", getLowerLightSensor());
 
   }
 }
