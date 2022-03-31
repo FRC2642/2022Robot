@@ -4,6 +4,8 @@
 
 package frc.robot.utils;
 
+import com.fasterxml.jackson.databind.deser.DefaultDeserializationContext;
+
 /** Add your docs here. */
 public class MathR {
     public static double limit(double value, double floor, double ceiling){
@@ -12,5 +14,13 @@ public class MathR {
     
     public static double feetToInches(double feet){
         return feet * 12;
+    }
+    //based on this https://www.desmos.com/calculator/qyqubv0lsu graph
+    public static double ramp(double process, double deadband, double exp, double max, double offset){
+        return 
+            Math.signum(process) *
+            Math.min(
+                (1.0-deadband) * Math.pow((Math.abs(process) + offset),exp) + deadband
+            , max);
     }
 }

@@ -16,10 +16,13 @@ public class MagazineSubsystem extends SubsystemBase {
   /** Creates a new MagazineSubsystem. */
 public CANSparkMax magBeltMotor;
 
-DigitalInput lightSensor = new DigitalInput(0);
+DigitalInput upperLightSensor = new DigitalInput(0);
+DigitalInput lowerLightSensor = new DigitalInput(1);
+
+private static MagazineSubsystem instance;
 
   public MagazineSubsystem() {
-
+    instance = this;
     magBeltMotor = new CANSparkMax(13, MotorType.kBrushless);
   }
 
@@ -40,13 +43,28 @@ public boolean getAuxLeftTrigger() {
   return (ltrigger > .5);
 }
 
-public boolean isBallThere(){
-  return ! lightSensor.get();
+//sensor methods
+public static boolean isOneBallThere(){
+  return  instance.upperLightSensor.get();
 }
+
+public static boolean areTwoBallsThere(){
+  return  instance.lowerLightSensor.get() && instance.upperLightSensor.get();
+}
+
+public static boolean getLowerLightSensor(){
+  return  instance.lowerLightSensor.get();
+}
+public static boolean getUpperLightSensor(){
+  return  instance.upperLightSensor.get();
+}
+
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putBoolean("is ball there", isBallThere());
+    SmartDashboard.putBoolean("upper light sensor", getUpperLightSensor());
+    SmartDashboard.putBoolean("lower light sensor", getLowerLightSensor());
+
   }
 }

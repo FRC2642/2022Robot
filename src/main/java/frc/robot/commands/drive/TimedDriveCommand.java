@@ -2,26 +2,26 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.MagazineSubsystem;
-import frc.robot.subsystems.TurretShooterSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
 
-public class TimedMagazineRunCommand extends CommandBase {
-  MagazineSubsystem mag;
+public class TimedDriveCommand extends CommandBase {
+  /** Creates a new TimedDriveCommand. */
+  DriveSubsystem drive;
   Timer timer;
-  double time;
-  /** Creates a new MagazineRunCommand. */
-  public TimedMagazineRunCommand(MagazineSubsystem mag, double time) {
+  Double seconds;
+  Double speed;
+
+  public TimedDriveCommand(DriveSubsystem drive, double seconds, double speed) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.mag = mag;
-    this.timer = new Timer();
-    this.time = time;
-    addRequirements(mag);
-    
+    this.drive = drive;
+    this.seconds = seconds;
+    this.speed = speed;
+    timer = new Timer();
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
@@ -29,26 +29,24 @@ public class TimedMagazineRunCommand extends CommandBase {
   public void initialize() {
     timer.reset();
     timer.start();
+
   }
 
-
   // Called every time the scheduler runs while the command is scheduled.
-
   @Override
   public void execute() {
-      mag.magRun();
-    
+    drive.move(speed,0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    mag.magStop();
+    drive.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() > time;
+    return timer.get() >= seconds;
   }
 }
