@@ -15,8 +15,9 @@ public class MathR {
     public static double feetToInches(double feet){
         return feet * 12;
     }
-    public static double proportion(double process, double deadband, double startSlowingAtRange, double maxOutput){
-        double calculate = ((maxOutput-deadband)/(startSlowingAtRange)) * Math.abs(process) + deadband;
+    //https://www.desmos.com/calculator/vwfplwff43
+    public static double proportion(double process, double deadband, double startSlowingAtRange, double stopWhenWithinRange, double maxOutput){
+        double calculate = ((maxOutput-deadband)/(startSlowingAtRange-stopWhenWithinRange)) * (Math.abs(process)-stopWhenWithinRange) + deadband;
 
         if (calculate < deadband) return 0.0;
         else return Math.signum(process) * limit(calculate, 0.0, maxOutput);
