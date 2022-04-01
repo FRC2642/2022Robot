@@ -2,38 +2,31 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.drive;
 
-import edu.wpi.first.wpilibj.Timer;
+import javax.swing.plaf.metal.MetalComboBoxUI.MetalPropertyChangeListener;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.utils.MathR;
 
-public class TurnTowardsHubCommand extends CommandBase {
-
-  private DriveSubsystem drive;
-  private Timer timer = new Timer();
-  /** Creates a new TurnTowardsHubCommand. */
-  public TurnTowardsHubCommand(DriveSubsystem drive) {
+public class TurnGyroCommand extends CommandBase {
+  DriveSubsystem drive;
+  /** Creates a new TurnGyroCommand. */
+  public TurnGyroCommand(DriveSubsystem drive) {
     this.drive = drive;
-    addRequirements(drive);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    timer.reset();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    /*if (centerX < 70)       drive.drive(0,-0.4);
-    else if (centerX > 90)  drive.drive(0,0.4);
-    else                    drive.drive(0,0);*/
-    drive.move(0,MathR.limit(TapeVisionSubsystem.getNormalizedCenterX()/2,-0.39,0.39));
+    drive.move(0.0, MathR.limit(DriveSubsystem.getYaw()/90, -0.35, 0.35));
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +36,6 @@ public class TurnTowardsHubCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(TapeVisionSubsystem.getNormalizedCenterX()) < 0.1;
+    return false;
   }
 }

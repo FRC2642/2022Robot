@@ -5,9 +5,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.drive.DriveBySonarCommand;
+import frc.robot.commands.drive.DriveSpeedCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
 import frc.robot.commands.magazine.TimedMagazineRunCommand;
 import frc.robot.commands.shooter.StartShooterCommand;
+import frc.robot.commands.waitfor.WaitForRPMReachedCommand;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
@@ -22,11 +26,16 @@ public class AutonomousCommandGroup extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new StartShooterCommand(turretShooter, 650),
       new IntakePistonExtendCommand(intake),
-      new DriveUntilBallFoundCommand(drive, intake, mag),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0)),
       new TurnTowardsHubCommand(drive),
-      new TimedShootCommand(mag, intake, 3.0),
+      new DriveBySonarCommand(drive, 44.0),
+      
+      new StartShooterCommand(turretShooter, 1100),
+      new WaitForRPMReachedCommand(),
+      new TimedShootCommand(mag, intake, 1.0),
+      new WaitForRPMReachedCommand(),
+      new TimedShootCommand(mag, intake, 1.0),
       new StartShooterCommand(turretShooter, 0)
     );
 

@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.commands.drive.DriveSpeedCommand;
 import frc.robot.commands.intake.RunIntakeCommand;
@@ -18,10 +19,10 @@ import frc.robot.subsystems.MagazineSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveUntilBallFoundCommand extends ParallelRaceGroup {
 
-  public DriveUntilBallFoundCommand(DriveSubsystem drive, IntakeSubsystem intake, MagazineSubsystem mag) {
+  public DriveUntilBallFoundCommand(DriveSubsystem drive, IntakeSubsystem intake, MagazineSubsystem mag, Command driver) {
 
     addCommands(
-      new DriveSpeedCommand(drive, 0.35, 0.0),
+      driver,
       new RunIntakeCommand(intake),
       new MagazineRunCommand(mag, true), //true = run mag in reverse
       new WaitForTwoBallsThere()
