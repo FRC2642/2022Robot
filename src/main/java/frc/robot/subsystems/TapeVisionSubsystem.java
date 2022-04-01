@@ -72,6 +72,9 @@ public class TapeVisionSubsystem extends SubsystemBase {
     return instance.points.size();
   }
 
+  public static void resetCenterX(){
+    instance.centerX = 0;
+  }
   
 
   @Override

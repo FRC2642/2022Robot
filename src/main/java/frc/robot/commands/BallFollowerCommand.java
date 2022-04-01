@@ -7,21 +7,24 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.utils.MathR;
 
 public class BallFollowerCommand extends CommandBase {
   DriveSubsystem drive;
+  MagazineSubsystem mag;
   double error;
   double setpoint;
   double rotationValue;
   /** Creates a new BallFollowerCommand. */
-  public BallFollowerCommand(DriveSubsystem drive) {
+  public BallFollowerCommand(DriveSubsystem drive, MagazineSubsystem mag) {
     // Use addRequirements() here to declare subsystem dependencies.
     
     this.drive = drive;
+    this.mag = mag;
 
-    addRequirements(drive);
+    addRequirements(drive, mag);
   }
 
   // Called when the command is initially scheduled.
@@ -79,6 +82,11 @@ public class BallFollowerCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
+    if (mag.getLowerLightSensor()){
+      return true;
+    }
+    else{
     return false;
+    }
   }
 }

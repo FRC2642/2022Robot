@@ -10,8 +10,15 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix.led.CANdle;
+import com.ctre.phoenix.led.*;
+import com.ctre.phoenix.led.CANdle.LEDStripType;
+import com.ctre.phoenix.led.CANdle.VBatOutputMode;
+
 
 public class TurretShooterSubsystem extends SubsystemBase {
 
@@ -25,6 +32,11 @@ public class TurretShooterSubsystem extends SubsystemBase {
   public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
   public double targetVelocity;
   public double range = 75;
+
+  //figure out can ids and led count
+  private final CANdle candle = new CANdle(17, "rio");
+  private final int ledCount = 300;
+
 
 
 
@@ -55,6 +67,16 @@ public class TurretShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("d", kD);
 
     //setReference()            this may be used to edit PID
+
+    //configuration of leds
+    CANdleConfiguration configAll = new CANdleConfiguration();
+    configAll.statusLedOffWhenActive = true;
+    configAll.disableWhenLOS = false;
+    configAll.stripType = LEDStripType.RGB;
+    configAll.brightnessScalar = 0.1;
+    configAll.vBatOutputMode = VBatOutputMode.Modulated;
+    candle.configAllSettings(configAll, 100);
+
   }
 
   public void setSpeed(double speed){
@@ -76,6 +98,7 @@ public class TurretShooterSubsystem extends SubsystemBase {
     double rtrigger = RobotContainer.auxController.getRightTriggerAxis();
     return (rtrigger > .5);
   }
+
   
   @Override
   public void periodic() {
@@ -84,6 +107,15 @@ public class TurretShooterSubsystem extends SubsystemBase {
        SmartDashboard.putNumber("shooter speed", getShooterSpeed());
        SmartDashboard.putBoolean("shooter ready", isCloseToSetRPM());
 
+       if (isCloseToSetRPM()){
+        candle.setLEDs(0, 255, 0);
+       }
+       else if (DriverStation.getAlliance() == Alliance.Blue) {
+        candle.setLEDs(0, 0, 255);
+       }
+       else{
+         candle.setLEDs(255, 0, 0);
+       }
        
        
         //pidController.setD(SmartDashboard.getNumber("d", kD));
