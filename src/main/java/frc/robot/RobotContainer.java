@@ -166,7 +166,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-
+    
     
     //runs magazine
     auxLeftTrigger.whileActiveContinuous(new RunCommand(() -> magazine.magRun(), magazine));

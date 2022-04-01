@@ -18,6 +18,9 @@ import com.ctre.phoenix.led.CANdle;
 import com.ctre.phoenix.led.*;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
+import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
+import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.ColorFlowAnimation;
 
 
 public class TurretShooterSubsystem extends SubsystemBase {
@@ -36,6 +39,7 @@ public class TurretShooterSubsystem extends SubsystemBase {
   //figure out can ids and led count
   private final CANdle candle = new CANdle(17, "rio");
   private final int ledCount = 300;
+  private final Animation colorFlowAnimation = new ColorFlowAnimation(0, 255, 0, 0, 0.7, 5, Direction.Forward);
 
 
 
@@ -109,6 +113,7 @@ public class TurretShooterSubsystem extends SubsystemBase {
 
        if (isCloseToSetRPM()){
         candle.setLEDs(0, 255, 0);
+        //candle.animate(colorFlowAnimation);
        }
        else if (DriverStation.getAlliance() == Alliance.Blue) {
         candle.setLEDs(0, 0, 255);
@@ -116,7 +121,7 @@ public class TurretShooterSubsystem extends SubsystemBase {
        else{
          candle.setLEDs(255, 0, 0);
        }
-       
+
        
         //pidController.setD(SmartDashboard.getNumber("d", kD));
        
