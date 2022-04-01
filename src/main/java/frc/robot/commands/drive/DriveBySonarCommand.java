@@ -7,16 +7,15 @@ package frc.robot.commands.drive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.SonarSubsystem;
+import frc.robot.utils.MathR;
 
 public class DriveBySonarCommand extends CommandBase {
   private DriveSubsystem drive;
   private double distance;
-  private double startingDistance;
   /** Creates a new DriveBySonarCommand. */
   public DriveBySonarCommand(DriveSubsystem drive, double distance) {
     this.drive = drive;
     this.distance = distance;
-    this.startingDistance = SonarSubsystem.getSonarDistance();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -27,7 +26,7 @@ public class DriveBySonarCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.move(Math.signum(SonarSubsystem.getSonarDistance() - distance)*0.375,0);
+    drive.move(MathR.limit((SonarSubsystem.getSonarDistance() - distance)/20,-0.4,0.4),0);
   }
 
   // Called once the command ends or is interrupted.

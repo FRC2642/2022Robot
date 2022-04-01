@@ -15,12 +15,10 @@ public class MathR {
     public static double feetToInches(double feet){
         return feet * 12;
     }
-    //based on this https://www.desmos.com/calculator/qyqubv0lsu graph
-    public static double ramp(double process, double deadband, double exp, double max, double offset){
-        return 
-            Math.signum(process) *
-            Math.min(
-                (1.0-deadband) * Math.pow((Math.abs(process) + offset),exp) + deadband
-            , max);
+    public static double proportion(double process, double deadband, double startSlowingAtRange, double maxOutput){
+        double calculate = ((maxOutput-deadband)/(startSlowingAtRange)) * Math.abs(process) + deadband;
+
+        if (calculate < deadband) return 0.0;
+        else return Math.signum(process) * limit(calculate, 0.0, maxOutput);
     }
 }

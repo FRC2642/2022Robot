@@ -30,7 +30,6 @@ public class AutonomousCommandGroup extends SequentialCommandGroup {
       new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0)),
       new TurnTowardsHubCommand(drive),
       new DriveBySonarCommand(drive, 44.0),
-      
       new StartShooterCommand(turretShooter, 1100),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.0),
