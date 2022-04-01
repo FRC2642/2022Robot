@@ -70,7 +70,7 @@ public class BallFollowerCommand extends CommandBase {
       drive.move(0,0.0);
     }*/
     double turn = MathR.limit((VisionSubsystem.getCenterX()-80)/120,-0.4,0.4);
-    drive.move(turn < 0.2 ? 0.3 : 0,turn < 0.2 ? 0 : turn);
+    drive.move(turn < 0.2 ? 0.35 : 0,turn < 0.2 ? 0 : turn);
 
 
   }

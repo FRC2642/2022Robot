@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.ResetGyroCommand;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
 import javax.management.RuntimeOperationsException;
@@ -52,12 +54,14 @@ public class DriveSubsystem extends SubsystemBase {
   DifferentialDrive diffDrive = new DifferentialDrive(rightMotors, leftMotors);
   public PIDController PIDcontrol = new PIDController(0,0,0);
 
+  public Pigeon2 pigeon2 = new Pigeon2(0);
 
-
-
+  private static DriveSubsystem instance;
   //Constructor
   public DriveSubsystem() {
-    
+    instance = this;
+
+    pigeon2.setYaw(0.0);
     setpoint = 0;
     
 
@@ -90,7 +94,6 @@ public class DriveSubsystem extends SubsystemBase {
     backRight.configNeutralDeadband(0.01);*/
 
 
-
   }
   
 
@@ -99,7 +102,7 @@ public class DriveSubsystem extends SubsystemBase {
   public void stop(){
     move(0, 0);
   }
-
+  
  
   public void move(double speed, double rotation){
    
@@ -134,7 +137,12 @@ public class DriveSubsystem extends SubsystemBase {
     frontRight.setSelectedSensorPosition(0);
   }
   
-
+  public static double getYaw(){
+    return instance.pigeon2.getYaw();
+  }
+  public static void resetYaw(){
+    instance.pigeon2.setYaw(0.0);
+  }
 
   
   
@@ -144,5 +152,6 @@ public class DriveSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("encoder", getEncoderDistance());
+    SmartDashboard.putNumber("gyro", getYaw());
   }
 }
