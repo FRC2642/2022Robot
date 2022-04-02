@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
@@ -12,6 +13,7 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,6 +32,7 @@ public class VisionSubsystem extends SubsystemBase {
   private double centerY;
   private boolean isDetection = false;
 
+  private Timer frametimer = new Timer();
 
   public static final Object imgLock = new Object();
   private static VisionSubsystem instance;
@@ -43,7 +46,7 @@ public class VisionSubsystem extends SubsystemBase {
     camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
     
-    SmartDashboard.putNumber("tape cam fps actual?", camera.getActualFPS()); 
+    SmartDashboard.putNumber("ball cam fps actual?", camera.getActualFPS()); 
 
         //pdh.clearStickyFaults();
     double[] hue = null;
@@ -61,7 +64,8 @@ public class VisionSubsystem extends SubsystemBase {
       sat = Constants.HSL_SAT_RED;
       lum = Constants.HSL_LUM_RED;
     }
-
+    frametimer.start();
+    frametimer.reset();
     visionthread = new VisionThread(camera, new BlurContour(hue,sat,lum), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
           Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
@@ -84,6 +88,9 @@ public class VisionSubsystem extends SubsystemBase {
                 centerX = 0.0;
                 
               }
+
+              SmartDashboard.putNumber("ball vision fps", 1.0/frametimer.get());
+              frametimer.reset();
           }
       }
     });

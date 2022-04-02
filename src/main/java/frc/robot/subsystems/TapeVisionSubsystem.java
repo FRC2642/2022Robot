@@ -14,6 +14,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.vision.VisionThread;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +31,7 @@ public class TapeVisionSubsystem extends SubsystemBase {
   private double centerX;
 
 
+  private Timer frametimer = new Timer();
   public static final Object imgLock = new Object();
   private static TapeVisionSubsystem instance; 
 
@@ -43,6 +45,8 @@ public class TapeVisionSubsystem extends SubsystemBase {
     camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
     SmartDashboard.putNumber("tape cam fps actual?", camera.getActualFPS()); 
+    frametimer.start();
+    frametimer.reset();
 
     visionthread = new VisionThread(camera, new RetroTapePipeline(), pipeline -> {
       
@@ -58,6 +62,8 @@ public class TapeVisionSubsystem extends SubsystemBase {
       }
     });
     
+    SmartDashboard.putNumber("tape vision fps", 1.0/frametimer.get());
+    frametimer.reset();
   
     visionthread.start();
   }
