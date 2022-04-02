@@ -60,10 +60,10 @@ public class TapeVisionSubsystem extends SubsystemBase {
             }
           }
       }
+      SmartDashboard.putNumber("tape vision fps", 1.0/frametimer.get());
+      frametimer.reset();
     });
     
-    SmartDashboard.putNumber("tape vision fps", 1.0/frametimer.get());
-    frametimer.reset();
   
     visionthread.start();
   }
