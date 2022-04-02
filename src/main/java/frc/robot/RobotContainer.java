@@ -23,6 +23,7 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
+import frc.robot.subsystems.PixySubsystem;
 import frc.robot.subsystems.SonarSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
@@ -53,6 +54,7 @@ public class RobotContainer {
   private final ClimberSubsystem climb = new ClimberSubsystem();
   public static final SonarSubsystem sonar = new SonarSubsystem();
   public final VectorSubsystem vector = new VectorSubsystem();
+  public final PixySubsystem pixy = new PixySubsystem();
 
   
   
