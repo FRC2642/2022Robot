@@ -42,6 +42,7 @@ public class TapeVisionSubsystem extends SubsystemBase {
     camera.setResolution(320, 240);
     camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
+    SmartDashboard.putNumber("tape cam fps actual?", camera.getActualFPS()); 
 
     visionthread = new VisionThread(camera, new RetroTapePipeline(), pipeline -> {
       

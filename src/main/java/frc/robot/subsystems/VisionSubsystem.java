@@ -41,6 +41,9 @@ public class VisionSubsystem extends SubsystemBase {
     camera.setResolution(320, 240);
     camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
+    
+    SmartDashboard.putNumber("tape cam fps actual?", camera.getActualFPS()); 
+
         //pdh.clearStickyFaults();
     double[] hue = null;
     double[] sat = null;
