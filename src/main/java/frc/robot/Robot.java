@@ -27,8 +27,6 @@ import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.vision.BlurContour;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -50,9 +48,6 @@ public class Robot extends TimedRobot {
   public static final Object imgLock = new Object();
   public Rect rect = new Rect();
   public boolean isSquare;
-
-  private AddressableLED led;
-  private AddressableLEDBuffer ledBuffer;
 
 
 
@@ -147,16 +142,6 @@ public class Robot extends TimedRobot {
     m_robotContainer.drive.resetEncoder();
 
 
-    /*
-    //set pwm port correctly
-    led = new AddressableLED(9);
-    //change length accordingly
-    ledBuffer = new AddressableLEDBuffer(60);
-    led.setLength(ledBuffer.getLength());
-    // Set the data
-    led.setData(ledBuffer);
-    led.start();*/
-
   }
 
   /**
@@ -175,32 +160,14 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber("width", rect.width); 
     SmartDashboard.putNumber("height", rect.height);
-    SmartDashboard.putBoolean("hihihihihihihihihihihihi",isSquare);
 
    // SmartDashboard.putNumber("navx", Robot.navx.getYaw());
 
     CommandScheduler.getInstance().run();
 
-    /*setLEDGreen();  
-    // Set the LEDs
-    led.setData(ledBuffer);*/
 
   }
 
-/*public void setLEDGreen(){
-    if (TurretShooterSubsystem.isCloseToSetRPM()) {
-      for (var i = 0; i < ledBuffer.getLength(); i++) {
-        // Sets the specified LED to the RGB values for red
-        ledBuffer.setRGB(i, 0, 255, 0);
-      }
-    }
-    else{
-      for (var i = 0; i < ledBuffer.getLength(); i++) {
-        // Sets the specified LED to the RGB values for red
-        ledBuffer.setRGB(i, 0, 0, 0);
-      }
-    }
-  }*/
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override

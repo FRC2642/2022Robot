@@ -25,6 +25,7 @@ public class TurnTowardsHubCommand extends CommandBase {
   @Override
   public void initialize() {
     timer.reset();
+    TapeVisionSubsystem.resetCenterX();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
