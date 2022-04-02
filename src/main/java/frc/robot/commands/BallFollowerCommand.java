@@ -13,18 +13,16 @@ import frc.robot.utils.MathR;
 
 public class BallFollowerCommand extends CommandBase {
   DriveSubsystem drive;
-  MagazineSubsystem mag;
   double error;
   double setpoint;
   double rotationValue;
   /** Creates a new BallFollowerCommand. */
-  public BallFollowerCommand(DriveSubsystem drive, MagazineSubsystem mag) {
+  public BallFollowerCommand(DriveSubsystem drive) {
     // Use addRequirements() here to declare subsystem dependencies.
     
     this.drive = drive;
-    this.mag = mag;
 
-    addRequirements(drive, mag);
+    addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
@@ -69,8 +67,10 @@ public class BallFollowerCommand extends CommandBase {
     else{
       drive.move(0,0.0);
     }*/
-    double turn = MathR.limit((VisionSubsystem.getCenterX()-80)/120,-0.4,0.4);
-    drive.move(turn < 0.2 ? 0.35 : 0,turn < 0.2 ? 0 : turn);
+    double turn = MathR.proportion(VisionSubsystem.getCenterX()-80, 0.215, 80, 20, 0.38);//MathR.limit((VisionSubsystem.getCenterX()-80)/80,-0.4,0.4);
+    SmartDashboard.putNumber("turn", turn);
+    //drive.move(turn < 0.2 ? 0.35 : 0,turn < 0.2 ? 0 : turn);
+    drive.move(turn == 0.0 ? 0.35 : 0.0,turn);
 
 
   }
@@ -82,7 +82,7 @@ public class BallFollowerCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if (mag.getLowerLightSensor()){
+    if (MagazineSubsystem.getLowerLightSensor()){
       return true;
     }
     else{

@@ -52,7 +52,7 @@ public static boolean areTwoBallsThere(){
   return  instance.lowerLightSensor.get() && instance.upperLightSensor.get();
 }
 
-public boolean getLowerLightSensor(){
+public static boolean getLowerLightSensor(){
   return  instance.lowerLightSensor.get();
 }
 public static boolean getUpperLightSensor(){
