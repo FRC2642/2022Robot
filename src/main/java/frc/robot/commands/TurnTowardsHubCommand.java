@@ -34,7 +34,7 @@ public class TurnTowardsHubCommand extends CommandBase {
     /*if (centerX < 70)       drive.drive(0,-0.4);
     else if (centerX > 90)  drive.drive(0,0.4);
     else                    drive.drive(0,0);*/
-    drive.move(0,MathR.limit(TapeVisionSubsystem.getNormalizedCenterX()/2,-0.39,0.39));
+    drive.move(0,MathR.limit(TapeVisionSubsystem.getNormalizedCenterX()/2,-0.35,0.35));
   }
 
   // Called once the command ends or is interrupted.

@@ -19,13 +19,13 @@ import frc.robot.subsystems.MagazineSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveUntilBallFoundCommand extends ParallelRaceGroup {
 
-  public DriveUntilBallFoundCommand(DriveSubsystem drive, IntakeSubsystem intake, MagazineSubsystem mag, Command driver) {
+  public DriveUntilBallFoundCommand(DriveSubsystem drive, IntakeSubsystem intake, MagazineSubsystem mag, Command driver, Command waiter) {
 
     addCommands(
       driver,
       new RunIntakeCommand(intake),
       new MagazineRunCommand(mag, true), //true = run mag in reverse
-      new WaitForTwoBallsThere()
+      waiter
     );
   }
 }

@@ -28,6 +28,7 @@ public class VisionSubsystem extends SubsystemBase {
 
   private double centerX;
   private double centerY;
+  private boolean isDetection = false;
 
 
   public static final Object imgLock = new Object();
@@ -71,9 +72,13 @@ public class VisionSubsystem extends SubsystemBase {
               
               centerX = r.x +(0.5*r.width);
               centerY = r.y +(0.5*r.height);
+
+              isDetection = true;
               }
               else { 
                 isSquare = false;
+                isDetection= false;
+                centerX = 0.0;
                 
               }
           }
@@ -87,7 +92,12 @@ public class VisionSubsystem extends SubsystemBase {
   public static double getCenterX(){
     return instance.centerX;
   }
-
+  public static double getCenterY(){
+    return instance.centerY;
+  }
+  public static boolean isDetection(){
+    return instance.isDetection;
+  }
 
   @Override
   public void periodic() {
