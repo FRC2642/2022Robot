@@ -4,20 +4,20 @@
 
 package frc.robot.commands.drive;
 
-import javax.swing.plaf.metal.MetalComboBoxUI.MetalPropertyChangeListener;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.utils.MathR;
+import frc.robot.subsystems.SonarSubsystem;
 
-public class TurnGyroCommand extends CommandBase {
+public class DriveBySonar extends CommandBase {
+  /** Creates a new DriveBySonar. */
   DriveSubsystem drive;
-  double angle;
-  /** Creates a new TurnGyroCommand. */
-  public TurnGyroCommand(DriveSubsystem drive, double angle) {
-    this.drive = drive;
-    this.angle = angle;
+  double distance;
+  public DriveBySonar(DriveSubsystem drive, double distance) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.drive = drive;
+    this.distance = distance;
+
+     addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +27,7 @@ public class TurnGyroCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.move(0.0, MathR.limit((DriveSubsystem.getYaw()-angle)/90, -0.35, 0.35));
+    drive.move(0.3,0.0);
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +37,12 @@ public class TurnGyroCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    
+    if (SonarSubsystem.getSonarDistance() >= distance){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 }
