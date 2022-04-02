@@ -43,9 +43,9 @@ public class DriveSubsystem extends SubsystemBase {
   
   //Objects
   WPI_TalonFX frontLeft = new WPI_TalonFX(Constants.FRONT_LEFT_TALON_ID); //.configVoltageCompSaturation(voltage, timeoutMs);
-  WPI_TalonFX backLeft = new WPI_TalonFX(Constants.BACK_LEFT_TALON_ID); //.configOpenloopRamp(seconds to full speed???)
+  public WPI_TalonFX backLeft = new WPI_TalonFX(Constants.BACK_LEFT_TALON_ID); //.configOpenloopRamp(seconds to full speed???)
   WPI_TalonFX frontRight = new WPI_TalonFX(Constants.FRONT_RIGHT_TALON_ID);
-  WPI_TalonFX backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON_ID);
+  public WPI_TalonFX backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON_ID);
 
   
   MotorControllerGroup rightMotors = new MotorControllerGroup(frontRight, backRight);
@@ -63,7 +63,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     pigeon2.setYaw(0.0);
     setpoint = 0;
-    
 
     frontLeft.configFactoryDefault();
     backLeft.configFactoryDefault();
