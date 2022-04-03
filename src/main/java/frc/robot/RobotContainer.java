@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -29,9 +30,11 @@ import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.TwoBallAutonomousCommand;
+import frc.robot.commands.AimAndShootCommand;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.ResetGyroCommand;
+import frc.robot.commands.TurnTowardsHubCommand;
 import frc.robot.commands.drive.DriveSpeedCommand;
 import frc.robot.commands.drive.TurnGyroCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
@@ -68,7 +71,8 @@ public class RobotContainer {
   private final Trigger auxLeftTrigger = new Trigger(magazine::getAuxLeftTrigger);
   private final Trigger auxRightTrigger = new Trigger(turretShooter::getAuxRightTrigger);
 
-  
+  private final Command turnTowardsHubCommand = new TurnTowardsHubCommand(drive);
+  private final ParallelCommandGroup aimAndShoot = new AimAndShootCommand(drive, turretShooter);
  /* private final Command driveCommand = new DriveCommand(drive);
   private final Command intakePistonExtend = new IntakePistonExtendCommand(intake);
   private final Command intakePistonRetract = new IntakePistonRetractCommand(intake);
@@ -214,6 +218,16 @@ public class RobotContainer {
     .whenPressed(new InstantCommand(() -> climb.climbPistonBackward(), climb));
 
 
+    //auto aim during tele-op
+    new JoystickButton(driveController, Button.kA.value)
+    .whenPressed(turnTowardsHubCommand);
+
+    //auto aim and set shooter speed
+    new JoystickButton(driveController, Button.kB.value)
+    .whenPressed(aimAndShoot);
+
+
+
     /*new JoystickButton(auxController, Button.kB.value)
     .whenHeld(new RunCommand(climb::moveElevatorDown(0.5), climb));*/
 
@@ -291,6 +305,9 @@ public class RobotContainer {
     return (rTrigger > .5);
   }
 
+  public static boolean getJoystickData(){
+    return (Math.abs(driveController.getRawAxis(0)) > 0.3);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
