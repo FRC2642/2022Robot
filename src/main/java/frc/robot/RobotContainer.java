@@ -35,10 +35,13 @@ import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
+import frc.robot.commands.drive.DriveDistanceCommand;
 import frc.robot.commands.drive.DriveSpeedCommand;
+import frc.robot.commands.drive.DriveWithPIDCommand;
 import frc.robot.commands.drive.TurnGyroCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
 import frc.robot.commands.shooter.StartShooterCommand;
+import frc.robot.commands.drive.TurnByGyroAndPIDCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -264,6 +267,9 @@ public class RobotContainer {
 
     SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
     SmartDashboard.putData("turn 180", new TurnGyroCommand(drive, 180.0));
+    SmartDashboard.putData("Turn By Gyro and PID", new TurnByGyroAndPIDCommand(drive, 90));
+    SmartDashboard.putData("Drive With PID", new DriveWithPIDCommand(drive, 0, 0.3));
+    SmartDashboard.putData("Drive distance command", new DriveDistanceCommand(drive, 5, 0));
     SmartDashboard.putData("run shooter at rpm", 
     new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 0.0)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
 

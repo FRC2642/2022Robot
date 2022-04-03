@@ -37,7 +37,7 @@ public class TurnByGyroAndPIDCommand extends CommandBase {
     else if(rotationValue < -1){
       rotationValue = -1;
     }
-    drive.move(0, rotationValue);
+    drive.move(0, rotationValue * 0.3);
   }
 
   // Called once the command ends or is interrupted.
