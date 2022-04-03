@@ -265,7 +265,7 @@ public class RobotContainer {
     SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
     SmartDashboard.putData("turn 180", new TurnGyroCommand(drive, 180.0));
     SmartDashboard.putData("run shooter at rpm", 
-    new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 0.0)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
+    new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 650)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
 
 
 
@@ -342,13 +342,13 @@ public class RobotContainer {
       Command auto =// new BallFollowerCommand(drive);
      //   new DriveSpeedCommand(drive, 0.35, 0.0);
    //  new BallFollowerCommand(drive);
-    new DriveSpeedCommand(drive, 0.3, 0.0);
+ //   new DriveSpeedCommand(drive, 0.35, 0.0);
     //  new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
       
       //new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
       
- //     new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
-
+      new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
+   // new TurnTowardsHubCommand(drive);
       // sets shooter speed to 1200 rpm, drives straight FORWARD with intake running until the 
       // lower light sensor senses a ball and then stops, searches for hub using tape vision pipeline
       // and stops when aimed, waits for shooter to reach rpm, and then runs magazine for 5 seconds

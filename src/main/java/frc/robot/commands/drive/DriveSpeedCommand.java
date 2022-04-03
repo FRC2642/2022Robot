@@ -4,6 +4,7 @@
 
 package frc.robot.commands.drive;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
@@ -19,6 +20,7 @@ public class DriveSpeedCommand extends CommandBase {
     this.speed = speed;
     startingAngle = angle;
     addRequirements(drive);
+
   }
 
   // Called when the command is initially scheduled.
@@ -30,7 +32,9 @@ public class DriveSpeedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.move(speed, MathR.proportion(DriveSubsystem.getYaw() - startingAngle, 0.2, 180, 0.1, Math.abs(speed)));
+    double turn =  MathR.proportion(-DriveSubsystem.getYaw(), 0.3, 180, 5, Math.abs(speed));
+    drive.move(speed,0.0);
+    SmartDashboard.putNumber("turn", turn);
     
   }
 
