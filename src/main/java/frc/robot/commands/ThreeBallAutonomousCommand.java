@@ -11,7 +11,10 @@ import frc.robot.commands.drive.DriveSpeedCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
 import frc.robot.commands.magazine.TimedMagazineRunCommand;
 import frc.robot.commands.shooter.StartShooterCommand;
+import frc.robot.commands.waitfor.WaitForOneBallThere;
+import frc.robot.commands.waitfor.WaitForOneBallThere;
 import frc.robot.commands.waitfor.WaitForRPMReachedCommand;
+import frc.robot.commands.waitfor.WaitForTwoBallsThere;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
@@ -28,7 +31,7 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
     addCommands(
       //extend intake and drive until second ball found
       new IntakePistonExtendCommand(intake),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0)),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0), new WaitForTwoBallsThere()),
       //turn towards hub and drive til 44in. away and shoot at 1100 rpm wait a sec and shoot again
       new TurnTowardsHubCommand(drive),
       new DriveBySonarCommand(drive, 44.0),
@@ -39,7 +42,7 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
       new TimedShootCommand(mag, intake, 1.0),
       //search for third ball and drive until picked up
       new BallFollowerCommand(drive),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0)),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0), new WaitForOneBallThere()),
       //turn towards hub and shoot
       new TurnTowardsHubCommand(drive),
       new DriveBySonarCommand(drive, 44.0),

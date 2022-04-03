@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -35,6 +35,8 @@ import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
+import frc.robot.commands.drive.DriveSpeedCommand;
+import frc.robot.commands.drive.TurnGyroCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
 import frc.robot.commands.shooter.StartShooterCommand;
 /**
@@ -261,6 +263,9 @@ public class RobotContainer {
 
 
     SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
+    SmartDashboard.putData("turn 180", new TurnGyroCommand(drive, 180.0));
+    SmartDashboard.putData("run shooter at rpm", 
+    new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 0.0)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
 
 
 
@@ -335,10 +340,14 @@ public class RobotContainer {
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
 
       Command auto =// new BallFollowerCommand(drive);
+     //   new DriveSpeedCommand(drive, 0.35, 0.0);
+   //  new BallFollowerCommand(drive);
+    new DriveSpeedCommand(drive, 0.3, 0.0);
+    //  new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
       
       //new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
       
-      new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
+ //     new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
 
       // sets shooter speed to 1200 rpm, drives straight FORWARD with intake running until the 
       // lower light sensor senses a ball and then stops, searches for hub using tape vision pipeline

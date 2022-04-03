@@ -11,7 +11,9 @@ import frc.robot.commands.drive.DriveSpeedCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
 import frc.robot.commands.magazine.TimedMagazineRunCommand;
 import frc.robot.commands.shooter.StartShooterCommand;
+import frc.robot.commands.waitfor.WaitForOneBallThere;
 import frc.robot.commands.waitfor.WaitForRPMReachedCommand;
+import frc.robot.commands.waitfor.WaitForTwoBallsThere;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
@@ -26,8 +28,10 @@ public class TwoBallAutonomousCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new StartShooterCommand(turretShooter, 0.0),
+      //new ResetGyroCommand(drive),
       new IntakePistonExtendCommand(intake),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0)),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0), new WaitForTwoBallsThere()),
       new TurnTowardsHubCommand(drive),
       new DriveBySonarCommand(drive, 44.0),
       new StartShooterCommand(turretShooter, 1100),
@@ -35,7 +39,7 @@ public class TwoBallAutonomousCommand extends SequentialCommandGroup {
       new TimedShootCommand(mag, intake, 1.0),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.0),
-      new StartShooterCommand(turretShooter, 0)
+      new StartShooterCommand(turretShooter, 0.0)
     );
 
     /*new StartShooterCommand(turretShooter, 650).andThen(
