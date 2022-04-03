@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -34,6 +35,7 @@ import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.drive.DriveSpeedCommand;
 import frc.robot.commands.drive.TurnGyroCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
+import frc.robot.commands.shooter.StartShooterCommand;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -248,6 +250,8 @@ public class RobotContainer {
 
     SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
     SmartDashboard.putData("turn 180", new TurnGyroCommand(drive, 180.0));
+    SmartDashboard.putData("run shooter at rpm", 
+    new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 0.0)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
 
 
 
