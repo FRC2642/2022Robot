@@ -67,11 +67,12 @@ public class BallFollowerCommand extends CommandBase {
     else{
       drive.move(0,0.0);
     }*/
-    double turn = MathR.proportion(VisionSubsystem.getCenterX()-80, 0.215, 80, 20, 0.38);//MathR.limit((VisionSubsystem.getCenterX()-80)/80,-0.4,0.4);
+    double turn = MathR.proportion(VisionSubsystem.getCenterX()-80, 0.25, 80, 10, 0.4);//MathR.limit((VisionSubsystem.getCenterX()-80)/80,-0.4,0.4);
     SmartDashboard.putNumber("turn", turn);
+    drive.move(0.0, turn);
     //drive.move(turn < 0.2 ? 0.35 : 0,turn < 0.2 ? 0 : turn);
-    drive.move(turn == 0.0 ? 0.35 : 0.0,turn);
-
+  //  if (VisionSubsystem.getCenterY() > 80 || !VisionSubsystem.isDetection()) drive.move(turn == 0.0 ? 0.35 : 0.0,turn);
+  //  else drive.move(0.35,0.0);
 
   }
 
@@ -82,11 +83,6 @@ public class BallFollowerCommand extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    if (MagazineSubsystem.getLowerLightSensor()){
-      return true;
-    }
-    else{
     return false;
-    }
   }
 }

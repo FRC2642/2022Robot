@@ -12,10 +12,11 @@ import frc.robot.utils.MathR;
 
 public class TurnGyroCommand extends CommandBase {
   DriveSubsystem drive;
+  double angle;
   /** Creates a new TurnGyroCommand. */
-  public TurnGyroCommand(DriveSubsystem drive) {
+  public TurnGyroCommand(DriveSubsystem drive, double angle) {
     this.drive = drive;
-
+    this.angle = angle;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -26,7 +27,7 @@ public class TurnGyroCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.move(0.0, MathR.limit(DriveSubsystem.getYaw()/90, -0.35, 0.35));
+    drive.move(0.0, MathR.limit((DriveSubsystem.getYaw()-angle)/90, -0.35, 0.35));
   }
 
   // Called once the command ends or is interrupted.
