@@ -27,10 +27,8 @@ import frc.robot.subsystems.SonarSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
-import frc.robot.subsystems.VectorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.TwoBallAutonomousCommand;
-import frc.robot.commands.drive.FindVectorDistanceCommand;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.ResetGyroCommand;
@@ -52,7 +50,6 @@ public class RobotContainer {
   private final MagazineSubsystem magazine = new MagazineSubsystem();
   private final ClimberSubsystem climb = new ClimberSubsystem();
   public static final SonarSubsystem sonar = new SonarSubsystem();
-  public final VectorSubsystem vector = new VectorSubsystem();
 
   
   
@@ -82,9 +79,6 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    vector.backLeftMotor = drive.backLeft;
-    vector.backRightMotor = drive.backRight;
-    vector.pigeon2 = drive.pigeon2;
     // Configure the button bindings
     configureButtonBindings();
 
@@ -148,9 +142,6 @@ public class RobotContainer {
         ,climb
     ));
 
-    vector.setDefaultCommand(
-      new FindVectorDistanceCommand(vector)
-    );
 
 
 
