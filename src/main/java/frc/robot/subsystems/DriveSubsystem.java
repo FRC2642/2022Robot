@@ -124,6 +124,10 @@ public class DriveSubsystem extends SubsystemBase {
   public void setpointPID(double setpoint) {
     PIDcontrol.setSetpoint(setpoint);
   }
+
+  public void resetPID(){
+    PIDcontrol.reset();
+  }
   
   
   
