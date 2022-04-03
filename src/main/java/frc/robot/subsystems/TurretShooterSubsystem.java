@@ -39,7 +39,7 @@ public class TurretShooterSubsystem extends SubsystemBase {
   //figure out can ids and led count
   private final CANdle candle = new CANdle(17, "rio");
   private final int ledCount = 300;
-  private final Animation colorFlowAnimation = new ColorFlowAnimation(0, 255, 0, 0, 0.7, 5, Direction.Forward);
+  private final Animation colorFlowAnimation = new ColorFlowAnimation(0, 255, 0, 0, 0.7, ledCount, Direction.Forward);
 
 
 
