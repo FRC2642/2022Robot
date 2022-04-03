@@ -26,13 +26,23 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      //extend intake and drive until second ball found
       new IntakePistonExtendCommand(intake),
       new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0)),
+      //turn towards hub and drive til 44in. away and shoot at 1100 rpm wait a sec and shoot again
       new TurnTowardsHubCommand(drive),
       new DriveBySonarCommand(drive, 44.0),
       new StartShooterCommand(turretShooter, 1100),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.0),
+      new WaitForRPMReachedCommand(),
+      new TimedShootCommand(mag, intake, 1.0),
+      //search for third ball and drive until picked up
+      new BallFollowerCommand(drive),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0)),
+      //turn towards hub and shoot
+      new TurnTowardsHubCommand(drive),
+      new DriveBySonarCommand(drive, 44.0),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.0),
       new StartShooterCommand(turretShooter, 0)
