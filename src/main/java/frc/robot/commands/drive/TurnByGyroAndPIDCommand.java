@@ -17,6 +17,8 @@ public class TurnByGyroAndPIDCommand extends CommandBase {
     this.drive = drive;
     this.degrees = degrees;
     this.setpoint = degrees;
+
+    drive.setPIDCoefficients(0.2, 0, 0);
     addRequirements(drive);
   }
 
