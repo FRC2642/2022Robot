@@ -79,6 +79,16 @@ public static final double[] HSL_HUE_WHITE = {0.0, 255.0};
 public static final double[] HSL_SAT_WHITE = {0.0, 36.0};
 public static final double[] HSL_LUM_WHITE = {217.0, 255.0};
 
+
+public static final double[] RGB_RED_rgbThresholdRed = {107.77877697841727, 255.0};
+public static final double[] RGB_RED_rgbThresholdGreen = {0.0, 111.18686868686869};
+public static final double[] RGB_RED_rgbThresholdBlue = {0.0, 126.2121212121212};
+
+
+public static final double[] RGB_BLUE_rgbThresholdRed = {8.908730348308266, 102.78940483976454};
+public static final double[] RGB_BLUE_rgbThresholdGreen = {66.50179856115108, 156.26262626262627};
+public static final double[] RGB_BLUE_rgbThresholdBlue = {116.95143884892086, 255.0};
+
 //throw math
 public static final double FINAL_SPEED_MULT = 1;
 public static final double TURRET_HEIGHT = 4; //meters

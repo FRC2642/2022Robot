@@ -27,6 +27,7 @@ import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.vision.BlurContour;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import java.net.InetAddress;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -64,6 +65,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
+    SmartDashboard.putNumber("shooter rpm", 0.0);
     
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
@@ -140,9 +142,10 @@ public class Robot extends TimedRobot {
     //redBallVisionThread.stop(); (how do i get it to stop?)
     */
     m_robotContainer.drive.resetEncoder();
-
-
+    
+    
   }
+
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
@@ -153,7 +156,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+
+    
+
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
