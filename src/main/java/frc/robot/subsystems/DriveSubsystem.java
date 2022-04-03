@@ -54,7 +54,7 @@ public class DriveSubsystem extends SubsystemBase {
   DifferentialDrive diffDrive = new DifferentialDrive(rightMotors, leftMotors);
   public PIDController PIDcontrol = new PIDController(0,0,0);
 
-  public Pigeon2 pigeon2 = new Pigeon2(0);
+  public Pigeon2 pigeon2 = new Pigeon2(18);
 
   private static DriveSubsystem instance;
   //Constructor
@@ -137,7 +137,7 @@ public class DriveSubsystem extends SubsystemBase {
   }
   
   public static double getYaw(){
-    return instance.pigeon2.getYaw();
+    return instance.pigeon2.getYaw() * -1;
   }
   public static void resetYaw(){
     instance.pigeon2.setYaw(0.0);

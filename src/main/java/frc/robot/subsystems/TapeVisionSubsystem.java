@@ -14,10 +14,12 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.vision.VisionThread;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.Vector2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.utils.DataStreamFilter;
 import frc.robot.vision.RetroTapePipeline;
 
 public class TapeVisionSubsystem extends SubsystemBase {
@@ -29,7 +31,8 @@ public class TapeVisionSubsystem extends SubsystemBase {
   private final List<Vector2d> points = new ArrayList<Vector2d>();
   private double centerX;
 
-
+DataStreamFilter fps = new DataStreamFilter(10);
+  private Timer frametimer = new Timer();
   public static final Object imgLock = new Object();
   private static TapeVisionSubsystem instance; 
 
@@ -38,10 +41,13 @@ public class TapeVisionSubsystem extends SubsystemBase {
     instance = this;
     camera = CameraServer.startAutomaticCapture(1);
 
-    camera.setFPS(10);
+    camera.setFPS(25);
     camera.setResolution(320, 240);
     camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
+   // SmartDashboard.putNumber("tape cam fps actual?", camera.getActualFPS()); 
+    frametimer.start();
+    frametimer.reset();
 
     visionthread = new VisionThread(camera, new RetroTapePipeline(), pipeline -> {
       
@@ -55,6 +61,8 @@ public class TapeVisionSubsystem extends SubsystemBase {
             }
           }
       }
+      SmartDashboard.putNumber("tape vision fps", fps.calculate( 1.0/frametimer.get()));
+      frametimer.reset();
     });
     
   

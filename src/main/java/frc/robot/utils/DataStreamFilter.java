@@ -25,7 +25,7 @@ public class DataStreamFilter {
     }
     
     public void addDouble(double incomingNum) {
-        if (!isFirstData && Math.abs(incomingNum - runningAverage) > tolerance) return;
+       // if (!isFirstData && Math.abs(incomingNum - runningAverage) > tolerance) return;
         
         dataArray[writeIndex] = incomingNum;
 
