@@ -268,7 +268,7 @@ public class RobotContainer {
     SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
     SmartDashboard.putData("turn 180", new TurnGyroCommand(drive, 180.0));
     SmartDashboard.putData("Turn By Gyro and PID", new TurnByGyroAndPIDCommand(drive, 90));
-    SmartDashboard.putData("Drive With PID", new DriveWithPIDCommand(drive, 0, 0.3));
+    SmartDashboard.putData("Drive With PID", new DriveWithPIDCommand(drive, 0, 0.4));
     SmartDashboard.putData("Drive distance command", new DriveDistanceCommand(drive, 5, 0));
     SmartDashboard.putData("run shooter at rpm", 
     new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 0.0)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));

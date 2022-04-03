@@ -37,7 +37,7 @@ public class DriveWithPIDCommand extends CommandBase {
       rotationValue = -1;
     }
 
-    drive.move(speed, rotationValue);
+    drive.move(speed, rotationValue * 0.3);
   }
 
   // Called once the command ends or is interrupted.
