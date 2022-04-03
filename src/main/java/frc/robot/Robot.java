@@ -27,6 +27,7 @@ import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.vision.BlurContour;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import java.net.InetAddress;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -140,8 +141,8 @@ public class Robot extends TimedRobot {
     //redBallVisionThread.stop(); (how do i get it to stop?)
     */
     m_robotContainer.drive.resetEncoder();
-
-
+    
+    
   }
 
   /**

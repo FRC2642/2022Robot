@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.utils.MathR;
@@ -44,6 +45,16 @@ public class TurnTowardsHubCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(TapeVisionSubsystem.getNormalizedCenterX()) < 0.1;
+    /*if ((Math.abs(TapeVisionSubsystem.getNormalizedCenterX()) < 0.1)){
+      return true;
+    }
+    else if (RobotContainer.getJoystickData()){
+      return true;
+    }
+    else{
+      return false;
+    }*/
+
+    return (Math.abs(TapeVisionSubsystem.getNormalizedCenterX()) < 0.1);
   }
 }
