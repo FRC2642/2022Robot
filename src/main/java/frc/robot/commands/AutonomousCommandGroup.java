@@ -29,6 +29,7 @@ public class AutonomousCommandGroup extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new StartShooterCommand(turretShooter, 0.0),
+      new ResetGyroCommand(drive),
       new IntakePistonExtendCommand(intake),
       new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0), new WaitForTwoBallsThere()),
       new TurnTowardsHubCommand(drive),

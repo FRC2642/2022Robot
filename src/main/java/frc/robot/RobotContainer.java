@@ -31,6 +31,7 @@ import frc.robot.commands.AutonomousCommandGroup;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.ResetGyroCommand;
+import frc.robot.commands.drive.DriveSpeedCommand;
 import frc.robot.commands.drive.TurnGyroCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
 /**
@@ -318,10 +319,12 @@ public class RobotContainer {
       .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
 
       Command auto =// new BallFollowerCommand(drive);
-      
+     //   new DriveSpeedCommand(drive, 0.35, 0.0);
+   //  new BallFollowerCommand(drive);
+    new DriveSpeedCommand(drive, 0.3, 0.0);
     //  new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
       
-      new AutonomousCommandGroup(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
+   //   new AutonomousCommandGroup(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
 
       // sets shooter speed to 1200 rpm, drives straight FORWARD with intake running until the 
       // lower light sensor senses a ball and then stops, searches for hub using tape vision pipeline
