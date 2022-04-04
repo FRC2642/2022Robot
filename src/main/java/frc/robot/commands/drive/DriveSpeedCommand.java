@@ -13,12 +13,12 @@ import frc.robot.utils.MathR;
 public class DriveSpeedCommand extends CommandBase {
   DriveSubsystem drive;
   double speed;
-  double startingAngle;
+  double turn;
   
-  public DriveSpeedCommand(DriveSubsystem drive, double speed, double angle) {
+  public DriveSpeedCommand(DriveSubsystem drive, double speed, double turn) {
     this.drive = drive;
     this.speed = speed;
-    startingAngle = angle;
+    this.turn = turn;
     addRequirements(drive);
 
   }
@@ -32,7 +32,7 @@ public class DriveSpeedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.move(speed,0.0);
+    drive.move(speed,turn);
     
   }
 

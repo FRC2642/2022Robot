@@ -32,9 +32,9 @@ public class DriveBySonarCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    double turn = MathR.limit(drive.calculatePID(DriveSubsystem.getYaw(), setpoint), -1.0, 1.0);
     
-    
-    drive.move(MathR.limit((SonarSubsystem.getSonarDistance() - distance)/20,-0.40,0.40),MathR.limit(drive.calculatePID(DriveSubsystem.getYaw(), setpoint) * 0.3, -0.3, 0.3));
+    drive.move(MathR.limit((SonarSubsystem.getSonarDistance() - distance)/20,-0.40,0.40),turn);
   }
 
   // Called once the command ends or is interrupted.
