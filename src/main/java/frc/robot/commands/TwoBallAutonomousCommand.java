@@ -8,7 +8,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drive.DriveBySonarCommand;
 import frc.robot.commands.drive.DriveSpeedCommand;
+import frc.robot.commands.drive.DriveWithPIDCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
+import frc.robot.commands.intake.IntakePistonRetractCommand;
 import frc.robot.commands.magazine.TimedMagazineRunCommand;
 import frc.robot.commands.shooter.StartShooterCommand;
 import frc.robot.commands.waitfor.WaitForOneBallThere;
@@ -31,10 +33,11 @@ public class TwoBallAutonomousCommand extends SequentialCommandGroup {
       new StartShooterCommand(turretShooter, 0.0),
       //new ResetGyroCommand(drive),
       new IntakePistonExtendCommand(intake),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0), new WaitForTwoBallsThere()),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveWithPIDCommand(drive, 0.45), new WaitForTwoBallsThere()),
       new TurnTowardsHubCommand(drive),
+      new IntakePistonRetractCommand(intake),
       new DriveBySonarCommand(drive, 44.0),
-      new StartShooterCommand(turretShooter, 1100),
+      new StartShooterCommand(turretShooter, 1000),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.0),
       new WaitForRPMReachedCommand(),

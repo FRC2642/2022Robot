@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drive.DriveBySonarCommand;
 import frc.robot.commands.drive.DriveSpeedCommand;
+import frc.robot.commands.drive.DriveWithPIDCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
 import frc.robot.commands.magazine.TimedMagazineRunCommand;
 import frc.robot.commands.shooter.StartShooterCommand;
@@ -40,12 +41,15 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
       new TimedShootCommand(mag, intake, 1.0),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.0),
+      
+      new StartShooterCommand(turretShooter, 0.0),
       //search for third ball and drive until picked up
       new BallFollowerCommand(drive),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0), new WaitForOneBallThere()),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveWithPIDCommand(drive, 0.4), new WaitForOneBallThere()),
       //turn towards hub and shoot
       new TurnTowardsHubCommand(drive),
       new DriveBySonarCommand(drive, 44.0),
+      new StartShooterCommand(turretShooter, 1100),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.0),
       new StartShooterCommand(turretShooter, 0)

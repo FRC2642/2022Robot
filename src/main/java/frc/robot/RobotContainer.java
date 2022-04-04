@@ -34,6 +34,7 @@ import frc.robot.commands.AimAndShootCommand;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.ResetGyroCommand;
+import frc.robot.commands.ThreeBallAutonomousCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
 import frc.robot.commands.drive.DriveDistanceCommand;
 import frc.robot.commands.drive.DriveSpeedCommand;
@@ -268,7 +269,7 @@ public class RobotContainer {
     SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
     SmartDashboard.putData("turn 180", new TurnGyroCommand(drive, 180.0));
     SmartDashboard.putData("Turn By Gyro and PID", new TurnByGyroAndPIDCommand(drive, 90));
-    SmartDashboard.putData("Drive With PID", new DriveWithPIDCommand(drive, 0, 0.4));
+    SmartDashboard.putData("Drive With PID", new DriveWithPIDCommand(drive, 0.4));
     SmartDashboard.putData("Drive distance command", new DriveDistanceCommand(drive, 5, 0));
     SmartDashboard.putData("run shooter at rpm", 
     new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 650)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
@@ -353,7 +354,8 @@ public class RobotContainer {
       
       //new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
       
-      new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
+  //    new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
+    new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);
    // new TurnTowardsHubCommand(drive);
       // sets shooter speed to 1200 rpm, drives straight FORWARD with intake running until the 
       // lower light sensor senses a ball and then stops, searches for hub using tape vision pipeline

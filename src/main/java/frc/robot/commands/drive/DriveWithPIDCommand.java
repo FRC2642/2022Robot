@@ -12,10 +12,10 @@ public class DriveWithPIDCommand extends CommandBase {
   double setpoint;
   double speed;
   double rotationValue;
-  public DriveWithPIDCommand(DriveSubsystem drive, double setpoint, double speed) {
+  public DriveWithPIDCommand(DriveSubsystem drive, double speed) {
     this.drive = drive;
     this.speed = speed;
-    this.setpoint = setpoint;
+ //   this.setpoint = setpoint;
   
     drive.setPIDCoefficients(0.2, 0, 0);
     addRequirements(drive);
@@ -23,7 +23,9 @@ public class DriveWithPIDCommand extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    setpoint = DriveSubsystem.getYaw();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

@@ -32,9 +32,7 @@ public class DriveSpeedCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double turn =  MathR.proportion(-DriveSubsystem.getYaw(), 0.3, 180, 5, Math.abs(speed));
     drive.move(speed,0.0);
-    SmartDashboard.putNumber("turn", turn);
     
   }
 
