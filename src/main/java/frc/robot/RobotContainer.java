@@ -34,14 +34,12 @@ import frc.robot.commands.AimAndShootCommand;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.ResetGyroCommand;
+import frc.robot.commands.ThreeBallAutonomousCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
-import frc.robot.commands.drive.DriveDistanceCommand;
 import frc.robot.commands.drive.DriveSpeedCommand;
-import frc.robot.commands.drive.DriveWithPIDCommand;
-import frc.robot.commands.drive.TurnGyroCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
 import frc.robot.commands.shooter.StartShooterCommand;
-import frc.robot.commands.drive.TurnByGyroAndPIDCommand;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -251,15 +249,10 @@ public class RobotContainer {
 
     
     //figure out presets for eliminated backspin
-    //up close, low hub, hood come up automatically
-    new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(550), turretShooter));
-    
-    //up close, high hub
-    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1100), turretShooter));
-    
-    //on the line shot, high hub
-    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
-    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1650), turretShooter));
+    new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(650), turretShooter));
+    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
+    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(2000), turretShooter));
+    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));
 
 
 
@@ -271,12 +264,8 @@ public class RobotContainer {
 
 
     SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
-    SmartDashboard.putData("turn 180", new TurnGyroCommand(drive, 180.0));
-    SmartDashboard.putData("Turn By Gyro and PID", new TurnByGyroAndPIDCommand(drive, 90));
-    SmartDashboard.putData("Drive With PID", new DriveWithPIDCommand(drive, 0, 0.4));
-    SmartDashboard.putData("Drive distance command", new DriveDistanceCommand(drive, 5, 0));
     SmartDashboard.putData("run shooter at rpm", 
-    new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 0.0)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
+    new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 650)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
 
 
 
@@ -353,13 +342,14 @@ public class RobotContainer {
       Command auto =// new BallFollowerCommand(drive);
      //   new DriveSpeedCommand(drive, 0.35, 0.0);
    //  new BallFollowerCommand(drive);
-    new DriveSpeedCommand(drive, 0.3, 0.0);
+ //   new DriveSpeedCommand(drive, 0.35, 0.0);
     //  new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
       
       //new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
       
- //     new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
-
+  //    new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
+    new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);
+   // new TurnTowardsHubCommand(drive);
       // sets shooter speed to 1200 rpm, drives straight FORWARD with intake running until the 
       // lower light sensor senses a ball and then stops, searches for hub using tape vision pipeline
       // and stops when aimed, waits for shooter to reach rpm, and then runs magazine for 5 seconds

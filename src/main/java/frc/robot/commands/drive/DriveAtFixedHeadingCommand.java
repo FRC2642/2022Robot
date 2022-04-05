@@ -4,49 +4,47 @@
 
 package frc.robot.commands.drive;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.utils.MathR;
 
-public class TimedDriveCommand extends CommandBase {
-  /** Creates a new TimedDriveCommand. */
+public class DriveAtFixedHeadingCommand extends CommandBase {
   DriveSubsystem drive;
-  Timer timer;
-  Double seconds;
-  Double speed;
-
-  public TimedDriveCommand(DriveSubsystem drive, double seconds, double speed) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  double angle;
+  double driveSpeed;
+  double turnPIDSpeed;
+  public DriveAtFixedHeadingCommand(DriveSubsystem drive, double driveSpeed, double turnPIDSpeed, double angle) {
     this.drive = drive;
-    this.seconds = seconds;
-    this.speed = speed;
-    timer = new Timer();
+    this.driveSpeed = driveSpeed;
+    this.turnPIDSpeed = turnPIDSpeed;
+    this.angle = angle;
+  
+    drive.setPIDCoefficients(0.2, 0, 0);
     addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
-    timer.start();
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.move(speed,0);
+    double turn = MathR.limit(drive.calculatePID(DriveSubsystem.getYaw(), angle), -1.0, 1.0);
+    
+    drive.move(driveSpeed, turn * turnPIDSpeed);
   }
+
+  
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    drive.stop();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.get() >= seconds;
+    return false;
   }
 }

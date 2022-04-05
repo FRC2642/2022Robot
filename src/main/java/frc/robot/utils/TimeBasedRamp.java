@@ -22,7 +22,7 @@ public class TimeBasedRamp {
     }
     public double calculate(double process){
         timer.start();
-        return MathR.proportion(Math.signum(process) * timer.get(), deadband, secondsUntilFullPower * (process/expectedFullPower), 0.0, Math.abs(process));
+        return MathR.proportion(Math.signum(process) * timer.get(), deadband, secondsUntilFullPower * (Math.abs(process)/expectedFullPower), 0.0, Math.abs(process));
     }
     public void reset(){
         timer.reset();
