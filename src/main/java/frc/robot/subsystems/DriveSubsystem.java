@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ResetGyroCommand;
+import frc.robot.utils.VectorValues;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;
@@ -61,6 +62,7 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     instance = this;
 
+    pigeon2.clearStickyFaults();
     pigeon2.setYaw(0.0);
     setpoint = 0;
 
@@ -123,6 +125,10 @@ public class DriveSubsystem extends SubsystemBase {
   public void setpointPID(double setpoint) {
     PIDcontrol.setSetpoint(setpoint);
   }
+
+  public void resetPID(){
+    PIDcontrol.reset();
+  }
   
   
   
@@ -142,13 +148,25 @@ public class DriveSubsystem extends SubsystemBase {
   public static void resetYaw(){
     instance.pigeon2.setYaw(0.0);
   }
+  public static double getVectorDistance(){
+    double leftDistance = instance.backLeft.getSelectedSensorPosition();
+    double rightDistance = instance.backRight.getSelectedSensorPosition();
+    return (leftDistance + rightDistance) / 2;
+  }
 
-  
   
 
 
   @Override
   public void periodic() {
+    double currentPulses = DriveSubsystem.getVectorDistance();
+    double encoderValue = currentPulses - VectorValues.lastEncoderPulses;
+    VectorValues.lastEncoderPulses = currentPulses;
+    VectorValues.vectorComponentX += (Math.sin(getYaw() * (Math.PI/180)) * encoderValue);
+    VectorValues.vectorComponentY += (Math.cos(getYaw() * (Math.PI/180)) * encoderValue);
+    SmartDashboard.putNumber("Distance in pulses", VectorValues.getMagnitude());
+    SmartDashboard.putNumber("Feet away", VectorValues.distanceInFeet());
+    SmartDashboard.putNumber("Angle:", VectorValues.getAngle());
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("encoder", getEncoderDistance());
     SmartDashboard.putNumber("gyro", getYaw());
