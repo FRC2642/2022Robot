@@ -55,6 +55,17 @@ public class TurnTowardsHubCommand extends CommandBase {
       return false;
     }*/
 
-    return (Math.abs(TapeVisionSubsystem.getNormalizedCenterX()) < 0.1);
+    if (Math.abs(TapeVisionSubsystem.getNormalizedCenterX()) < 0.1){
+      return true;
+    }
+
+    else if (RobotContainer.getJoystickData()){
+      return true;
+    }
+    else{
+      return false;
+    }
+    }
+
   }
-}
+
