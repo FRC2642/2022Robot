@@ -28,14 +28,17 @@ public class TurnTowardsHubCommand extends CommandBase {
     timer.reset();
     TapeVisionSubsystem.resetCenterX();
   }
+  double turn;
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    turn = MathR.proportion(TapeVisionSubsystem.getCenterX() - 80, 0.27, 80, 10, 0.36);
     /*if (centerX < 70)       drive.drive(0,-0.4);
     else if (centerX > 90)  drive.drive(0,0.4);
     else                    drive.drive(0,0);*/
-    drive.move(0,MathR.limit(TapeVisionSubsystem.getNormalizedCenterX()/2,-0.35,0.35));
+  //  drive.move(0,MathR.limit(TapeVisionSubsystem.getNormalizedCenterX()/2,-0.35,0.35));
+  drive.move(0.0, turn);
   }
 
   // Called once the command ends or is interrupted.
@@ -55,17 +58,15 @@ public class TurnTowardsHubCommand extends CommandBase {
       return false;
     }*/
 
-    if (Math.abs(TapeVisionSubsystem.getNormalizedCenterX()) < 0.1){
+    if (turn == 0.0){
       return true;
     }
-
     else if (RobotContainer.getJoystickData()){
       return true;
     }
     else{
       return false;
     }
-    }
-
   }
+}
 

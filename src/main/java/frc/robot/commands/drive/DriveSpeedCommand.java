@@ -4,6 +4,7 @@
 
 package frc.robot.commands.drive;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.subsystems.DriveSubsystem;
@@ -12,13 +13,14 @@ import frc.robot.utils.MathR;
 public class DriveSpeedCommand extends CommandBase {
   DriveSubsystem drive;
   double speed;
-  double startingAngle;
+  double turn;
   
-  public DriveSpeedCommand(DriveSubsystem drive, double speed, double angle) {
+  public DriveSpeedCommand(DriveSubsystem drive, double speed, double turn) {
     this.drive = drive;
     this.speed = speed;
-    startingAngle = angle;
+    this.turn = turn;
     addRequirements(drive);
+
   }
 
   // Called when the command is initially scheduled.

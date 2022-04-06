@@ -12,26 +12,36 @@ import frc.robot.utils.MathR;
 public class DriveBySonarCommand extends CommandBase {
   private DriveSubsystem drive;
   private double distance;
+  private double setpoint;
   /** Creates a new DriveBySonarCommand. */
   public DriveBySonarCommand(DriveSubsystem drive, double distance) {
     this.drive = drive;
     this.distance = distance;
-    // Use addRequirements() here to declare subsystem dependencies.
+    
+    drive.setPIDCoefficients(0.2, 0, 0);
+     addRequirements(drive);// here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    
+    setpoint = DriveSubsystem.getYaw();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drive.move(MathR.limit((SonarSubsystem.getSonarDistance() - distance)/20,-0.4,0.4),0);
+    double turn = MathR.limit(drive.calculatePID(DriveSubsystem.getYaw(), setpoint), -1.0, 1.0);
+    
+    drive.move(MathR.limit((SonarSubsystem.getSonarDistance() - distance)/20,-0.40,0.40),turn);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    drive.stop();
+  }
 
   // Returns true when the command should end.
   @Override
