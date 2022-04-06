@@ -64,8 +64,6 @@ public class DriveSubsystem extends SubsystemBase {
 
     pigeon2.clearStickyFaults();
     pigeon2.setYaw(0.0);
-    pigeon2.zeroGyroBiasNow();
-    
     setpoint = 0;
 
     frontLeft.configFactoryDefault();

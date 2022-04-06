@@ -102,4 +102,9 @@ public static final int pigeonID = 18;
 public static final int xButtonDrive = 3;
 public static final int bButtonDrive = 2;
 
+//pixy ports
+
+public static final int pixyIsVisablePin = 9;
+public static final int pixyCenterXPin = 1;
+
 }

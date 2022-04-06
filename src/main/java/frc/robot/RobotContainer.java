@@ -25,10 +25,12 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
+import frc.robot.subsystems.PixySubsystem;
 import frc.robot.subsystems.SonarSubsystem;
 import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
+import frc.robot.subsystems.VectorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.TwoBallAutonomousCommand;
 import frc.robot.commands.AimAndShootCommand;
@@ -58,6 +60,8 @@ public class RobotContainer {
   private final MagazineSubsystem magazine = new MagazineSubsystem();
   private final ClimberSubsystem climb = new ClimberSubsystem();
   public static final SonarSubsystem sonar = new SonarSubsystem();
+  public final VectorSubsystem vector = new VectorSubsystem();
+  public final PixySubsystem pixy = new PixySubsystem();
 
   
   
@@ -88,6 +92,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    vector.backLeftMotor = drive.backLeft;
+    vector.backRightMotor = drive.backRight;
+    vector.pigeon2 = drive.pigeon2;
     // Configure the button bindings
     configureButtonBindings();
 
@@ -150,6 +157,9 @@ public class RobotContainer {
         () -> climb.climberStop()
         ,climb
     ));
+
+   
+
 
 
 
