@@ -21,24 +21,28 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.MagazineSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
+import frc.robot.subsystems.TurretSpinnerSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TwoBallAutonomousCommand extends SequentialCommandGroup {
   /** Creates a new AutonomousCommandGroup. */
-  public TwoBallAutonomousCommand(TurretShooterSubsystem turretShooter, IntakeSubsystem intake, DriveSubsystem drive, MagazineSubsystem mag) {
+  public TwoBallAutonomousCommand(TurretShooterSubsystem turretShooter, IntakeSubsystem intake, DriveSubsystem drive, MagazineSubsystem mag, TurretSpinnerSubsystem spinner) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new ResetGyroCommand(drive),
       new StartShooterCommand(turretShooter, 0.0),
+      
       //new ResetGyroCommand(drive),
       new IntakePistonExtendCommand(intake),
       new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.45, 0.3), new WaitForTwoBallsThere()),
       new TurnTowardsHubCommand(drive),
+      new TurretHoodUpCommand(spinner),
       new IntakePistonRetractCommand(intake),
       new DriveBySonarCommand(drive, 44.0),
-      new StartShooterCommand(turretShooter, 1000),
+      new StartShooterCommand(turretShooter, 1075),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.0),
       new WaitForRPMReachedCommand(),
