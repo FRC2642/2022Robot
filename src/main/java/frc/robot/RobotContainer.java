@@ -252,10 +252,15 @@ public class RobotContainer {
 
     
     //figure out presets for eliminated backspin
-    new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(650), turretShooter));
-    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
-    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(2000), turretShooter));
-    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));
+    //up close, low hub, hood come up automatically
+    new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(550), turretShooter));
+    
+    //up close, high hub
+    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1100), turretShooter));
+    
+    //on the line shot, high hub
+    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1250), turretShooter));
+    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1650), turretShooter));
 
 
 
