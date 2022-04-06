@@ -258,7 +258,7 @@ public class RobotContainer {
     new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1100), turretShooter));
     
     //on the line shot, high hub
-    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
+    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1250), turretShooter));
     new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1650), turretShooter));
 
 
@@ -353,7 +353,7 @@ public class RobotContainer {
       Command auto =// new BallFollowerCommand(drive);
      //   new DriveSpeedCommand(drive, 0.35, 0.0);
    //  new BallFollowerCommand(drive);
-    new DriveSpeedCommand(drive, 0.3, 0.0);
+    new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);
     //  new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
       
       //new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
