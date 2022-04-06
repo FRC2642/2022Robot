@@ -33,6 +33,7 @@ import frc.robot.commands.TwoBallAutonomousCommand;
 import frc.robot.commands.AimAndShootCommand;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
+import frc.robot.commands.InterruptSubsystemsCommand;
 import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.ThreeBallAutonomousCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
@@ -73,7 +74,8 @@ public class RobotContainer {
   private final Trigger auxRightTrigger = new Trigger(turretShooter::getAuxRightTrigger);
 
   private final Command turnTowardsHubCommand = new TurnTowardsHubCommand(drive);
-  private final ParallelCommandGroup aimAndShoot = new AimAndShootCommand(drive, turretShooter);
+  private final AimAndShootCommand aimAndShoot = new AimAndShootCommand(drive, turretShooter, magazine, intake);
+  
  /* private final Command driveCommand = new DriveCommand(drive);
   private final Command intakePistonExtend = new IntakePistonExtendCommand(intake);
   private final Command intakePistonRetract = new IntakePistonRetractCommand(intake);
@@ -254,7 +256,7 @@ public class RobotContainer {
     new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(2000), turretShooter));
     new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));
 
-
+    SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
 
 
 
@@ -348,7 +350,7 @@ public class RobotContainer {
       //new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
       
   //    new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
-    new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);
+    new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner);
    // new TurnTowardsHubCommand(drive);
       // sets shooter speed to 1200 rpm, drives straight FORWARD with intake running until the 
       // lower light sensor senses a ball and then stops, searches for hub using tape vision pipeline
