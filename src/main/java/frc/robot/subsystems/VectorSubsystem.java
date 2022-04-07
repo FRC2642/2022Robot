@@ -27,15 +27,15 @@ public class VectorSubsystem extends SubsystemBase {
   /** Creates a new VectorSubsystem. */
   public VectorSubsystem() {}
   public double getMagnitude(){
-    System.out.println("component x: " + (vectorComponentX));
-    System.out.println("component y: " + (vectorComponentY));
-    System.out.println("last encoder pulses: " + (lastEncoderPulses));
+    //System.out.println("component x: " + (vectorComponentX));
+    //System.out.println("component y: " + (vectorComponentY));
+    //System.out.println("last encoder pulses: " + (lastEncoderPulses));
     magnitude = Math.sqrt(Math.pow(vectorComponentX - (8 * Constants.ENCODER_TICKS_PER_INCH), 2) + Math.pow(vectorComponentY, 2));
     return magnitude;
 }
 
 public double getAngle(){
-    System.out.println("Magnitude : " + (getMagnitude() / Constants.ENCODER_TICKS_PER_INCH));
+    //System.out.println("Magnitude : " + (getMagnitude() / Constants.ENCODER_TICKS_PER_INCH));
     angle = (Math.acos((vectorComponentY / Constants.ENCODER_TICKS_PER_INCH) / (getMagnitude() / Constants.ENCODER_TICKS_PER_INCH)) * (180/Math.PI));
     return angle;
 }
@@ -58,9 +58,9 @@ public void reset(){
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Vector Distance: ", magnitude);
-    SmartDashboard.putNumber("Vector Angle: ", angle);
-    SmartDashboard.putNumber("Vector Heading: ", heading());
+    //SmartDashboard.putNumber("Vector Distance: ", magnitude);
+    //SmartDashboard.putNumber("Vector Angle: ", angle);
+    //SmartDashboard.putNumber("Vector Heading: ", heading());
     // This method will be called once per scheduler run
   }
 }

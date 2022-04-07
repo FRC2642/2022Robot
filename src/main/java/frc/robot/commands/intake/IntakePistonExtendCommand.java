@@ -16,6 +16,7 @@ public class IntakePistonExtendCommand extends CommandBase {
    
     this.intake = intake;
     addRequirements(intake);
+    
 
   }
 
