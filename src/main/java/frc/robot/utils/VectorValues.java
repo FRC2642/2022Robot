@@ -15,9 +15,9 @@ public class VectorValues {
 
 
 public static double getMagnitude(){
-    System.out.println("component x: " + (vectorComponentX));
-    System.out.println("component y: " + (vectorComponentY));
-    System.out.println("last encoder pulses: " + (lastEncoderPulses));
+    //System.out.println("component x: " + (vectorComponentX));
+    //System.out.println("component y: " + (vectorComponentY));
+    //System.out.println("last encoder pulses: " + (lastEncoderPulses));
     return Math.sqrt(Math.pow(vectorComponentX - (8 * Constants.ENCODER_TICKS_PER_INCH), 2) + Math.pow(vectorComponentY, 2));
 }
 
@@ -27,7 +27,7 @@ public static double distanceInFeet(){
 
 
 public static double getAngle(){
-    System.out.println("Magnitude : " + (getMagnitude() / Constants.ENCODER_TICKS_PER_INCH));
+    //System.out.println("Magnitude : " + (getMagnitude() / Constants.ENCODER_TICKS_PER_INCH));
     return (Math.acos((vectorComponentY / Constants.ENCODER_TICKS_PER_INCH) / (getMagnitude() / Constants.ENCODER_TICKS_PER_INCH)) * (180/Math.PI));
 }
 

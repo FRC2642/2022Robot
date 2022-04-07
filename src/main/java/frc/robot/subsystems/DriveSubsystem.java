@@ -148,20 +148,20 @@ public class DriveSubsystem extends SubsystemBase {
   public static void resetYaw(){
     instance.pigeon2.setYaw(0.0);
   }
-  public static double getVectorDistance(){
+  /*public static double getVectorDistance(){
     double leftDistance = instance.backLeft.getSelectedSensorPosition();
     double rightDistance = instance.backRight.getSelectedSensorPosition();
     return (leftDistance + rightDistance) / 2;
-  }
+  }*/
 
   
 
 
   @Override
   public void periodic() {
-    double currentPulses = DriveSubsystem.getVectorDistance();
-    double encoderValue = currentPulses - VectorValues.lastEncoderPulses;
-    VectorValues.lastEncoderPulses = currentPulses;
+    //double currentPulses = DriveSubsystem.getVectorDistance();
+    //double encoderValue = currentPulses - VectorValues.lastEncoderPulses;
+    /*VectorValues.lastEncoderPulses = currentPulses;
     VectorValues.vectorComponentX += (Math.sin(getYaw() * (Math.PI/180)) * encoderValue);
     VectorValues.vectorComponentY += (Math.cos(getYaw() * (Math.PI/180)) * encoderValue);
     SmartDashboard.putNumber("Distance in pulses", VectorValues.getMagnitude());
@@ -169,6 +169,6 @@ public class DriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Angle:", VectorValues.getAngle());
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("encoder", getEncoderDistance());
-    SmartDashboard.putNumber("gyro", getYaw());
+    SmartDashboard.putNumber("gyro", getYaw());*/
   }
 }

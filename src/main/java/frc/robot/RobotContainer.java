@@ -61,8 +61,8 @@ public class RobotContainer {
   private final MagazineSubsystem magazine = new MagazineSubsystem();
   private final ClimberSubsystem climb = new ClimberSubsystem();
   public static final SonarSubsystem sonar = new SonarSubsystem();
-  public final VectorSubsystem vector = new VectorSubsystem();
-  public final PixySubsystem pixy = new PixySubsystem();
+ // public final VectorSubsystem vector = new VectorSubsystem();
+ // public final PixySubsystem pixy = new PixySubsystem();
 
   
   
@@ -94,9 +94,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    vector.backLeftMotor = drive.backLeft;
+   /* vector.backLeftMotor = drive.backLeft;
     vector.backRightMotor = drive.backRight;
-    vector.pigeon2 = drive.pigeon2;
+    vector.pigeon2 = drive.pigeon2; */
     // Configure the button bindings
     configureButtonBindings();
 
@@ -220,10 +220,10 @@ public class RobotContainer {
 
     //climber up and down
     new JoystickButton(auxController, Button.kX.value)
-    .whileHeld(new RunCommand(() -> climb.moveElevator(0.60), climb));
+    .whileHeld(new RunCommand(() -> climb.moveElevator(1.0), climb));
 
     new JoystickButton(auxController, Button.kB.value)
-    .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-0.60), climb));
+    .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-1.0), climb));
 
     
     new JoystickButton(auxController, Button.kStart.value)
@@ -284,7 +284,7 @@ public class RobotContainer {
 
 
     SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
-    SmartDashboard.putData("run shooter at rpm", 
+    SmartDashboard.putData("hhhh", 
     new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 650)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
 
 
