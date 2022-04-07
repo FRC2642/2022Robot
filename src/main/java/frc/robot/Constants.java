@@ -37,6 +37,8 @@ public static final int MAGAZINE_BELT_MOTOR_ID = 13;
 
 //drive motor encoder
 public static final double ENCODER_TICKS_PER_FOOT = 11027.0;
+public static final double ENCODER_TICKS_PER_INCH = 918.91;
+public static final double ENCODER_TICKS_FOUR_FEET = 44108.0;
 
 
     //incorrect piston ids
@@ -99,5 +101,10 @@ public static final int pigeonID = 18;
 //button bindings
 public static final int xButtonDrive = 3;
 public static final int bButtonDrive = 2;
+
+//pixy ports
+
+public static final int pixyIsVisablePin = 9;
+public static final int pixyCenterXPin = 1;
 
 }

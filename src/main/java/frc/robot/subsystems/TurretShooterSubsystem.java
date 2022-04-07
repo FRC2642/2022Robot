@@ -51,13 +51,13 @@ public class TurretShooterSubsystem extends SubsystemBase {
     shooter = new CANSparkMax(Constants.TURRET_SHOOTER_ID, MotorType.kBrushless);
     this.encoder = shooter.getEncoder();
     pidController= shooter.getPIDController();
-    kP = 0.0037; 
-    kI = 2e-7; //8
-    kD = 0.27;//0.035; 
-    kIz = 0; 
-    kFF = 0.000089285714;//0.5/5600; //0.000015; 
-    kMaxOutput = 0.8; 
-    kMinOutput = 0;
+    kP = 0.003;//0.0037; 
+    kI = 0.00000009;//2e-7; 
+    kD = 1.2;//0.27; 
+    kIz = 0.0;//0; 
+    kFF = 0.00009;//0.000089285714;//0.5/5600; //0.000015; 
+    kMaxOutput = 0.84;//0.8; 
+    kMinOutput = 0.00;;//0;
     maxRPM = 5600;
     pidController.setP(kP);
     pidController.setI(kI);
