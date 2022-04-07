@@ -61,8 +61,8 @@ public class RobotContainer {
   private final MagazineSubsystem magazine = new MagazineSubsystem();
   private final ClimberSubsystem climb = new ClimberSubsystem();
   public static final SonarSubsystem sonar = new SonarSubsystem();
-  public final VectorSubsystem vector = new VectorSubsystem();
-  public final PixySubsystem pixy = new PixySubsystem();
+ // public final VectorSubsystem vector = new VectorSubsystem();
+ // public final PixySubsystem pixy = new PixySubsystem();
 
   
   
@@ -94,9 +94,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    vector.backLeftMotor = drive.backLeft;
+   /* vector.backLeftMotor = drive.backLeft;
     vector.backRightMotor = drive.backRight;
-    vector.pigeon2 = drive.pigeon2;
+    vector.pigeon2 = drive.pigeon2; */
     // Configure the button bindings
     configureButtonBindings();
 
@@ -220,10 +220,10 @@ public class RobotContainer {
 
     //climber up and down
     new JoystickButton(auxController, Button.kX.value)
-    .whileHeld(new RunCommand(() -> climb.moveElevator(0.60), climb));
+    .whileHeld(new RunCommand(() -> climb.moveElevator(1.0), climb));
 
     new JoystickButton(auxController, Button.kB.value)
-    .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-0.60), climb));
+    .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-1.0), climb));
 
     
     new JoystickButton(auxController, Button.kStart.value)
@@ -284,7 +284,7 @@ public class RobotContainer {
 
 
     SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
-    SmartDashboard.putData("run shooter at rpm", 
+    SmartDashboard.putData("hhhh", 
     new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 650)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
 
 
@@ -335,51 +335,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    /*Command auto = new RunCommand(() -> turretShooter.setSpeed(1500), turretShooter).andThen
-    (new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(1)).andThen(
-      new RunCommand(() -> magazine.magRun()));*/
-
-    //Command auto = new RunCommand(() -> drive.move(-0.3,0),drive).withTimeout(4).andThen(new RunCommand(() -> turretShooter.setSpeed(500), turretShooter));
-  /*  Command auto = 
-    new RunCommand(() -> drive.move(-0.4,0),drive).withTimeout(2).andThen(new
-     RunCommand(()-> turretShooter.setSpeed(1500), turretShooter)).alongWith(
-      new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(
-      new RunCommand(() -> magazine.magRun(), magazine));
-//LMAO
-    
-    return new TimedDriveCommand(drive, 5);
-    */
-
-
-    //start shooter (will instantly finish), then drive backwards for 4 seconds at -0.3 speed. Then run the magazine when the rpm is reached on the turret.
-     //new BallFollowerCommand(drive, ballVision);
-    //  new TurnTowardsHubCommand(drive, tapeVision);
-      /*new StartShooterCommand(turretShooter, 650).andThen(new TimedDriveCommand(drive, 1.0, 0.4)).andThen(new MagazineRunWhenRPMReachedCommand(magazine)).withTimeout(5).andThen(
-        new TimedDriveCommand(drive, 3.0, -0.4))
-      .alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)).alongWith(new InstantCommand(turretSpinner::turretHoodUp));*/
-
-      Command auto =// new BallFollowerCommand(drive);
-     //   new DriveSpeedCommand(drive, 0.35, 0.0);
-   //  new BallFollowerCommand(drive);
- //   new DriveSpeedCommand(drive, 0.35, 0.0);
-    //  new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
-      
-      //new IntakePistonExtendCommand(intake).andThen(new DriveUntilBallFoundCommand(drive, intake, magazine, new BallFollowerCommand(drive)));
-      
-  //    new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine);//new InstantCommand(() -> intake.intakePistonExtend(), intake);
-    new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner);
-   // new TurnTowardsHubCommand(drive);
-      // sets shooter speed to 1200 rpm, drives straight FORWARD with intake running until the 
-      // lower light sensor senses a ball and then stops, searches for hub using tape vision pipeline
-      // and stops when aimed, waits for shooter to reach rpm, and then runs magazine for 5 seconds
-      
-     //   .alongWith(
-        //  new InstantCommand(() -> intake.intakePistonExtend(), intake).andThen(
-       //   new RunCommand(() -> { intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake))
-          //);
-
-      //im so done with this bruh
-    return auto;
+    return new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner);
   }
 }

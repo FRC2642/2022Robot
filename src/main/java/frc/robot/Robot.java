@@ -27,6 +27,8 @@ import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.vision.BlurContour;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotBase;
+
 import java.net.InetAddress;
 
 /**
@@ -36,6 +38,11 @@ import java.net.InetAddress;
  * project.
  */
 public class Robot extends TimedRobot {
+
+  public static void go(){
+    
+    RobotBase.startRobot(Robot::new);
+  }
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
