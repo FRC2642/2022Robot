@@ -61,7 +61,7 @@ DataStreamFilter fps = new DataStreamFilter(10);
             }
           }
       }
-      SmartDashboard.putNumber("tape vision fps", fps.calculate( 1.0/frametimer.get()));
+      //SmartDashboard.putNumber("tape vision fps", fps.calculate( 1.0/frametimer.get()));
       frametimer.reset();
     });
     
@@ -89,8 +89,8 @@ DataStreamFilter fps = new DataStreamFilter(10);
   public void periodic() {
     String nums = "";
     for(int i = 0; i < points.size(); i++) nums+="["+points.get(i).x+"] ";
-    SmartDashboard.putString("center x's", nums);
-    SmartDashboard.putNumber("TAPE center x", getCenterX());
+    //SmartDashboard.putString("center x's", nums);
+    //SmartDashboard.putNumber("TAPE center x", getCenterX());
 
    // This method will be called once per scheduler run
   }

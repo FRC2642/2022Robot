@@ -283,9 +283,9 @@ public class RobotContainer {
 
 
 
-    SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
-    SmartDashboard.putData("hhhh", 
-    new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 650)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
+    //SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
+    //SmartDashboard.putData("hhhh", 
+    //new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 650)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
 
 
 

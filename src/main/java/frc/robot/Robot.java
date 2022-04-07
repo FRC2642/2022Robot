@@ -72,12 +72,21 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
 
-    SmartDashboard.putNumber("shooter rpm", 0.0);
+    //SmartDashboard.putNumber("shooter rpm", 0.0);
     
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+
+    /*intakecam = CameraServer.startAutomaticCapture(1);
+
+    intakecam.setFPS(15);
+    intakecam.setResolution(320, 240);
+    intakecam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);*/
+
 /*
+
+
     //intake camera setup
     intakecam = CameraServer.startAutomaticCapture(0);
     intakecam.setFPS(60);
@@ -170,8 +179,8 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
 
-    SmartDashboard.putNumber("width", rect.width); 
-    SmartDashboard.putNumber("height", rect.height);
+    //SmartDashboard.putNumber("width", rect.width); 
+    //SmartDashboard.putNumber("height", rect.height);
 
    // SmartDashboard.putNumber("navx", Robot.navx.getYaw());
 
