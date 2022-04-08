@@ -124,10 +124,10 @@ public class VisionSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("issquare", isSquare);
-    SmartDashboard.putNumber("center ball x", getCenterX());
-    SmartDashboard.putNumber("center ball y", centerY);
-    SmartDashboard.putBoolean("is detection", isDetection());
+    //SmartDashboard.putBoolean("issquare", isSquare);
+    //SmartDashboard.putNumber("center ball x", getCenterX());
+    //SmartDashboard.putNumber("center ball y", centerY);
+    //SmartDashboard.putBoolean("is detection", isDetection());
     // This method will be called once per scheduler run
   }
 }

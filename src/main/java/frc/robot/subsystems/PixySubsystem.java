@@ -26,8 +26,8 @@ public class PixySubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Center X: ", getBallCenter());
-    SmartDashboard.putBoolean("Is ball there: ", isBallVisible());
+    //SmartDashboard.putNumber("Center X: ", getBallCenter());
+    //SmartDashboard.putBoolean("Is ball there: ", isBallVisible());
     // This method will be called once per scheduler run
   }
 }

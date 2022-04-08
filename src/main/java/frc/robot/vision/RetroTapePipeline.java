@@ -53,7 +53,7 @@ public class RetroTapePipeline implements VisionPipeline {
 		Mat hsvThresholdInput = cvResizeOutput;
 		double[] hsvThresholdHue = {70.0, 90.0};
 		double[] hsvThresholdSaturation = {76.0, 255.0};
-		double[] hsvThresholdValue = {220.0, 255.0};
+		double[] hsvThresholdValue = {220.0, 240.0};
 		hsvThreshold(hsvThresholdInput, hsvThresholdHue, hsvThresholdSaturation, hsvThresholdValue, hsvThresholdOutput);
 
 		// Step Find_Contours0:

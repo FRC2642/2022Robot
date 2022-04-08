@@ -33,7 +33,7 @@ public class TurnTowardsHubCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turn = MathR.proportion(TapeVisionSubsystem.getCenterX() - 80, 0.265, 80, 10, 0.33);
+    turn = MathR.proportion(TapeVisionSubsystem.getCenterX() - 80, 0.2645, 80, 10, 0.33);
     /*if (centerX < 70)       drive.drive(0,-0.4);
     else if (centerX > 90)  drive.drive(0,0.4);
     else                    drive.drive(0,0);*/
