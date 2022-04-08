@@ -78,11 +78,11 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    /*intakecam = CameraServer.startAutomaticCapture(1);
+    intakecam = CameraServer.startAutomaticCapture(0);
 
     intakecam.setFPS(15);
     intakecam.setResolution(320, 240);
-    intakecam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);*/
+    intakecam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
 /*
 

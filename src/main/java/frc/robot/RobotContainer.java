@@ -219,18 +219,18 @@ public class RobotContainer {
 
 
     //climber up and down
-    new JoystickButton(auxController, Button.kX.value)
+    new JoystickButton(auxController, Button.kB.value)
     .whileHeld(new RunCommand(() -> climb.moveElevator(1.0), climb));
 
-    new JoystickButton(auxController, Button.kB.value)
+    new JoystickButton(auxController, Button.kX.value)
     .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-1.0), climb));
 
     
-    new JoystickButton(auxController, Button.kStart.value)
+    new JoystickButton(auxController, Button.kBack.value)
     .whenPressed(new InstantCommand(() -> climb.climbPistonFoward(), climb));
 
     
-    new JoystickButton(auxController, Button.kBack.value)
+    new JoystickButton(auxController, Button.kStart.value)
     .whenPressed(new InstantCommand(() -> climb.climbPistonBackward(), climb));
 
 

@@ -39,7 +39,7 @@ DataStreamFilter fps = new DataStreamFilter(10);
   /** Creates a new TapeVisionSubsystem. */
   public TapeVisionSubsystem() {
     instance = this;
-    camera = CameraServer.startAutomaticCapture(0);
+    camera = CameraServer.startAutomaticCapture(1);
 
     camera.setFPS(25);
     camera.setResolution(320, 240);
