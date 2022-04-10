@@ -18,6 +18,10 @@ public class ClimberSubsystem extends SubsystemBase {
   /** Creates a new ClimberSubsystem. */
   CANSparkMax elevatorMotor = new CANSparkMax(14, MotorType.kBrushless);
   Solenoid climbPistonOne = new Solenoid(PneumaticsModuleType.REVPH, 8);
+
+  Solenoid climberTiltPiston1 = new Solenoid(PneumaticsModuleType.REVPH, 14);
+  Solenoid climberTiltPiston2 = new Solenoid(PneumaticsModuleType.REVPH, 13);
+
   //Encoder elevatorEncoder = new Encoder(0, 0);
   public ClimberSubsystem() {
     elevatorMotor.restoreFactoryDefaults();
@@ -31,25 +35,32 @@ public class ClimberSubsystem extends SubsystemBase {
      climbPistonOne.set(false);
      //climbPistonTwo.set(DoubleSolenoid.Value.kReverse);
    }
-   /*public void pistonOff(){
-     climbPistonOne.set(DoubleSolenoid.Value.kOff);
-     //climbPistonTwo.set(DoubleSolenoid.Value.kOff);
-   }*/
+   
+   public void climbTiltPiston1Foward(){
+    climberTiltPiston1.set(true);
+   }
+   public void climbTiltPiston1Backward(){
+    climberTiltPiston1.set(false);
+   }
+
+   public void climbTiltPiston2Foward(){
+    climberTiltPiston2.set(true);
+   }
+   public void climbTiltPiston2Backward(){
+    climberTiltPiston2.set(false);
+   }
 
   public void moveElevator(double speed){
-   elevatorMotor.set(0.6);
+   elevatorMotor.set(1.0);
   }
 
   public void moveElevatorDown(double downSpeed){
-    elevatorMotor.set(-0.6);
+    elevatorMotor.set(-1.0);
   }
 
   public void climberStop(){
     elevatorMotor.set(0);
   }
-  /*public double getElevatorEncoder(){
-    return elevatorEncoder.get();
-   }*/
 
   @Override
   public void periodic() {

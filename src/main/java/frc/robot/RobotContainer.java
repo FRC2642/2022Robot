@@ -35,6 +35,8 @@ import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.TwoBallAutonomousCommand;
 import frc.robot.commands.AimAndShootCommand;
 import frc.robot.commands.BallFollowerCommand;
+import frc.robot.commands.ClimbTiltPistonOneCommand;
+import frc.robot.commands.ClimbTiltPistonTwoCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.InterruptSubsystemsCommand;
 import frc.robot.commands.ResetGyroCommand;
@@ -80,7 +82,9 @@ public class RobotContainer {
 
   private final Command turnTowardsHubCommand = new TurnTowardsHubCommand(drive);
   private final AimAndShootCommand aimAndShoot = new AimAndShootCommand(drive, turretShooter, magazine, intake);
-  
+  private final Command climbTiltPistonOne = new ClimbTiltPistonOneCommand(climb);
+  private final Command climbTiltPistonTwo = new ClimbTiltPistonTwoCommand(climb);
+
  /* private final Command driveCommand = new DriveCommand(drive);
   private final Command intakePistonExtend = new IntakePistonExtendCommand(intake);
   private final Command intakePistonRetract = new IntakePistonRetractCommand(intake);
@@ -226,12 +230,23 @@ public class RobotContainer {
     .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-1.0), climb));
 
     
-    new JoystickButton(auxController, Button.kBack.value)
+
+    
+    new JoystickButton(driveController, Button.kBack.value)
     .whenPressed(new InstantCommand(() -> climb.climbPistonFoward(), climb));
 
     
-    new JoystickButton(auxController, Button.kStart.value)
+    new JoystickButton(driveController, Button.kStart.value)
     .whenPressed(new InstantCommand(() -> climb.climbPistonBackward(), climb));
+
+    new POVButton(driveController, 180).whenPressed(climbTiltPistonOne);
+    new POVButton(driveController, 0).whenPressed(climbTiltPistonTwo);
+
+    //new JoystickButton(driveController, Button.kX.value).whenPressed(climbTiltPistonOne);
+
+
+
+    
 
 
     //auto aim during tele-op
@@ -268,11 +283,11 @@ public class RobotContainer {
     new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(550), turretShooter));
     
     //up close, high hub
-    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1100), turretShooter));
+    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1050), turretShooter));
     
     //on the line shot, high hub
-    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1250), turretShooter));
-    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1650), turretShooter));
+    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1175), turretShooter));
+    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1700), turretShooter));
 
     SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
 

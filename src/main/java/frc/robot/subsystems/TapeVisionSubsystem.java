@@ -41,7 +41,7 @@ DataStreamFilter fps = new DataStreamFilter(10);
     instance = this;
     camera = CameraServer.startAutomaticCapture(1);
 
-    camera.setFPS(25);
+    camera.setFPS(10);
     camera.setResolution(320, 240);
     camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
@@ -87,8 +87,8 @@ DataStreamFilter fps = new DataStreamFilter(10);
 
   @Override
   public void periodic() {
-    String nums = "";
-    for(int i = 0; i < points.size(); i++) nums+="["+points.get(i).x+"] ";
+    //String nums = "";
+    //for(int i = 0; i < points.size(); i++) nums+="["+points.get(i).x+"] ";
     //SmartDashboard.putString("center x's", nums);
     //SmartDashboard.putNumber("TAPE center x", getCenterX());
 

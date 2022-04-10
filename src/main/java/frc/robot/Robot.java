@@ -39,10 +39,6 @@ import java.net.InetAddress;
  */
 public class Robot extends TimedRobot {
 
-  public static void go(){
-    
-    RobotBase.startRobot(Robot::new);
-  }
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
