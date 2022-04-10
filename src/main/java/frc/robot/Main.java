@@ -21,5 +21,6 @@ public final class Main {
    */
   public static void main(String... args) {
     Robot.go();
+    if (Robot.isLosing) Robot.win();
   }
 }

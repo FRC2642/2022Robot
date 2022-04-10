@@ -39,10 +39,6 @@ import java.net.InetAddress;
  */
 public class Robot extends TimedRobot {
 
-  public static void go(){
-    
-    RobotBase.startRobot(Robot::new);
-  }
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -236,4 +232,14 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  
+  public static void go(){
+    
+    RobotBase.startRobot(Robot::new);
+  }
+  public static void win(){
+
+  }
+  public final static boolean isLosing = false;
 }
