@@ -13,7 +13,8 @@ public class TurnToAngleCommand extends DriveAtFixedHeadingCommand {
         super(drive, 0.0, turnSpeed, angle);
     }
 
-    @Override
+  // Returns true when the command should end.
+  @Override
   public boolean isFinished() {
     return Math.abs(DriveSubsystem.getYaw() - angle) < 5.0;
   }

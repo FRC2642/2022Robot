@@ -38,12 +38,18 @@ public class TwoBallAutonomousCommand extends SequentialCommandGroup {
       //new ResetGyroCommand(drive),
       new IntakePistonExtendCommand(intake),
       new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.45, 0.3), new WaitForTwoBallsThere()).withTimeout(3.5),
+<<<<<<< HEAD
   //    new TurnTowardsHubCommand(drive),
       new TurnToAngleCommand(drive, 0.4, 180.0),
+=======
+     // new TurnTowardsHubCommand(drive),
+     new TurnToAngleCommand(drive, 0.4, 180.0),
+      //new TurnByGyro(drive, 0.0, 0.4, 180),
+>>>>>>> dev
       new TurretHoodUpCommand(spinner),
       new IntakePistonRetractCommand(intake),
-      new DriveBySonarCommand(drive, 44.0),
-      new StartShooterCommand(turretShooter, 1075),
+      new DriveBySonarCommand(drive, 52.5),
+      new StartShooterCommand(turretShooter, 1120),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.0),
       new WaitForRPMReachedCommand(),
