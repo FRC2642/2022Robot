@@ -297,6 +297,8 @@ public class RobotContainer {
     .whenHeld(new RunCommand(magazine::magReverse, magazine));
 
 
+    //new JoystickButton(driveController, Button.kY.value).whenPressed(new RunCommand(() -> turretShooter.setRainbowAnimation(), turretShooter));
+
 
     //SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
     //SmartDashboard.putData("hhhh", 
@@ -342,6 +344,10 @@ public class RobotContainer {
 
   public static boolean getJoystickData(){
     return (Math.abs(driveController.getRawAxis(0)) > 0.3);
+  }
+
+  public static boolean getDriverYButtonPressed(){
+    return (driveController.getYButtonPressed());
   }
 
   /**

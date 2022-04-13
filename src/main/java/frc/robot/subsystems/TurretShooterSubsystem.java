@@ -14,13 +14,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix.led.CANdle;
+
 import com.ctre.phoenix.led.*;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
-import com.ctre.phoenix.led.Animation;
-import com.ctre.phoenix.led.ColorFlowAnimation;
 
 
 public class TurretShooterSubsystem extends SubsystemBase {
@@ -38,8 +36,8 @@ public class TurretShooterSubsystem extends SubsystemBase {
 
   //figure out can ids and led count
   private final CANdle candle = new CANdle(17, "rio");
-  private final int ledCount = 300;
-  private final Animation colorFlowAnimation = new ColorFlowAnimation(0, 255, 0, 0, 0.7, ledCount, Direction.Forward);
+  private final int ledCount = 68;
+  private final Animation colorFlowAnimation = new RainbowAnimation(0.7, 0.8, ledCount);
 
 
 
@@ -108,6 +106,9 @@ public class TurretShooterSubsystem extends SubsystemBase {
     return (rtrigger > .5);
   }
 
+  public void setRainbowAnimation(){
+    candle.animate(colorFlowAnimation);
+  }
   
   @Override
   public void periodic() {
@@ -134,9 +135,9 @@ public class TurretShooterSubsystem extends SubsystemBase {
        SmartDashboard.putNumber("shooter speed", getShooterSpeed());
        SmartDashboard.putBoolean("shooter ready", isCloseToSetRPM());
 
-       if (isCloseToSetRPM()){
-        candle.setLEDs(0, 255, 0);
-        //candle.animate(colorFlowAnimation);
+       if (isCloseToSetRPM() || RobotContainer.getDriverYButtonPressed()){
+        //candle.setLEDs(0, 255, 0);
+        candle.animate(colorFlowAnimation);
        }
        else if (DriverStation.getAlliance() == Alliance.Blue) {
         candle.setLEDs(0, 0, 255);
