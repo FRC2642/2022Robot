@@ -74,10 +74,8 @@ public class DriveSubsystem extends SubsystemBase {
     frontRight.setInverted(true);
     backRight.setInverted(true);
 
-    frontLeft.configOpenloopRamp(0.25);
-    backLeft.configOpenloopRamp(0.25);
-    frontRight.configOpenloopRamp(0.25);
-    backRight.configOpenloopRamp(0.25);
+
+    
     
 
 
@@ -95,6 +93,13 @@ public class DriveSubsystem extends SubsystemBase {
     backRight.configNeutralDeadband(0.01);*/
 
 
+  }
+  
+  public void configDriveRamp(double ramp){
+    frontLeft.configOpenloopRamp(ramp);
+    backLeft.configOpenloopRamp(ramp);
+    frontRight.configOpenloopRamp(ramp);
+    backRight.configOpenloopRamp(ramp);
   }
   
 

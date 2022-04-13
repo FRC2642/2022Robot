@@ -172,14 +172,17 @@ public class RobotContainer {
 
     drive.setDefaultCommand(new RunCommand(() ->{ 
     if(getDriveRightTrigger()){
+      drive.configDriveRamp(0.45);
       drive.move(-driveController.getRawAxis(1) * .90,(driveController.getRawAxis(0) * .80));
     }
     //slower turn, fast straight
     else if(getDriveLeftTrigger()){
+      drive.configDriveRamp(0.35);
       drive.move(-driveController.getRawAxis(1) * .50,(driveController.getRawAxis(0) * .50));
     }
     //normal drive
     else{
+      drive.configDriveRamp(0.4);
       drive.move(-driveController.getRawAxis(1) * .6,(driveController.getRawAxis(0) * .60));
     }
   },drive));
