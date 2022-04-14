@@ -36,24 +36,23 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ResetGyroCommand(drive),
-      //new StartShooterCommand(turretShooter, 1100),
-      //new WaitForRPMReachedCommand(),
-      //new TimedShootCommand(mag, intake, 1),
-      //new StartShooterCommand(turretShooter, 0.0),
-      new TurnToAngleCommand(drive, 0.3, 180),
-      //new IntakePistonExtendCommand(intake),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.3, 0.4), new WaitForOneBallThere()),
-      new TurnToAngleCommand(drive, 0.3, 80),
-      //new TimedShootCommand(mag, intake, 1),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.3, 0.4), new WaitForTwoBallsThere()),
-      //new IntakePistonRetractCommand(intake),
-      new TurnToAngleCommand(drive, 0.3, -10),
-      new DriveBySonarCommand(drive, 52.5)
-      //new StartShooterCommand(turretShooter, 1100),
-      //new WaitForRPMReachedCommand(),
-      //new TimedShootCommand(mag, intake, 3)
-      
-    );
+      new StartShooterCommand(turretShooter, 1100),
+      new WaitForRPMReachedCommand(),
+      new TimedShootCommand(mag, intake, 1),
+      new StartShooterCommand(turretShooter, 0.0),
+      new TurnToAngleCommand(drive, 0.4, 180),
+      new IntakePistonExtendCommand(intake),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.4, 0.4), new WaitForOneBallThere()),
+      new TurnToAngleCommand(drive, 0.4, 80),
+      new TimedShootCommand(mag, intake, 1),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.4, 0.4), new WaitForTwoBallsThere()),
+      new IntakePistonRetractCommand(intake),
+      new TurnToAngleCommand(drive, 0.4, -10),
+      new DriveBySonarCommand(drive, 52.5),
+      new StartShooterCommand(turretShooter, 1100),
+      new WaitForRPMReachedCommand(),
+      new TimedShootCommand(mag, intake, 1)
+       );
 
     /*new StartShooterCommand(turretShooter, 650).andThen(
         new IntakePistonExtendCommand(intake),
