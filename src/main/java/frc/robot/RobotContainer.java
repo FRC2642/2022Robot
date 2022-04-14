@@ -15,9 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -37,14 +35,10 @@ import frc.robot.commands.AimAndShootCommand;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.ClimbTiltPistonOneCommand;
 import frc.robot.commands.ClimbTiltPistonTwoCommand;
-import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.InterruptSubsystemsCommand;
 import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.ThreeBallAutonomousCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
-import frc.robot.commands.drive.DriveSpeedCommand;
-import frc.robot.commands.intake.IntakePistonExtendCommand;
-import frc.robot.commands.shooter.StartShooterCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -105,17 +99,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     
-    /*drive.setDefaultCommand(
-      new RunCommand(
-        () -> drive.move(
-       -driveController.getRawAxis(1) * 0.6,
-        driveController.getRawAxis(0) *0.6
-          ), drive
-    ));*/ 
-
-    //sicko and slow modes (check if this works, if not go back to above drive command)
-    //drive.setDefaultCommand(driveCommand); 
-
+    //Robot.choose.addOption("Two-Ball Auto", new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner));
+    //Robot.choose.addOption("Three-Ball Auto", new ThreeBallAutonomousCommand(turretShooter, intake, drive, magazine));
 
     turretShooter.setDefaultCommand(
       new RunCommand(
@@ -128,15 +113,6 @@ public class RobotContainer {
               () -> 
               magazine.magStop(), magazine
                 ));
-
-    //with limit switches
-    /*turretSpinner.setDefaultCommand(
-      new RunCommand(
-        () -> turretSpinner.manuelTurnTurret(
-          auxController.getRawAxis(4) * 0.40
-          ), turretSpinner
-          ));*/
-
     
     intake.setDefaultCommand(
       new RunCommand(
@@ -153,9 +129,6 @@ public class RobotContainer {
             magazine.magStop();
           }
           }, intake));
-      
-    //intake.setDefaultCommand(intakeOffCommand);
-
           
    
     climb.setDefaultCommand(
@@ -165,10 +138,6 @@ public class RobotContainer {
     ));
 
    
-
-
-
-
 
     drive.setDefaultCommand(new RunCommand(() ->{ 
     if(getDriveRightTrigger()){
@@ -199,22 +168,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-    
-    
-    //runs magazine
-    auxLeftTrigger.whileActiveContinuous(new RunCommand(() -> magazine.magRun(), magazine));
-
-    //runs shooter (need to figure out speed)
-    auxRightTrigger.whileActiveContinuous(new RunCommand(() -> turretShooter.setSpeed(1500), turretShooter));
-    
-    //changes turret hood
-    new JoystickButton(auxController, Button.kY.value)
-    .whenPressed(new InstantCommand(turretSpinner::turretHoodUp));
-
-    new JoystickButton(auxController, Button.kA.value)
-    .whenPressed(new InstantCommand(turretSpinner::turretHoodDown));
-
-    //check these bumper values, I'm not sure which is which
+    //***********************INTAKE & MAGAZINE BUTTONS***********************/
+    //extends and retracts intake piston
     new JoystickButton(driveController, 6)
     .whenPressed(new InstantCommand(intake::intakePistonExtend, intake));
 
@@ -222,113 +177,68 @@ public class RobotContainer {
     .whenPressed(new InstantCommand(intake::intakePistonRetract, intake));
 
 
-    //climber up and down
-    new JoystickButton(auxController, Button.kB.value)
-    .whileHeld(new RunCommand(() -> climb.moveElevator(1.0), climb));
+    //runs magazine and big wheel together
+    auxLeftTrigger.whileActiveContinuous(new RunCommand(() -> magazine.magRun(), magazine).alongWith(
+      new RunCommand(() -> intake.intakeBigwheelOn(), intake)
+    ));
 
-    new JoystickButton(auxController, Button.kX.value)
-    .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-1.0), climb));
-
-    
-
-    
-    new JoystickButton(driveController, Button.kBack.value)
-    .whenPressed(new InstantCommand(() -> climb.climbPistonFoward(), climb));
-
-    
-    new JoystickButton(driveController, Button.kStart.value)
-    .whenPressed(new InstantCommand(() -> climb.climbPistonBackward(), climb));
-
-    new POVButton(driveController, 180).whenPressed(climbTiltPistonOne);
-    new POVButton(driveController, 0).whenPressed(climbTiltPistonTwo);
-
-    //new JoystickButton(driveController, Button.kX.value).whenPressed(climbTiltPistonOne);
-
-
-
-    
-
-
-    //auto aim during tele-op
-    new JoystickButton(driveController, Button.kA.value)
-    .whenPressed(turnTowardsHubCommand);
-
-    //auto aim and set shooter speed
-    new JoystickButton(driveController, Button.kB.value)
-    .whenPressed(aimAndShoot);
-
-
-
-    /*new JoystickButton(auxController, Button.kB.value)
-    .whenHeld(new RunCommand(climb::moveElevatorDown(0.5), climb));*/
-
-
-
-    //preset shooting powers (change to speeds)
-    /*new JoystickButton(driveController, Button.kX.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(650), turretShooter));
-
-    new JoystickButton(driveController, Button.kA.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(1000), turretShooter));
-
-    new JoystickButton(driveController, Button.kB.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
-
-    new JoystickButton(driveController, Button.kY.value)
-    .whileHeld(new RunCommand(() -> turretShooter.setSpeed(3250), turretShooter));*/
-
-    
-    //figure out presets for eliminated backspin
-    //up close, low hub, hood come up automatically
-    new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(550), turretShooter));
-    
-    //up close, high hub
-    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1050), turretShooter));
-    
-    //on the line shot, high hub
-    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1175), turretShooter));
-    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1700), turretShooter));
-
-    SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
-
-
-
+    //reverse magazine
     new JoystickButton(auxController, 5)
     .whenHeld(new RunCommand(magazine::magReverse, magazine));
 
 
-    //new JoystickButton(driveController, Button.kY.value).whenPressed(new RunCommand(() -> turretShooter.setRainbowAnimation(), turretShooter));
-
-
-    //SmartDashboard.putData("resetgyro",new ResetGyroCommand(drive));
-    //SmartDashboard.putData("hhhh", 
-    //new StartShooterCommand(turretShooter, SmartDashboard.getNumber("shooter rpm", 650)).andThen(new WaitCommand(10.0),new StartShooterCommand(turretShooter, 0.0)));
-
-
-
-    //not using climb pistons right now
-    /*new JoystickButton(driveController, 6)
-    .whenPressed(new InstantCommand(climb::climbPistonFoward));
-
-    new JoystickButton(driveController, 5)
-    .whenPressed(new InstantCommand(climb::climbPistonBackward));*/
-
-
-    //new JoystickButton(driveController, Button.kX.value).whenPressed(intakePistonExtend);
-    
-    //new JoystickButton(driveController, Button.kY.value).whenPressed(intakePistonRetract);
-
-
-
-
-        
-        
-    
-
   
+    
+    //***********************CLIMBER BUTTONS***********************/
+    //tilt the climber back
+    new JoystickButton(driveController, Button.kBack.value)
+    .whenPressed(new InstantCommand(() -> climb.climbPistonFoward(), climb));
+    
+    new JoystickButton(driveController, Button.kStart.value)
+    .whenPressed(new InstantCommand(() -> climb.climbPistonBackward(), climb));
+
+    //move climb rack up and down
+    new JoystickButton(auxController, Button.kB.value)
+    .whileHeld(new RunCommand(() -> climb.moveElevator(1.0), climb));
+    
+    new JoystickButton(auxController, Button.kX.value)
+    .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-1.0), climb));
+
+    //toggle high and low pressure for climbing
+    new POVButton(driveController, 180).whenPressed(climbTiltPistonOne);
+    new POVButton(driveController, 0).whenPressed(climbTiltPistonTwo);
+
+
+
+    //***********************SHOOTER BUTTONS***********************/    
+    //changes turret hood
+    new JoystickButton(auxController, Button.kY.value)
+    .whenPressed(new InstantCommand(turretSpinner::turretHoodUp));
+    
+    new JoystickButton(auxController, Button.kA.value)
+    .whenPressed(new InstantCommand(turretSpinner::turretHoodDown));
+    
+    //up close, low hub
+    new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(550), turretShooter));
+    //up close, high hub
+    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1050), turretShooter));
+    //on the line shot, high hub
+    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1175), turretShooter));
+    //from launch pad (safe zone, far shot)
+    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1700), turretShooter));
+
+
+
+    //***********************EXTRA***********************/    
+    //interrupts all commands running
+    SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
+
+    //auto aim during tele-op
+    new JoystickButton(driveController, Button.kA.value)
+    .whenPressed(turnTowardsHubCommand);
+    
   }
 
-  //Gyro Methods
   
   
   public static boolean getDriveLeftTrigger(){
@@ -346,9 +256,6 @@ public class RobotContainer {
     return (Math.abs(driveController.getRawAxis(0)) > 0.3);
   }
 
-  public static boolean getDriverYButtonPressed(){
-    return (driveController.getYButtonPressed());
-  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
