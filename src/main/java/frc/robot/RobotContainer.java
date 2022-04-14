@@ -38,6 +38,7 @@ import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.ClimbTiltPistonOneCommand;
 import frc.robot.commands.ClimbTiltPistonTwoCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
+import frc.robot.commands.FourBallAutonomousCommand;
 import frc.robot.commands.InterruptSubsystemsCommand;
 import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.ThreeBallAutonomousCommand;
@@ -205,7 +206,7 @@ public class RobotContainer {
     
     
     //runs magazine
-    auxLeftTrigger.whileActiveContinuous(new RunCommand(() -> magazine.magRun(), magazine));
+    auxLeftTrigger.whileActiveContinuous(new RunCommand(() -> magazine.magRun(), magazine).alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)));
 
     //runs shooter (need to figure out speed)
     auxRightTrigger.whileActiveContinuous(new RunCommand(() -> turretShooter.setSpeed(1500), turretShooter));
@@ -227,10 +228,10 @@ public class RobotContainer {
 
     //climber up and down
     new JoystickButton(auxController, Button.kB.value)
-    .whileHeld(new RunCommand(() -> climb.moveElevator(1.0), climb));
+    .whileHeld(new RunCommand(() -> climb.moveElevator(), climb));
 
     new JoystickButton(auxController, Button.kX.value)
-    .whileHeld(new RunCommand(() -> climb.moveElevatorDown(-1.0), climb));
+    .whileHeld(new RunCommand(() -> climb.moveElevatorDown(), climb));
 
     
 
@@ -353,6 +354,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner);
+    return new FourBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner);
   }
 }

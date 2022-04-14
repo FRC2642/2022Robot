@@ -50,11 +50,11 @@ public class ClimberSubsystem extends SubsystemBase {
     climberTiltPiston2.set(false);
    }
 
-  public void moveElevator(double speed){
+  public void moveElevator(){
    elevatorMotor.set(1.0);
   }
 
-  public void moveElevatorDown(double downSpeed){
+  public void moveElevatorDown(){
     elevatorMotor.set(-1.0);
   }
 

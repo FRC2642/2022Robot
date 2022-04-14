@@ -61,6 +61,7 @@ public class DriveSubsystem extends SubsystemBase {
   //Constructor
   public DriveSubsystem() {
     instance = this;
+    configDriveRamp(0.4);
 
     pigeon2.clearStickyFaults();
     pigeon2.setYaw(0.0);
