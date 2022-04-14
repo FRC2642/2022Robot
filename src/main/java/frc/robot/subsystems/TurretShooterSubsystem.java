@@ -12,6 +12,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -19,6 +20,7 @@ import com.ctre.phoenix.led.*;
 import com.ctre.phoenix.led.CANdle.LEDStripType;
 import com.ctre.phoenix.led.CANdle.VBatOutputMode;
 import com.ctre.phoenix.led.ColorFlowAnimation.Direction;
+import com.ctre.phoenix.led.LarsonAnimation.BounceMode;
 
 
 public class TurretShooterSubsystem extends SubsystemBase {
@@ -36,8 +38,11 @@ public class TurretShooterSubsystem extends SubsystemBase {
 
   //figure out can ids and led count
   private final CANdle candle = new CANdle(17, "rio");
-  private final int ledCount = 300;
-  private final Animation colorFlowAnimation = new RainbowAnimation(1, 1, 60);
+  private final int ledCount = 68;
+  private final Animation rainbowAnimation = new RainbowAnimation(0.7, 0.8, ledCount);
+  private final Animation blueAllianceLarsonAnimation = new LarsonAnimation(0, 0, 255, 0, 0.99, ledCount, BounceMode.Back, 7);
+  private final Animation redAllianceLarsonAnimation = new LarsonAnimation(255, 0, 0, 0, 0.99, ledCount, BounceMode.Back, 7); 
+ 
 
 
 
@@ -106,6 +111,9 @@ public class TurretShooterSubsystem extends SubsystemBase {
     return (rtrigger > .5);
   }
 
+  public void setRainbowAnimation(){
+    candle.animate(rainbowAnimation);
+  }
   
   @Override
   public void periodic() {
@@ -134,13 +142,16 @@ public class TurretShooterSubsystem extends SubsystemBase {
 
        if (isCloseToSetRPM()){
         //candle.setLEDs(0, 255, 0);
-        candle.animate(colorFlowAnimation);
+        candle.animate(rainbowAnimation);
+        //RobotContainer.driveController.setRumble(RumbleType.kLeftRumble, 0.1);
        }
        else if (DriverStation.getAlliance() == Alliance.Blue) {
-        candle.setLEDs(0, 0, 255);
+        //candle.setLEDs(0, 0, 255);
+        candle.animate(blueAllianceLarsonAnimation);
        }
        else{
-         candle.setLEDs(255, 0, 0);
+         //candle.setLEDs(255, 0, 0);
+         candle.animate(redAllianceLarsonAnimation);
        }
 
        
