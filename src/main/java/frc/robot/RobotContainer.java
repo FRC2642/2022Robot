@@ -209,7 +209,7 @@ public class RobotContainer {
     auxLeftTrigger.whileActiveContinuous(new RunCommand(() -> magazine.magRun(), magazine).alongWith(new RunCommand(() -> intake.intakeBigwheelOn(), intake)));
 
     //runs shooter (need to figure out speed)
-    auxRightTrigger.whileActiveContinuous(new RunCommand(() -> turretShooter.setSpeed(1500), turretShooter));
+    auxRightTrigger.whileActiveContinuous(new RunCommand(() -> turretShooter.setSpeed(5600), turretShooter));
     
     //changes turret hood
     new JoystickButton(auxController, Button.kY.value)

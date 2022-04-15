@@ -12,6 +12,8 @@ import frc.robot.commands.drive.DriveStraightCommand;
 import frc.robot.commands.drive.TurnToAngleCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
 import frc.robot.commands.intake.IntakePistonRetractCommand;
+import frc.robot.commands.intake.RunIntakeCommand;
+import frc.robot.commands.magazine.MagazineRunCommand;
 import frc.robot.commands.magazine.TimedMagazineRunCommand;
 import frc.robot.commands.shooter.StartShooterCommand;
 import frc.robot.commands.waitfor.WaitForOneBallThere;
@@ -37,7 +39,7 @@ public class FourBallAutonomousCommand extends SequentialCommandGroup {
       
       //new ResetGyroCommand(drive),
       new IntakePistonExtendCommand(intake),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0., 0.3), new WaitForTwoBallsThere()).withTimeout(3.5),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.35, 0.35), new WaitForTwoBallsThere()).withTimeout(35),
   //    new TurnTowardsHubCommand(drive),
       new TurnToAngleCommand(drive, 0.4, 180.0),
       new TurretHoodUpCommand(spinner),
@@ -48,15 +50,19 @@ public class FourBallAutonomousCommand extends SequentialCommandGroup {
       new TimedShootCommand(mag, intake, 1.5),
       new StartShooterCommand(turretShooter, 0.0),
       new TurnToAngleCommand(drive, 0.4, 40),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveBySonarCommand(drive, 15), new WaitForTwoBallsThere()),
-      new WaitForTwoBallsThere(),
+      new DriveBySonarCommand(drive, 20.0)
+
+      //.alongWith(new RunIntakeCommand(intake), new MagazineRunCommand(mag, true)).until(MagazineSubsystem::areTwoBallsThere),
+      //new RunIntakeCommand(intake),
+      /*new WaitForTwoBallsThere(),
+      //new DriveUntilBallFoundCommand(drive, intake, mag, new DriveBySonarCommand(drive, 25), new WaitForTwoBallsThere()),
+      //new WaitForTwoBallsThere(),
       new TurnToAngleCommand(drive, 0.4, 180.0),
       new DriveBySonarCommand(drive, 44.0),
-      
       new StartShooterCommand(turretShooter, 1120),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.5),
-      new StartShooterCommand(turretShooter, 0.0)
+      new StartShooterCommand(turretShooter, 0.0)*/
     );
 
     /*new StartShooterCommand(turretShooter, 650).andThen(

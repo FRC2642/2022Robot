@@ -43,7 +43,7 @@ public class VisionSubsystem extends SubsystemBase {
   /** Creates a new TapeVisionSubsystem. */
   public VisionSubsystem() {
     instance = this;
-   /* camera = CameraServer.startAutomaticCapture(0);
+    camera = CameraServer.startAutomaticCapture(0);
 
     camera.setFPS(15);
     camera.setResolution(320, 240);
@@ -65,7 +65,7 @@ public class VisionSubsystem extends SubsystemBase {
       
    /*   hue = Constants.HSL_HUE_BLUE;
       sat = Constants.HSL_SAT_BLUE;
-      lum = Constants.HSL_LUM_BLUE; 
+      lum = Constants.HSL_LUM_BLUE; */
     }
     else if (alliance == Alliance.Red){
       
@@ -74,7 +74,7 @@ public class VisionSubsystem extends SubsystemBase {
       b = Constants.RGB_RED_rgbThresholdBlue;
  /*     hue = Constants.HSL_HUE_RED;
       sat = Constants.HSL_SAT_RED;
-      lum = Constants.HSL_LUM_RED; 
+      lum = Constants.HSL_LUM_RED; */ 
     }
     frametimer.start();
     frametimer.reset();
@@ -108,7 +108,7 @@ public class VisionSubsystem extends SubsystemBase {
       }
     });
   
-    visionthread.start();*/
+    visionthread.start();
   }
 
   //vision methods

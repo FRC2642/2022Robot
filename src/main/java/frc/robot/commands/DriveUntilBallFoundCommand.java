@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.commands.drive.DriveSpeedCommand;
 import frc.robot.commands.intake.RunIntakeCommand;
@@ -17,15 +18,15 @@ import frc.robot.subsystems.MagazineSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class DriveUntilBallFoundCommand extends ParallelRaceGroup {
+public class DriveUntilBallFoundCommand extends ParallelDeadlineGroup {
 
   public DriveUntilBallFoundCommand(DriveSubsystem drive, IntakeSubsystem intake, MagazineSubsystem mag, Command driver, Command waiter) {
 
+    super(waiter);
     addCommands(
       driver,
       new RunIntakeCommand(intake),
-      new MagazineRunCommand(mag, true), //true = run mag in reverse
-      waiter
+      new MagazineRunCommand(mag, true) //true = run mag in reverse
     );
   }
 }
