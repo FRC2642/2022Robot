@@ -266,6 +266,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner);
+    return new ThreeBallAutonomousCommand(turretShooter, intake, drive, magazine);
   }
 }

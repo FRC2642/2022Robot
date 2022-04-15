@@ -36,20 +36,20 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ResetGyroCommand(drive),
-      new StartShooterCommand(turretShooter, 1100),
+      new StartShooterCommand(turretShooter, 1000),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1),
       new StartShooterCommand(turretShooter, 0.0),
       new TurnToAngleCommand(drive, 0.4, 180),
       new IntakePistonExtendCommand(intake),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.4, 0.4), new WaitForOneBallThere()),
-      new TurnToAngleCommand(drive, 0.4, 80),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.4, 0.4), new WaitForOneBallThere().withTimeout(3)),
+      new TurnToAngleCommand(drive, 0.4, 85),
       new TimedShootCommand(mag, intake, 1),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.4, 0.4), new WaitForTwoBallsThere()),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.4, 0.4), new WaitForTwoBallsThere().withTimeout(3)),
       new IntakePistonRetractCommand(intake),
-      new TurnToAngleCommand(drive, 0.4, -10),
+      new TurnToAngleCommand(drive, 0.4, -25),
       new DriveBySonarCommand(drive, 52.5),
-      new StartShooterCommand(turretShooter, 1100),
+      new StartShooterCommand(turretShooter, 1000),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1)
        );
