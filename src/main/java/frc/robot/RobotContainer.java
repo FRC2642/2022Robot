@@ -37,7 +37,6 @@ import frc.robot.commands.IntakeOffCommand;
 import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.IntakePistonExtendCommand;
 import frc.robot.commands.IntakePistonRetractCommand;
-import frc.robot.commands.ShooterCommand;
 import frc.robot.commands.MagazineRunWhenRPMReachedCommand;
 import frc.robot.commands.StartShooterCommand;
 import frc.robot.commands.TimedDriveCommand;
