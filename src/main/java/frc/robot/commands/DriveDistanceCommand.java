@@ -11,10 +11,13 @@ import frc.robot.utils.MathR;
 public class DriveDistanceCommand extends CommandBase {
   DriveSubsystem drive;
   double distance;
-  
-  public DriveDistanceCommand(DriveSubsystem drive, double distance) {
+  double setpoint;
+  double speed;
+  public DriveDistanceCommand(DriveSubsystem drive, double distance, double setpoint, double speed) {
     this.drive = drive;
     this.distance = distance;
+    this.setpoint = setpoint;
+    this.speed = speed;
     addRequirements(drive);
   }
 
@@ -22,14 +25,16 @@ public class DriveDistanceCommand extends CommandBase {
   @Override
   public void initialize() {
     drive.resetEncoder();
+    drive.resetPID();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    drive.move(0.3, 0);
-    
+    double rotationValue = drive.calculatePID(drive.getYaw(), setpoint);
+    if (rotationValue > 1) rotationValue = 1;
+    if (rotationValue < -1) rotationValue = -1;
+    drive.move(speed, rotationValue * 0.4);
   }
 
   // Called once the command ends or is interrupted.

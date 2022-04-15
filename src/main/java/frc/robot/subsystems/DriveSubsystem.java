@@ -90,6 +90,10 @@ public class DriveSubsystem extends SubsystemBase {
 
 
   }
+
+  public double getYaw(){
+    return pigeon.getYaw();
+  }
   
   //Encoder Methods
   public double getEncoderDistance(){
@@ -128,7 +132,9 @@ public class DriveSubsystem extends SubsystemBase {
     PIDcontrol.setSetpoint(setpoint);
   }
   
-  
+  public void resetPID(){
+    PIDcontrol.reset();
+  }
   
 
   
