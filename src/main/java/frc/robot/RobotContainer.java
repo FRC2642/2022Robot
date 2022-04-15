@@ -278,11 +278,11 @@ public class RobotContainer {
     //up close, low hub
     new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(550), turretShooter));
     //up close, high hub
-    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1050), turretShooter));
+    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(900), turretShooter));
     //on the line shot, high hub
-    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1175), turretShooter));
+    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1100), turretShooter));
     //from launch pad (safe zone, far shot)
-    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1700), turretShooter));
+    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1650), turretShooter));
 
 
 

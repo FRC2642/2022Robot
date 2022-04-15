@@ -50,7 +50,7 @@ public class FourBallAutonomousCommand extends SequentialCommandGroup {
       new TimedShootCommand(mag, intake, 1.5),
       new StartShooterCommand(turretShooter, 0.0),
       new TurnToAngleCommand(drive, 0.4, 40),
-      new DriveBySonarCommand(drive, 20.0)
+      new DriveBySonarCommand(drive, 40.0)
 
       //.alongWith(new RunIntakeCommand(intake), new MagazineRunCommand(mag, true)).until(MagazineSubsystem::areTwoBallsThere),
       //new RunIntakeCommand(intake),
