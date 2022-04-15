@@ -12,12 +12,10 @@ public class DriveDistanceCommand extends CommandBase {
   DriveSubsystem drive;
   double distance;
   double setpoint;
-  double speed;
-  public DriveDistanceCommand(DriveSubsystem drive, double distance, double setpoint, double speed) {
+  public DriveDistanceCommand(DriveSubsystem drive, double distance, double setpoint) {
     this.drive = drive;
     this.distance = distance;
     this.setpoint = setpoint;
-    this.speed = speed;
     addRequirements(drive);
   }
 
@@ -32,9 +30,10 @@ public class DriveDistanceCommand extends CommandBase {
   @Override
   public void execute() {
     double rotationValue = drive.calculatePID(drive.getYaw(), setpoint);
+    double speedValue = drive.calculatePID((drive.getEncoderDistance()/17117.0) * 18.8495559215, MathR.feetToInches(distance));
     if (rotationValue > 1) rotationValue = 1;
     if (rotationValue < -1) rotationValue = -1;
-    drive.move(speed, rotationValue * 0.4);
+    drive.move(speedValue, rotationValue * 0.4);
   }
 
   // Called once the command ends or is interrupted.
@@ -44,7 +43,7 @@ public class DriveDistanceCommand extends CommandBase {
   // Returns true when the command should end. 11027
   @Override
   public boolean isFinished() {
-    if ((drive.getEncoderDistance()/17117.0) * 18.8495559215 < MathR.feetToInches(5)){
+    if ((drive.getEncoderDistance()/17117.0) * 18.8495559215 < MathR.feetToInches(distance)){
       return false;
     }
     else{
