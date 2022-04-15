@@ -4,6 +4,7 @@
 
 package frc.robot.commands;
 
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.utils.MathR;
@@ -33,6 +34,8 @@ public class DriveDistanceCommand extends CommandBase {
     double speedValue = drive.calculatePID((drive.getEncoderDistance()/17117.0) * 18.8495559215, MathR.feetToInches(distance));
     if (rotationValue > 1) rotationValue = 1;
     if (rotationValue < -1) rotationValue = -1;
+    if (speedValue > 1) speedValue = 1;
+    if (speedValue < -1) speedValue = -1;
     drive.move(speedValue, rotationValue * 0.4);
   }
 
