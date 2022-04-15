@@ -35,23 +35,19 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      //extend intake and drive until second ball found
+      new ResetEncoderCommand(drive),
       new ResetGyroCommand(drive),
-      //new StartShooterCommand(turretShooter, 1100),
-      //new WaitForRPMReachedCommand(),
-      //new TimedShootCommand(mag, intake, 1),
-      //new StartShooterCommand(turretShooter, 0.0),
-      new TurnToAngleCommand(drive, 0.3, 180),
-      //new IntakePistonExtendCommand(intake),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.3, 0.4), new WaitForOneBallThere()),
-      new TurnToAngleCommand(drive, 0.3, 80),
-      //new TimedShootCommand(mag, intake, 1),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.3, 0.4), new WaitForTwoBallsThere()),
-      //new IntakePistonRetractCommand(intake),
-      new TurnToAngleCommand(drive, 0.3, -10),
-      new DriveBySonarCommand(drive, 52.5)
-      //new StartShooterCommand(turretShooter, 1100),
-      //new WaitForRPMReachedCommand(),
-      //new TimedShootCommand(mag, intake, 3)
+      new IntakePistonExtendCommand(intake),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0), new WaitForTwoBallsThere()),
+      //turn towards hub and drive til 44in. away and shoot at 1100 rpm wait a sec and shoot again
+      new TurnTowardsHubCommand(drive),
+      new DriveBySonarCommand(drive, 44.0),
+      new StartShooterCommand(turretShooter, 1100),
+      new WaitForRPMReachedCommand(),
+      new TimedShootCommand(mag, intake, 1.0),
+      new WaitForRPMReachedCommand(),
+      new TimedShootCommand(mag, intake, 1.0),
       
     );
 

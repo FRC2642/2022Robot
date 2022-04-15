@@ -140,12 +140,25 @@ public class DriveSubsystem extends SubsystemBase {
   
   
   //Encoder Methods
-  public double getEncoderDistance(){
-    return frontRight.getSelectedSensorPosition();
+  public double getAverageEncoderDistance(){
+    return (frontRight.getSelectedSensorPosition() + frontLeft.getSelectedSensorPosition()) / 2;
+  }
+  
+  //Encoder Methods
+  public double getEncoderDistanceFeet(){
+    return getAverageEncoderDistance() / 11027.0;
   }
 
   public void resetEncoder(){
+    
+
     frontRight.setSelectedSensorPosition(0);
+    
+    frontLeft.setSelectedSensorPosition(0);
+    
+    backRight.setSelectedSensorPosition(0);
+    
+    backLeft.setSelectedSensorPosition(0);
   }
   
   public static double getYaw(){
