@@ -31,6 +31,8 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       //extend intake and drive until second ball found
+      new ResetEncoderCommand(drive),
+      new ResetGyroCommand(drive),
       new IntakePistonExtendCommand(intake),
       new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0), new WaitForTwoBallsThere()),
       //turn towards hub and drive til 44in. away and shoot at 1100 rpm wait a sec and shoot again
