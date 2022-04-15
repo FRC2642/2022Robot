@@ -16,13 +16,9 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import javax.management.RuntimeOperationsException;
 
 //import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -61,6 +57,7 @@ public class DriveSubsystem extends SubsystemBase {
   //Constructor
   public DriveSubsystem() {
     instance = this;
+    configDriveRamp(0.4);
 
     pigeon2.clearStickyFaults();
     pigeon2.setYaw(0.0);
@@ -74,10 +71,8 @@ public class DriveSubsystem extends SubsystemBase {
     frontRight.setInverted(true);
     backRight.setInverted(true);
 
-    frontLeft.configOpenloopRamp(0.25);
-    backLeft.configOpenloopRamp(0.25);
-    frontRight.configOpenloopRamp(0.25);
-    backRight.configOpenloopRamp(0.25);
+
+    
     
 
 
@@ -95,6 +90,13 @@ public class DriveSubsystem extends SubsystemBase {
     backRight.configNeutralDeadband(0.01);*/
 
 
+  }
+  
+  public void configDriveRamp(double ramp){
+    frontLeft.configOpenloopRamp(ramp);
+    backLeft.configOpenloopRamp(ramp);
+    frontRight.configOpenloopRamp(ramp);
+    backRight.configOpenloopRamp(ramp);
   }
   
 
@@ -134,12 +136,25 @@ public class DriveSubsystem extends SubsystemBase {
   
   
   //Encoder Methods
-  public double getEncoderDistance(){
-    return frontRight.getSelectedSensorPosition();
+  public double getAverageEncoderDistance(){
+    return (frontRight.getSelectedSensorPosition() + frontLeft.getSelectedSensorPosition()) / 2;
+  }
+  
+  //Encoder Methods
+  public double getEncoderDistanceFeet(){
+    return getAverageEncoderDistance() / 11027.0;
   }
 
   public void resetEncoder(){
+    
+
     frontRight.setSelectedSensorPosition(0);
+    
+    frontLeft.setSelectedSensorPosition(0);
+    
+    backRight.setSelectedSensorPosition(0);
+    
+    backLeft.setSelectedSensorPosition(0);
   }
   
   public static double getYaw(){

@@ -6,10 +6,15 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.drive.DriveAtFixedHeadingCommand;
 import frc.robot.commands.drive.DriveBySonarCommand;
 import frc.robot.commands.drive.DriveSpeedCommand;
 import frc.robot.commands.drive.DriveStraightCommand;
+import frc.robot.commands.drive.TurnToAngleCommand;
+import frc.robot.commands.intake.IntakeOutCommand;
 import frc.robot.commands.intake.IntakePistonExtendCommand;
+import frc.robot.commands.intake.IntakePistonRetractCommand;
+import frc.robot.commands.magazine.MagazineRunCommand;
 import frc.robot.commands.magazine.TimedMagazineRunCommand;
 import frc.robot.commands.shooter.StartShooterCommand;
 import frc.robot.commands.waitfor.WaitForOneBallThere;
@@ -31,29 +36,25 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       //extend intake and drive until second ball found
-      new IntakePistonExtendCommand(intake),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.4, 0.0), new WaitForTwoBallsThere()),
-      //turn towards hub and drive til 44in. away and shoot at 1100 rpm wait a sec and shoot again
-      new TurnTowardsHubCommand(drive),
-      new DriveBySonarCommand(drive, 44.0),
-      new StartShooterCommand(turretShooter, 1100),
+      new ResetEncoderCommand(drive),
+      new ResetGyroCommand(drive),
+      new StartShooterCommand(turretShooter, 1000),
       new WaitForRPMReachedCommand(),
-      new TimedShootCommand(mag, intake, 1.0),
-      new WaitForRPMReachedCommand(),
-      new TimedShootCommand(mag, intake, 1.0),
-      
+      new TimedShootCommand(mag, intake, 1),
       new StartShooterCommand(turretShooter, 0.0),
-      //search for third ball and drive until picked up
-      new BallFollowerCommand(drive),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.4, 0.3), new WaitForOneBallThere()),
-      //turn towards hub and shoot
-      new TurnTowardsHubCommand(drive),
-      new DriveBySonarCommand(drive, 44.0),
-      new StartShooterCommand(turretShooter, 1100),
+      new TurnToAngleCommand(drive, 0.4, 180),
+      new IntakePistonExtendCommand(intake),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.4, 0.4), new WaitForOneBallThere().withTimeout(3)),
+      new TurnToAngleCommand(drive, 0.4, 85),
+      new TimedShootCommand(mag, intake, 1),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.4, 0.4), new WaitForTwoBallsThere().withTimeout(3)),
+      new IntakePistonRetractCommand(intake),
+      new TurnToAngleCommand(drive, 0.4, -25),
+      new DriveBySonarCommand(drive, 52.5),
+      new StartShooterCommand(turretShooter, 1000),
       new WaitForRPMReachedCommand(),
-      new TimedShootCommand(mag, intake, 1.0),
-      new StartShooterCommand(turretShooter, 0)
-    );
+      new TimedShootCommand(mag, intake, 1)
+       );
 
     /*new StartShooterCommand(turretShooter, 650).andThen(
         new IntakePistonExtendCommand(intake),
