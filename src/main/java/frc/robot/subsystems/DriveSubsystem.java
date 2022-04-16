@@ -50,6 +50,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   DifferentialDrive diffDrive = new DifferentialDrive(rightMotors, leftMotors);
   public PIDController PIDcontrol = new PIDController(0,0,0);
+  public PIDController speedPIDcontrol = new PIDController(0, 0, 0);
 
   public Pigeon2 pigeon2 = new Pigeon2(18);
 
@@ -115,6 +116,19 @@ public class DriveSubsystem extends SubsystemBase {
   
 
   //PID Methods
+  public double calculateSpeedPID(double measurement, double setpoint){
+    return speedPIDcontrol.calculate(measurement, setpoint);
+  }
+  
+  public void setSpeedPIDCoefficients(double propCoefficient, double integralCoefficient, double deriativeCoefficient){
+    speedPIDcontrol.setPID(propCoefficient, integralCoefficient, deriativeCoefficient);
+  }
+
+  public void resetSpeedPID(){
+    speedPIDcontrol.reset();
+  }
+
+
   public double calculatePID(double measurement, double setpoint){
     return PIDcontrol.calculate(measurement, setpoint);
   }

@@ -235,7 +235,7 @@ public class RobotContainer {
     //***********************EXTRA***********************/    
     //interrupts all commands running
     SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
-
+    SmartDashboard.putNumber("Feet", (drive.getEncoderDistance()/17117.0) * 18.8495559215);
     //auto aim during tele-op
     new JoystickButton(driveController, Button.kA.value)
     .whenPressed(turnTowardsHubCommand);
