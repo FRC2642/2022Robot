@@ -23,21 +23,26 @@ public class DriveDistanceCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    drive.setPIDCoefficients(0.2, 0, 0);
+    drive.setSpeedPIDCoefficients(0.2, 0, 0);
     drive.resetEncoder();
     drive.resetPID();
+    drive.resetSpeedPID();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double rotationValue = drive.calculatePID(DriveSubsystem.getYaw(), setpoint);
-    double speedValue = drive.calculateSpeedPID((drive.getEncoderDistance()/17117.0) * 18.8495559215, MathR.feetToInches(distance));
+    double speedValue = drive.calculateSpeedPID((drive.getEncoderDistance()/17117.0) * 18.8495559215, (MathR.feetToInches(distance) - 9));
     if (rotationValue > 1) rotationValue = 1;
     if (rotationValue < -1) rotationValue = -1;
     if (speedValue > 1) speedValue = 1;
     if (speedValue < -1) speedValue = -1;
-    if (speedValue < 0.31 && speedValue > 0) speedValue = 0.31;
-    if (speedValue > -0.31 && speedValue < 0) speedValue = -0.31;
+    if (speedValue < 0.4 && speedValue > 0) speedValue = 0.4;
+    if (speedValue > -0.4 && speedValue < 0) speedValue = -0.4;
+    if (speedValue > 0.5) speedValue = 0.5;
+    if (speedValue < -0.5) speedValue = -0.5;
     drive.move(speedValue, rotationValue * 0.4);
   }
 

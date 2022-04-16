@@ -39,6 +39,7 @@ import frc.robot.commands.InterruptSubsystemsCommand;
 import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.ThreeBallAutonomousCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
+import frc.robot.commands.drive.DriveDistanceCommand;
 import frc.robot.commands.drive.ResetEncoderCommand;
 
 /**
@@ -238,6 +239,7 @@ public class RobotContainer {
     SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
     
     SmartDashboard.putNumber("Feet", (drive.getEncoderDistance()/17117.0) * 18.8495559215);
+    SmartDashboard.putData("DriveDistanceCommand", new DriveDistanceCommand(drive, 9, 0));
     SmartDashboard.putData("Reset Encoder", new ResetEncoderCommand(drive));
     //auto aim during tele-op
     new JoystickButton(driveController, Button.kA.value)
@@ -269,6 +271,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new ThreeBallAutonomousCommand(turretShooter, intake, drive, magazine);
+    return new DriveDistanceCommand(drive, 9, 0);
   }
 }
