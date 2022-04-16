@@ -15,8 +15,8 @@ public class DriveDistanceCommand extends CommandBase {
   double driveSpeed;
   double turnSpeed;
 
-  PIDController turnPIDController = new PIDController(0.2, 0, 0);
-  PIDController distancePIDController = new PIDController(0.2, 0, 0);
+  PIDController turnPIDController = new PIDController(0.05, 0, 0);
+  PIDController distancePIDController = new PIDController(1.0, 0, 0);
 
   public DriveDistanceCommand(DriveSubsystem drive, double feet, double driveSpeed, double turnSpeed) {
     this.drive = drive;
@@ -24,7 +24,7 @@ public class DriveDistanceCommand extends CommandBase {
     this.driveSpeed = driveSpeed;
     this.turnSpeed = turnSpeed;
     distancePIDController.setSetpoint(feet);
-    distancePIDController.setTolerance(0.1); //0.1 of a foot away from setpoint
+    distancePIDController.setTolerance(0.3); //0.1 of a foot away from setpoint
     addRequirements(drive);
   }
 

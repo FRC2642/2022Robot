@@ -42,6 +42,7 @@ public class FourBallAutonomousCommand extends SequentialCommandGroup {
       new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.35, 0.35), new WaitForTwoBallsThere()).withTimeout(35),
   //    new TurnTowardsHubCommand(drive),
       new TurnToAngleCommand(drive, 0.4, 180.0),
+      
       new TurretHoodUpCommand(spinner),
       //new IntakePistonRetractCommand(intake),
     //  new DriveBySonarCommand(drive, 52.5),

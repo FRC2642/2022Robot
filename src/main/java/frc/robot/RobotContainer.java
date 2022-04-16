@@ -31,6 +31,7 @@ import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.subsystems.VectorSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.TwoBallAutonomousCommand;
+import frc.robot.commands.drive.DriveDistanceCommand;
 import frc.robot.commands.AimAndShootCommand;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.ClimbTiltPistonOneCommand;
@@ -38,6 +39,7 @@ import frc.robot.commands.ClimbTiltPistonTwoCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.FourBallAutonomousCommand;
 import frc.robot.commands.InterruptSubsystemsCommand;
+import frc.robot.commands.ResetEncoderCommand;
 import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.ThreeBallAutonomousCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
@@ -289,6 +291,7 @@ public class RobotContainer {
     //***********************EXTRA***********************/    
     //interrupts all commands running
     SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
+    SmartDashboard.putData("reset encoder", new ResetEncoderCommand(drive));
 
     //auto aim during tele-op
     new JoystickButton(driveController, Button.kA.value)
@@ -320,7 +323,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new FourBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner);
-    //return new ThreeBallAutonomousCommand(turretShooter, intake, drive, magazine);
+    //return new FourBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner);
+    return new ThreeBallAutonomousCommand(turretShooter, intake, drive, magazine,turretSpinner);
+   //return new DriveDistanceCommand(drive, 9.0, 0.45, 0.3);
   }
 }

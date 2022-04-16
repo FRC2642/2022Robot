@@ -142,7 +142,7 @@ public class DriveSubsystem extends SubsystemBase {
   
   //Encoder Methods
   public double getEncoderDistanceFeet(){
-    return getAverageEncoderDistance() / 11027.0;
+    return getAverageEncoderDistance() / 9687.0;
   }
 
   public void resetEncoder(){
@@ -174,6 +174,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("encoder distance", getEncoderDistanceFeet());
     //double currentPulses = DriveSubsystem.getVectorDistance();
     //double encoderValue = currentPulses - VectorValues.lastEncoderPulses;
     /*VectorValues.lastEncoderPulses = currentPulses;

@@ -19,13 +19,14 @@ public class DriveAtFixedHeadingCommand extends CommandBase {
     this.turnPIDSpeed = turnPIDSpeed;
     this.angle = angle;
   
-    drive.setPIDCoefficients(0.2, 0, 0);
     addRequirements(drive);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    
+    drive.setPIDCoefficients(0.075, 0, 0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
