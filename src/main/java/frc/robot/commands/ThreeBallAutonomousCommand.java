@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drive.DriveAtFixedHeadingCommand;
 import frc.robot.commands.drive.DriveBySonarCommand;
+import frc.robot.commands.drive.DriveDistanceCommand;
 import frc.robot.commands.drive.DriveSpeedCommand;
 import frc.robot.commands.drive.DriveStraightCommand;
 import frc.robot.commands.drive.TurnToAngleCommand;
@@ -48,7 +49,7 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
       new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.4, 0.4), new WaitForTwoBallsThere().withTimeout(3)),
       new IntakePistonRetractCommand(intake),
       new TurnToAngleCommand(drive, 0.4, -25),
-      new DriveBySonarCommand(drive, 52.5),
+      new DriveDistanceCommand(drive, 5, 0),
       new StartShooterCommand(turretShooter, 1000),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1)

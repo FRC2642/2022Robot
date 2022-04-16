@@ -39,6 +39,7 @@ import frc.robot.commands.InterruptSubsystemsCommand;
 import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.ThreeBallAutonomousCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
+import frc.robot.commands.drive.ResetEncoderCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -235,7 +236,9 @@ public class RobotContainer {
     //***********************EXTRA***********************/    
     //interrupts all commands running
     SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
+    
     SmartDashboard.putNumber("Feet", (drive.getEncoderDistance()/17117.0) * 18.8495559215);
+    SmartDashboard.putData("Reset Encoder", new ResetEncoderCommand(drive));
     //auto aim during tele-op
     new JoystickButton(driveController, Button.kA.value)
     .whenPressed(turnTowardsHubCommand);

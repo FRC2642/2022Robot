@@ -36,7 +36,9 @@ public class DriveDistanceCommand extends CommandBase {
     if (rotationValue < -1) rotationValue = -1;
     if (speedValue > 1) speedValue = 1;
     if (speedValue < -1) speedValue = -1;
-    drive.move(speedValue * 0.4, rotationValue * 0.4);
+    if (speedValue < 0.31 && speedValue > 0) speedValue = 0.31;
+    if (speedValue > -0.31 && speedValue < 0) speedValue = -0.31;
+    drive.move(speedValue, rotationValue * 0.4);
   }
 
   // Called once the command ends or is interrupted.
