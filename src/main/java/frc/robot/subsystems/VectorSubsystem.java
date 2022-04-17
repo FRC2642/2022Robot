@@ -10,10 +10,10 @@ import frc.robot.utils.VectorR;
 
 public class VectorSubsystem extends SubsystemBase {
   
-  double lastEncoderDistance = 0.0;
   final VectorR currentSample;
   final VectorR robotPosition;
   public double robotPlacedOnGroundDistanceFromHub = 5.0; //5 feet?
+  private static VectorSubsystem instance;
   /** Creates a new VectorSubsystem. */
   public VectorSubsystem() {
     currentSample = VectorR.fromCartesian(0.0, 0.0);
@@ -21,7 +21,8 @@ public class VectorSubsystem extends SubsystemBase {
     instance = this;
   }
 
-  VectorSubsystem instance;
+  
+  double lastEncoderDistance = 0.0;
   @Override
   public void periodic() {
     currentSample.setFromPolar(lastEncoderDistance, Math.toRadians(DriveSubsystem.getYaw()));
@@ -36,11 +37,12 @@ public class VectorSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public double getAngleToHub(){
-    return (Math.toDegrees(robotPosition.getAngle()) + 180) % 360;
+  public static double getAngleToHub(){
+    return (Math.toDegrees(instance.robotPosition.getAngle()) + 180) % 360;
   }
   
-  public double getDistanceToHub(){
-    return robotPosition.getMagnitude();
+  public static double getDistanceToHub(){
+    return instance.robotPosition.getMagnitude();
   }
+  
 }

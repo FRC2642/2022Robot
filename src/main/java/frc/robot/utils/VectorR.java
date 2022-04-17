@@ -39,6 +39,10 @@ public class VectorR {
         translation.x += vector.getX();
         translation.y += vector.getY();
     }
+    public void sub(VectorR vector){
+        translation.x -= vector.getX();
+        translation.y -= vector.getY();
+    }
     public void setFromPolar(double distance, double angle){
         translation.x = distance * Math.cos(angle);
         translation.y = distance * Math.sin(angle);
