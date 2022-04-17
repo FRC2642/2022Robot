@@ -13,7 +13,7 @@ import frc.robot.Constants;
 public class BallThrowCalculator {
   //  public static final BallThrowCalculator Instance = new BallThrowCalculator();
 
-    private double distance;
+   /* private double distance;
 
     public BallThrowCalculator(double distance){
 
@@ -34,7 +34,7 @@ public class BallThrowCalculator {
     public VectorR calculate(double dist, double requestAngle) {
         distance = dist;
         return VectorR.fromVector2d(getVectorForAngle(requestAngle));
-    }
+    }*/
 
 }
 

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ResetGyroCommand;
+import frc.robot.utils.VectorR;
 import frc.robot.utils.VectorValues;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -136,25 +137,25 @@ public class DriveSubsystem extends SubsystemBase {
   
   
   //Encoder Methods
-  public double getAverageEncoderDistance(){
-    return (frontRight.getSelectedSensorPosition() + frontLeft.getSelectedSensorPosition()) / 2;
+  public static double getAverageEncoderDistance(){
+    return (instance.frontRight.getSelectedSensorPosition() + instance.frontLeft.getSelectedSensorPosition()) / 2;
   }
   
   //Encoder Methods
-  public double getEncoderDistanceFeet(){
+  public static double getEncoderDistanceFeet(){
     return getAverageEncoderDistance() / 9687.0;
   }
 
-  public void resetEncoder(){
+  public static void resetEncoder(){
     
 
-    frontRight.setSelectedSensorPosition(0);
+    instance.frontRight.setSelectedSensorPosition(0);
     
-    frontLeft.setSelectedSensorPosition(0);
+    instance.frontLeft.setSelectedSensorPosition(0);
     
-    backRight.setSelectedSensorPosition(0);
+    instance.backRight.setSelectedSensorPosition(0);
     
-    backLeft.setSelectedSensorPosition(0);
+    instance.backLeft.setSelectedSensorPosition(0);
   }
   
   public static double getYaw(){
@@ -171,10 +172,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   
 
-
   @Override
   public void periodic() {
     SmartDashboard.putNumber("encoder distance", getEncoderDistanceFeet());
+
+
+
+
     //double currentPulses = DriveSubsystem.getVectorDistance();
     //double encoderValue = currentPulses - VectorValues.lastEncoderPulses;
     /*VectorValues.lastEncoderPulses = currentPulses;
