@@ -58,7 +58,7 @@ public class VectorR {
     }
     public static VectorR fromCartesian(double x, double y) {
         VectorR v = new VectorR();
-        v.setFromPolar(x, y);
+        v.setFromCartesian(x, y);
         return v;
     }
 }
