@@ -14,6 +14,7 @@ public class DriveDistanceCommand extends CommandBase {
   double feet;
   double driveSpeed;
   double turnSpeed;
+  double initialDistance = 0.0;
 
   PIDController turnPIDController = new PIDController(0.05, 0, 0);
   PIDController distancePIDController = new PIDController(1.0, 0, 0);
@@ -31,7 +32,8 @@ public class DriveDistanceCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drive.resetEncoder();
+   // drive.resetEncoder();
+    initialDistance = DriveSubsystem.getEncoderDistanceFeet();
     drive.resetPID();
     turnPIDController.setSetpoint(DriveSubsystem.getYaw());
   }
@@ -44,7 +46,7 @@ public class DriveDistanceCommand extends CommandBase {
     if (rotationValue > 1) rotationValue = 1;
     if (rotationValue < -1) rotationValue = -1;
     drive.move(speedValue, rotationValue * 0.4);*/
-    double speed = MathR.limit(distancePIDController.calculate(drive.getEncoderDistanceFeet()), -1.0, 1.0);
+    double speed = MathR.limit(distancePIDController.calculate(DriveSubsystem.getEncoderDistanceFeet() - initialDistance), -1.0, 1.0);
     double turn = MathR.limit(turnPIDController.calculate(DriveSubsystem.getYaw()), -1.0, 1.0);
 
     drive.move(speed * driveSpeed, turn * turnSpeed);

@@ -39,52 +39,31 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      //extend intake and drive until second ball found
       new ResetEncoderCommand(drive),
       new ResetGyroCommand(drive),
       new TurretHoodUpCommand(spinner),
       new StartShooterCommand(turretShooter, 1100),
       new WaitForRPMReachedCommand(),
-      new TimedShootCommand(mag, intake, 1.5),
+      new TimedShootCommand(mag, intake, 1.0),
       new StartShooterCommand(turretShooter, 0.0),
       new TurnToAngleCommand(drive, 0.4, 190),
       new BallFollowerCommand(drive).withTimeout(2.0),
-      //new IntakePistonExtendCommand(intake),
-      //new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.375, 0.45), new WaitForOneBallThere().withTimeout(35)),
       new DriveDistanceCommand(drive, 2.7, 0.45, 0.3),
-      //new IntakeOutCommand(intake).until(MagazineSubsystem::getLowerLightSensor),
-      //new IntakeSpinForwardCommand(intake).until(MagazineSubsystem::getLowerLightSensor),
       new IntakePistonExtendCommand(intake),
-      //new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.32, 0.0), new WaitForOneBallThere()),
       new DriveSpeedCommand(drive, 0.3, 0.0).alongWith(new RunIntakeCommand(intake)).until(MagazineSubsystem::isOneBallThere).withTimeout(3.0),
       new IntakePistonRetractCommand(intake),
-      new TurnToAngleCommand(drive, 0.4, 95).alongWith(new TimedShootCommand(mag, intake, 1)),
-      
+      new TurnToAngleCommand(drive, 0.4, 103).alongWith(new TimedShootCommand(mag, intake, 1)),
       new BallFollowerCommand(drive).withTimeout(2.0),
-     // new TimedShootCommand(mag, intake, 1),
-      //new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.40, 0.45), new WaitForTwoBallsThere().withTimeout(35)),
       new DriveDistanceCommand(drive, 4.75, 0.45, 0.3),
       new IntakePistonExtendCommand(intake),
-      
+      new StartShooterCommand(turretShooter, 1250),
       new DriveSpeedCommand(drive, 0.3, 0.0).alongWith(new RunIntakeCommand(intake), new MagazineRunCommand(mag, true)).until(MagazineSubsystem::areTwoBallsThere).withTimeout(3.0),
-   //   new DriveUntilBallFoundCommand(drive, intake, mag, new DriveSpeedCommand(drive, 0.32, 0.0), new WaitForTwoBallsThere()),
       new IntakePistonRetractCommand(intake),
-      
-      new StartShooterCommand(turretShooter, 1000),
       new TurnToAngleCommand(drive, 0.45, -15.5),
-      
       new TurretHoodUpCommand(spinner),
-      //new DriveBySonarCommand(drive, 56.5),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 3.5)
        );
 
-    /*new StartShooterCommand(turretShooter, 650).andThen(
-        new IntakePistonExtendCommand(intake),
-       // new InstantCommand(() -> intake.intakePistonExtend(), intake),
-        new DriveUntilBallFound(drive, magazine, intake),//.alongWith(new RunCommand(() -> { intake.intakeBigwheelOn(); intake.intakeMotorForward();}, intake)),
-        new TurnTowardsHubCommand(drive, tapeVision),
-        new WaitForRPMReachedCommand(),
-        new TimedMagazineRunCommand(magazine,5.0));*/
   }
 }
