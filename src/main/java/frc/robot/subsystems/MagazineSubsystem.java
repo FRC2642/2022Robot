@@ -27,7 +27,7 @@ private static MagazineSubsystem instance;
   }
 
 public void magRun(){
-  magBeltMotor.set(1.0);
+  magBeltMotor.set(0.9);
 }
 
 public void magReverse(){
