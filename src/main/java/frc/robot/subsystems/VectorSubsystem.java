@@ -13,10 +13,11 @@ public class VectorSubsystem extends SubsystemBase {
   double lastEncoderDistance = 0.0;
   final VectorR currentSample;
   final VectorR robotPosition;
+  public double robotPlacedOnGroundDistanceFromHub = 5.0; //5 feet?
   /** Creates a new VectorSubsystem. */
   public VectorSubsystem() {
     currentSample = VectorR.fromCartesian(0.0, 0.0);
-    robotPosition = VectorR.fromCartesian(0.0, 0.0);
+    robotPosition = VectorR.fromCartesian(robotPlacedOnGroundDistanceFromHub, 0.0);
     instance = this;
   }
 
