@@ -12,7 +12,7 @@ public class VectorSubsystem extends SubsystemBase {
   
   final VectorR currentSample;
   final VectorR robotPosition;
-  public double robotPlacedOnGroundDistanceFromHub = 5.0; //5 feet?
+  public double robotPlacedOnGroundDistanceFromHub = -7.0; //5 feet?
   private static VectorSubsystem instance;
   /** Creates a new VectorSubsystem. */
   public VectorSubsystem() {

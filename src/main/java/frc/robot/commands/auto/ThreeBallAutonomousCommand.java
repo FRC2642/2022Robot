@@ -2,10 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.BallFollowerCommand;
+import frc.robot.commands.ResetEncoderCommand;
+import frc.robot.commands.ResetGyroCommand;
+import frc.robot.commands.TimedShootCommand;
+import frc.robot.commands.TurretHoodUpCommand;
 import frc.robot.commands.drive.DriveAtFixedHeadingCommand;
 import frc.robot.commands.drive.DriveBySonarCommand;
 import frc.robot.commands.drive.DriveDistanceCommand;
