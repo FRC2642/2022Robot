@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -38,6 +39,7 @@ import frc.robot.commands.ClimbTiltPistonTwoCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.FourBallAutonomousCommand;
 import frc.robot.commands.InterruptSubsystemsCommand;
+import frc.robot.commands.OneBallAutonomousCommand;
 import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.ThreeBallAutonomousCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
@@ -81,6 +83,9 @@ public class RobotContainer {
   private final Command climbTiltPistonOne = new ClimbTiltPistonOneCommand(climb);
   private final Command climbTiltPistonTwo = new ClimbTiltPistonTwoCommand(climb);
 
+
+  SendableChooser<Command> chooser = new SendableChooser<>();
+
  /* private final Command driveCommand = new DriveCommand(drive);
   private final Command intakePistonExtend = new IntakePistonExtendCommand(intake);
   private final Command intakePistonRetract = new IntakePistonRetractCommand(intake);
@@ -100,9 +105,12 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    
-    //Robot.choose.addOption("Two-Ball Auto", new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner));
-    //Robot.choose.addOption("Three-Ball Auto", new ThreeBallAutonomousCommand(turretShooter, intake, drive, magazine));
+    chooser.addOption("One-Ball Auto", new OneBallAutonomousCommand(turretShooter, intake, drive, magazine));
+    chooser.addOption("Two-Ball Auto", new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner));
+    chooser.addOption("Three-Ball Auto", new ThreeBallAutonomousCommand(turretShooter, intake, drive, magazine));
+    chooser.addOption("Four-Ball Auto", new FourBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner));
+
+    SmartDashboard.putData(chooser);
 
     turretShooter.setDefaultCommand(
       new RunCommand(
@@ -141,19 +149,19 @@ public class RobotContainer {
 
    
 
-    drive.setDefaultCommand(new RunCommand(() ->{ 
+    drive.setDefaultCommand(new RunCommand(() -> { 
     if(getDriveRightTrigger()){
-      drive.configDriveRamp(0.6);
+      drive.configDriveRamp(0.4);
       drive.move(-driveController.getRawAxis(1) * .90,(driveController.getRawAxis(0) * .80));
     }
     //slower turn, fast straight
     else if(getDriveLeftTrigger()){
-      drive.configDriveRamp(0.50);
+      drive.configDriveRamp(0.30);
       drive.move(-driveController.getRawAxis(1) * .50,(driveController.getRawAxis(0) * .50));
     }
     //normal drive
     else{
-      drive.configDriveRamp(0.55);
+      drive.configDriveRamp(0.35);
       drive.move(-driveController.getRawAxis(1) * .6,(driveController.getRawAxis(0) * .60));
     }
   },drive));
@@ -278,11 +286,11 @@ public class RobotContainer {
     //up close, low hub
     new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(550), turretShooter));
     //up close, high hub
-    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1050), turretShooter));
+    new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1000), turretShooter));
     //on the line shot, high hub
-    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1175), turretShooter));
+    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
     //from launch pad (safe zone, far shot)
-    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1700), turretShooter));
+    new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1650), turretShooter));
 
 
 
@@ -320,7 +328,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new FourBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner);
+    //return new FourBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner);
     //return new ThreeBallAutonomousCommand(turretShooter, intake, drive, magazine);
+    return chooser.getSelected();
   }
 }

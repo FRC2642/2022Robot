@@ -141,8 +141,8 @@ public class TurretShooterSubsystem extends SubsystemBase {
        SmartDashboard.putBoolean("shooter ready", isCloseToSetRPM());
 
        if (isCloseToSetRPM()){
-        //candle.setLEDs(0, 255, 0);
-        candle.animate(rainbowAnimation);
+        candle.setLEDs(0, 255, 0);
+        //candle.animate(rainbowAnimation);
         //RobotContainer.driveController.setRumble(RumbleType.kLeftRumble, 0.1);
        }
        else if (DriverStation.getAlliance() == Alliance.Blue) {
