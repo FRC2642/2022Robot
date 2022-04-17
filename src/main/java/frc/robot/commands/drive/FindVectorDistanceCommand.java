@@ -6,17 +6,17 @@ package frc.robot.commands.drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.VectorSubsystem;
+import frc.robot.subsystems.VectorSubsystemOld;
 
 public class FindVectorDistanceCommand extends CommandBase {
-  VectorSubsystem vector;
+  VectorSubsystemOld vector;
   double encoderValue;
   double totalEncoderValue;
   double vectorComponentX;
   double vectorComponentY;
   double distance;
   /** Creates a new FindVectorDistanceCommand. */
-  public FindVectorDistanceCommand(VectorSubsystem vector) {
+  public FindVectorDistanceCommand(VectorSubsystemOld vector) {
     this.vector = vector;
     addRequirements(vector);
     // Use addRequirements() here to declare subsystem dependencies.

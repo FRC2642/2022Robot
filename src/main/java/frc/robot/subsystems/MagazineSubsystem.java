@@ -45,17 +45,21 @@ public boolean getAuxLeftTrigger() {
 
 //sensor methods
 public static boolean isOneBallThere(){
+  if (instance == null) return false;
   return  instance.upperLightSensor.get();
 }
 
 public static boolean areTwoBallsThere(){
+  if (instance == null) return false;
   return  instance.lowerLightSensor.get() && instance.upperLightSensor.get();
 }
 
 public static boolean getLowerLightSensor(){
+  if (instance == null) return false;
   return  instance.lowerLightSensor.get();
 }
 public static boolean getUpperLightSensor(){
+  if (instance == null) return false;
   return  instance.upperLightSensor.get();
 }
 

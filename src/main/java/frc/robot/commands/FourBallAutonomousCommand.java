@@ -7,6 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drive.DriveBySonarCommand;
+import frc.robot.commands.drive.DriveDistanceCommand;
 import frc.robot.commands.drive.DriveSpeedCommand;
 import frc.robot.commands.drive.DriveStraightCommand;
 import frc.robot.commands.drive.TurnToAngleCommand;
@@ -39,30 +40,31 @@ public class FourBallAutonomousCommand extends SequentialCommandGroup {
       
       //new ResetGyroCommand(drive),
       new IntakePistonExtendCommand(intake),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.35, 0.35), new WaitForTwoBallsThere()).withTimeout(35),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.35, 0.35), new WaitForTwoBallsThere()).withTimeout(4),
   //    new TurnTowardsHubCommand(drive),
-      new TurnToAngleCommand(drive, 0.4, 180.0),
+      new TurnToAngleCommand(drive, 0.45, 180.0),
+      
       new TurretHoodUpCommand(spinner),
       //new IntakePistonRetractCommand(intake),
     //  new DriveBySonarCommand(drive, 52.5),
-      new StartShooterCommand(turretShooter, 1120),
+      new StartShooterCommand(turretShooter, 1250),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.5),
       new StartShooterCommand(turretShooter, 0.0),
       new TurnToAngleCommand(drive, 0.4, 40),
-      new DriveBySonarCommand(drive, 20.0)
+      //new DriveBySonarCommand(drive, 40.0)
+      new DriveDistanceCommand(drive, 14.0, 0.45, 0.3),
+      new BallFollowerCommand(drive).withTimeout(2.0),
 
-      //.alongWith(new RunIntakeCommand(intake), new MagazineRunCommand(mag, true)).until(MagazineSubsystem::areTwoBallsThere),
-      //new RunIntakeCommand(intake),
-      /*new WaitForTwoBallsThere(),
-      //new DriveUntilBallFoundCommand(drive, intake, mag, new DriveBySonarCommand(drive, 25), new WaitForTwoBallsThere()),
-      //new WaitForTwoBallsThere(),
-      new TurnToAngleCommand(drive, 0.4, 180.0),
-      new DriveBySonarCommand(drive, 44.0),
-      new StartShooterCommand(turretShooter, 1120),
+      new DriveSpeedCommand(drive, 0.3, 0.0).alongWith(new RunIntakeCommand(intake), new MagazineRunCommand(mag, true)).until(MagazineSubsystem::isOneBallThere).withTimeout(1.5),
+      new DriveSpeedCommand(drive, 0.0, 0.0).alongWith(new RunIntakeCommand(intake), new MagazineRunCommand(mag, true)).until(MagazineSubsystem::areTwoBallsThere).withTimeout(4.0),
+      new TurnToAngleCommand(drive, 0.4, 140),
+      new IntakePistonRetractCommand(intake),
+
+      new DriveDistanceCommand(drive, 10, 0.45, 0.3),
+      new StartShooterCommand(turretShooter, 1250),
       new WaitForRPMReachedCommand(),
-      new TimedShootCommand(mag, intake, 1.5),
-      new StartShooterCommand(turretShooter, 0.0)*/
+      new TimedShootCommand(mag, intake, 4.5)
     );
 
     /*new StartShooterCommand(turretShooter, 650).andThen(

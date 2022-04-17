@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ResetGyroCommand;
+import frc.robot.utils.VectorR;
 import frc.robot.utils.VectorValues;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
@@ -136,31 +137,36 @@ public class DriveSubsystem extends SubsystemBase {
   
   
   //Encoder Methods
-  public double getAverageEncoderDistance(){
-    return (frontRight.getSelectedSensorPosition() + frontLeft.getSelectedSensorPosition()) / 2;
+  public static double getAverageEncoderDistance(){
+    if (instance == null) return 0.0;
+    return (instance.frontRight.getSelectedSensorPosition() + instance.frontLeft.getSelectedSensorPosition()) / 2;
   }
   
   //Encoder Methods
-  public double getEncoderDistanceFeet(){
-    return getAverageEncoderDistance() / 11027.0;
+  public static double getEncoderDistanceFeet(){
+    if (instance == null) return 0.0;
+    return getAverageEncoderDistance() / 9687.0;
   }
 
-  public void resetEncoder(){
+  public static void resetEncoder(){
+    if (instance == null) return;
     
 
-    frontRight.setSelectedSensorPosition(0);
+    instance.frontRight.setSelectedSensorPosition(0);
     
-    frontLeft.setSelectedSensorPosition(0);
+    instance.frontLeft.setSelectedSensorPosition(0);
     
-    backRight.setSelectedSensorPosition(0);
+    instance.backRight.setSelectedSensorPosition(0);
     
-    backLeft.setSelectedSensorPosition(0);
+    instance.backLeft.setSelectedSensorPosition(0);
   }
   
   public static double getYaw(){
+    if (instance == null) return 0.0;
     return instance.pigeon2.getYaw() * -1;
   }
   public static void resetYaw(){
+    if (instance == null) return;
     instance.pigeon2.setYaw(0.0);
   }
   /*public static double getVectorDistance(){
@@ -171,9 +177,13 @@ public class DriveSubsystem extends SubsystemBase {
 
   
 
-
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("encoder distance", getEncoderDistanceFeet());
+
+
+
+
     //double currentPulses = DriveSubsystem.getVectorDistance();
     //double encoderValue = currentPulses - VectorValues.lastEncoderPulses;
     /*VectorValues.lastEncoderPulses = currentPulses;

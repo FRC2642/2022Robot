@@ -5,6 +5,8 @@
 package frc.robot;
 
 
+import edu.wpi.first.math.Vector;
+
 //import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -30,8 +32,12 @@ import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.subsystems.VectorSubsystem;
+import frc.robot.subsystems.VectorSubsystemOld;
 import frc.robot.subsystems.VisionSubsystem;
 import frc.robot.commands.TwoBallAutonomousCommand;
+import frc.robot.commands.drive.DriveDistanceCommand;
+import frc.robot.commands.drive.TurnToAngleCommand;
+import frc.robot.commands.drive.TurnTowardsHubUsingVectorsCommand;
 import frc.robot.commands.AimAndShootCommand;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.ClimbTiltPistonOneCommand;
@@ -40,6 +46,7 @@ import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.FourBallAutonomousCommand;
 import frc.robot.commands.InterruptSubsystemsCommand;
 import frc.robot.commands.OneBallAutonomousCommand;
+import frc.robot.commands.ResetEncoderCommand;
 import frc.robot.commands.ResetGyroCommand;
 import frc.robot.commands.ThreeBallAutonomousCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
@@ -61,6 +68,7 @@ public class RobotContainer {
   private final MagazineSubsystem magazine = new MagazineSubsystem();
   private final ClimberSubsystem climb = new ClimberSubsystem();
   public static final SonarSubsystem sonar = new SonarSubsystem();
+  public final VectorSubsystem vectors = new VectorSubsystem();
  // public final VectorSubsystem vector = new VectorSubsystem();
  // public final PixySubsystem pixy = new PixySubsystem();
 
@@ -107,7 +115,7 @@ public class RobotContainer {
 
     chooser.addOption("One-Ball Auto", new OneBallAutonomousCommand(turretShooter, intake, drive, magazine));
     chooser.addOption("Two-Ball Auto", new TwoBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner));
-    chooser.addOption("Three-Ball Auto", new ThreeBallAutonomousCommand(turretShooter, intake, drive, magazine));
+    chooser.addOption("Three-Ball Auto", new ThreeBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner));
     chooser.addOption("Four-Ball Auto", new FourBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner));
 
     SmartDashboard.putData(chooser);
@@ -297,10 +305,12 @@ public class RobotContainer {
     //***********************EXTRA***********************/    
     //interrupts all commands running
     SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
+    SmartDashboard.putData("reset encoder", new ResetEncoderCommand(drive));
+
 
     //auto aim during tele-op
     new JoystickButton(driveController, Button.kA.value)
-    .whenPressed(turnTowardsHubCommand);
+    .whenPressed(new TurnTowardsHubUsingVectorsCommand(drive, 0.4));
     
   }
 

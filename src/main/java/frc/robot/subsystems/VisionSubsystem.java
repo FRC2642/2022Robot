@@ -45,7 +45,7 @@ public class VisionSubsystem extends SubsystemBase {
     instance = this;
     camera = CameraServer.startAutomaticCapture(0);
 
-    camera.setFPS(15);
+    camera.setFPS(10);
     camera.setResolution(320, 240);
     camera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
@@ -113,21 +113,24 @@ public class VisionSubsystem extends SubsystemBase {
 
   //vision methods
   public static double getCenterX(){
+    if (instance == null) return 0.0;
     return instance.centerX;
   }
   public static double getCenterY(){
+    if (instance == null) return 0.0;
     return instance.centerY;
   }
   public static boolean isDetection(){
+    if (instance == null) return false;
     return instance.isDetection;
   }
 
   @Override
   public void periodic() {
     //SmartDashboard.putBoolean("issquare", isSquare);
-    //SmartDashboard.putNumber("center ball x", getCenterX());
+    SmartDashboard.putNumber("center ball x", getCenterX());
     //SmartDashboard.putNumber("center ball y", centerY);
-    //SmartDashboard.putBoolean("is detection", isDetection());
+    SmartDashboard.putBoolean("is detection", isDetection());
     // This method will be called once per scheduler run
   }
 }
