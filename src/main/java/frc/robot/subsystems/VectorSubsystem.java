@@ -38,10 +38,12 @@ public class VectorSubsystem extends SubsystemBase {
   }
 
   public static double getAngleToHub(){
+    if (instance == null) return 0.0;
     return (Math.toDegrees(instance.robotPosition.getAngle()) + 180) % 360;
   }
   
   public static double getDistanceToHub(){
+    if (instance == null) return 0.0;
     return instance.robotPosition.getMagnitude();
   }
   

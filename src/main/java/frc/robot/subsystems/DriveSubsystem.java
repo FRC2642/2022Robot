@@ -138,15 +138,18 @@ public class DriveSubsystem extends SubsystemBase {
   
   //Encoder Methods
   public static double getAverageEncoderDistance(){
+    if (instance == null) return 0.0;
     return (instance.frontRight.getSelectedSensorPosition() + instance.frontLeft.getSelectedSensorPosition()) / 2;
   }
   
   //Encoder Methods
   public static double getEncoderDistanceFeet(){
+    if (instance == null) return 0.0;
     return getAverageEncoderDistance() / 9687.0;
   }
 
   public static void resetEncoder(){
+    if (instance == null) return;
     
 
     instance.frontRight.setSelectedSensorPosition(0);
@@ -159,9 +162,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
   
   public static double getYaw(){
+    if (instance == null) return 0.0;
     return instance.pigeon2.getYaw() * -1;
   }
   public static void resetYaw(){
+    if (instance == null) return;
     instance.pigeon2.setYaw(0.0);
   }
   /*public static double getVectorDistance(){

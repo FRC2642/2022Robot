@@ -71,16 +71,20 @@ DataStreamFilter fps = new DataStreamFilter(10);
 
   //vision functions
   public static double getCenterX(){
+    if (instance == null) return 0.0;
     return instance.centerX;
   }
   public static double getNormalizedCenterX(){
+    if (instance == null) return 0.0;
     return (getCenterX()-80)/80;
   }
   public static int numDetections(){
+    if (instance == null) return 0;
     return instance.points.size();
   }
 
   public static void resetCenterX(){
+    if (instance == null) return;
     instance.centerX = 0;
   }
   

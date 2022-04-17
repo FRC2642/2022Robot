@@ -17,6 +17,7 @@ public class SonarSubsystem extends SubsystemBase {
 
   //sensor readings
   public static double getSonarDistance(){
+    if (instance == null) return 0.0;
 	  double valueToInches = 1 / 20.5;// 14.45
 	  double distanceX = instance.sonar.getAverageValue();
 	  double distance = (distanceX - 237) * valueToInches + 12; // convert voltage into inches

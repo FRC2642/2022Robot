@@ -113,12 +113,15 @@ public class VisionSubsystem extends SubsystemBase {
 
   //vision methods
   public static double getCenterX(){
+    if (instance == null) return 0.0;
     return instance.centerX;
   }
   public static double getCenterY(){
+    if (instance == null) return 0.0;
     return instance.centerY;
   }
   public static boolean isDetection(){
+    if (instance == null) return false;
     return instance.isDetection;
   }
 
