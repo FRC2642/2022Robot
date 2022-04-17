@@ -45,7 +45,7 @@ public class FourBallAutonomousCommand extends SequentialCommandGroup {
       new ResetEncoderCommand(drive),
       new StartShooterCommand(turretShooter, 0.0),
       new IntakePistonExtendCommand(intake),
-      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.35, 0.35), new WaitForTwoBallsThere()).withTimeout(4),
+      new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.35, 0.35), new WaitForTwoBallsThere()),
       new TurnToAngleCommand(drive, 0.45, 180.0),
       new TurretHoodUpCommand(spinner),
       new StartShooterCommand(turretShooter, 1250),
@@ -60,7 +60,7 @@ public class FourBallAutonomousCommand extends SequentialCommandGroup {
       new TurnToAngleCommand(drive, 0.4, 180),
       new IntakePistonRetractCommand(intake),
       new StartShooterCommand(turretShooter, 1250),
-      new DriveDistanceCommand(drive, 2.0, 0.4, 0.3),
+      new DriveDistanceCommand(drive, 2.0, 0.42, 0.3),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 4.5)
     );

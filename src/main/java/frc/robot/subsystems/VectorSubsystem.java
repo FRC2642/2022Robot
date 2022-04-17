@@ -25,7 +25,7 @@ public class VectorSubsystem extends SubsystemBase {
   double lastEncoderDistance = 0.0;
   @Override
   public void periodic() {
-    currentSample.setFromPolar(lastEncoderDistance, Math.toRadians(DriveSubsystem.getYaw()));
+    currentSample.setFromPolar(lastEncoderDistance - DriveSubsystem.getEncoderDistanceFeet(), Math.toRadians(DriveSubsystem.getYaw() * -1));
     robotPosition.add(currentSample);
 
     lastEncoderDistance = DriveSubsystem.getEncoderDistanceFeet();

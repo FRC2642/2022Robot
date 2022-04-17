@@ -25,7 +25,7 @@ public class DriveDistanceCommand extends CommandBase {
     this.driveSpeed = driveSpeed;
     this.turnSpeed = turnSpeed;
     distancePIDController.setSetpoint(feet);
-    distancePIDController.setTolerance(0.3); //0.1 of a foot away from setpoint
+    distancePIDController.setTolerance(0.5); //0.1 of a foot away from setpoint
     addRequirements(drive);
   }
 
