@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.ResetEncoderCommand;
 import frc.robot.commands.ResetGyroCommand;
+import frc.robot.commands.ResetVectorCommand;
 import frc.robot.commands.TimedShootCommand;
 import frc.robot.commands.drive.DriveAtFixedHeadingCommand;
 import frc.robot.commands.drive.DriveBySonarCommand;
@@ -39,8 +40,9 @@ public class OneBallAutonomousCommand extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       //extend intake and drive until second ball found
-      new ResetEncoderCommand(drive),
-      new ResetGyroCommand(drive),
+      new ResetEncoderCommand(),
+      new ResetGyroCommand(),
+      new ResetVectorCommand(7.0,true),
       new StartShooterCommand(turretShooter, 1050),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1),

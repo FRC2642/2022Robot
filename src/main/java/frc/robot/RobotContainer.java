@@ -305,7 +305,7 @@ public class RobotContainer {
     //***********************EXTRA***********************/    
     //interrupts all commands running
     SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
-    SmartDashboard.putData("reset encoder", new ResetEncoderCommand(drive));
+    SmartDashboard.putData("reset encoder", new ResetEncoderCommand());
 
 
     //auto aim during tele-op

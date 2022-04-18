@@ -47,5 +47,10 @@ public class VectorSubsystem extends SubsystemBase {
     if (instance == null) return 0.0;
     return instance.robotPosition.getMagnitude();
   }
+
+  public static void reset(){
+    if (instance == null) return;
+    instance.robotPosition.setFromCartesian(robotPlacedFacingTowardsHub ? -robotPlacedOnGroundDistanceFromHub : robotPlacedOnGroundDistanceFromHub, 0.0);
+  }
   
 }
