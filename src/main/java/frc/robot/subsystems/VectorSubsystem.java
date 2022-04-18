@@ -12,12 +12,13 @@ public class VectorSubsystem extends SubsystemBase {
   
   final VectorR currentSample;
   final VectorR robotPosition;
-  public double robotPlacedOnGroundDistanceFromHub = -7.0; //5 feet?
+  public static double robotPlacedOnGroundDistanceFromHub = 7.0; //feet
+  public static boolean robotPlacedFacingTowardsHub = true;
   private static VectorSubsystem instance;
   /** Creates a new VectorSubsystem. */
   public VectorSubsystem() {
     currentSample = VectorR.fromCartesian(0.0, 0.0);
-    robotPosition = VectorR.fromCartesian(robotPlacedOnGroundDistanceFromHub, 0.0);
+    robotPosition = VectorR.fromCartesian(robotPlacedFacingTowardsHub ? -robotPlacedOnGroundDistanceFromHub : robotPlacedOnGroundDistanceFromHub, 0.0);
     instance = this;
   }
 
@@ -25,13 +26,13 @@ public class VectorSubsystem extends SubsystemBase {
   double lastEncoderDistance = 0.0;
   @Override
   public void periodic() {
-    currentSample.setFromPolar(lastEncoderDistance - DriveSubsystem.getEncoderDistanceFeet(), Math.toRadians(DriveSubsystem.getYaw() * -1));
+    currentSample.setFromPolar(DriveSubsystem.getEncoderDistanceFeet() - lastEncoderDistance, Math.toRadians(DriveSubsystem.getYaw() * -1));
     robotPosition.add(currentSample);
 
     lastEncoderDistance = DriveSubsystem.getEncoderDistanceFeet();
 
-    SmartDashboard.putNumber("distance from start", getDistanceToHub());
-    SmartDashboard.putNumber("angle to start", getAngleToHub());
+    SmartDashboard.putNumber("Hub Distance", getDistanceToHub());
+    SmartDashboard.putNumber("Hub Heading", getAngleToHub());
 
 
     // This method will be called once per scheduler run
@@ -39,7 +40,7 @@ public class VectorSubsystem extends SubsystemBase {
 
   public static double getAngleToHub(){
     if (instance == null) return 0.0;
-    return (Math.toDegrees(instance.robotPosition.getAngle()) + 180) % 360;
+    return (Math.toDegrees(instance.robotPosition.getAngle() * -1) + 180) % 360;
   }
   
   public static double getDistanceToHub(){
