@@ -10,6 +10,7 @@ import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
 import frc.robot.commands.ResetEncoderCommand;
 import frc.robot.commands.ResetGyroCommand;
+import frc.robot.commands.ResetVectorCommand;
 import frc.robot.commands.TimedShootCommand;
 import frc.robot.commands.TurretHoodUpCommand;
 import frc.robot.commands.drive.DriveBySonarCommand;
@@ -41,8 +42,9 @@ public class FourBallAutonomousCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ResetGyroCommand(drive),
-      new ResetEncoderCommand(drive),
+      new ResetGyroCommand(),
+      new ResetEncoderCommand(),
+      new ResetVectorCommand(7.0, false),
       new StartShooterCommand(turretShooter, 0.0),
       new IntakePistonExtendCommand(intake),
       new DriveUntilBallFoundCommand(drive, intake, mag, new DriveStraightCommand(drive, 0.35, 0.35), new WaitForTwoBallsThere()),

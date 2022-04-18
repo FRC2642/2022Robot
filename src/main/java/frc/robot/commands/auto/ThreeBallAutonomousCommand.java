@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.ResetEncoderCommand;
 import frc.robot.commands.ResetGyroCommand;
+import frc.robot.commands.ResetVectorCommand;
 import frc.robot.commands.TimedShootCommand;
 import frc.robot.commands.TurretHoodUpCommand;
 import frc.robot.commands.drive.DriveAtFixedHeadingCommand;
@@ -44,8 +45,9 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ResetEncoderCommand(drive),
-      new ResetGyroCommand(drive),
+      new ResetEncoderCommand(),
+      new ResetGyroCommand(),
+      new ResetVectorCommand(7.0,true),
       new TurretHoodUpCommand(spinner),
       new StartShooterCommand(turretShooter, 1100),
       new WaitForRPMReachedCommand(),
