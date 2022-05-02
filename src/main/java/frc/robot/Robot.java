@@ -4,6 +4,12 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
+import com.fasterxml.jackson.databind.util.RootNameLookup;
+
+//import com.kauailabs.navx.frc.AHRS;
+
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
@@ -12,9 +18,19 @@ import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSource.ConnectionStrategy;
 import edu.wpi.first.vision.VisionThread;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.drive.Vector2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.TurretShooterSubsystem;
+import frc.robot.vision.BlurContour;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.RobotBase;
+
+import java.net.InetAddress;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -23,20 +39,29 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  public static SendableChooser<Command> choose;
 
-  public static UsbCamera usbcamera;
+
+  public static UsbCamera intakecam;
+  public static UsbCamera turretcam;
   //public VideoSink camServer;
   public VisionThread redBallVisionThread;
+  public VisionThread tapeVisionThread;
 
-  public static double centerX = 0.0;
-  public static double centerY = 0.0;
-  public static double targetArea = 0.0;
   public static final Object imgLock = new Object();
   public Rect rect = new Rect();
   public boolean isSquare;
+
+
+
+  
+  
+  //public static PowerDistribution pdh =  new PowerDistribution(0, PowerDistribution.ModuleType.kRev);
+
 
 
   /**
@@ -45,19 +70,54 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+
+    //SmartDashboard.putNumber("shooter rpm", 0.0);
+    
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    usbcamera = CameraServer.startAutomaticCapture(0);
+    intakecam = CameraServer.startAutomaticCapture(0);
 
-    usbcamera.setFPS(10);
-    //160X120
-    usbcamera.setResolution(320, 240);
-    usbcamera.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+    intakecam.setFPS(15);
+    intakecam.setResolution(320, 240);
+    intakecam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+
+/*
 
 
-    redBallVisionThread = new VisionThread(usbcamera, new RedBlurContour(), pipeline -> {
+    //intake camera setup
+    intakecam = CameraServer.startAutomaticCapture(0);
+    intakecam.setFPS(60);
+    intakecam.setResolution(320, 240);    //160X120
+    intakecam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+
+    //turret camera setup
+    turretcam = CameraServer.startAutomaticCapture(1);
+    turretcam.setFPS(60);
+    turretcam.setResolution(320, 240);    //160X120
+    turretcam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+
+    
+
+    //pdh.clearStickyFaults();
+    double[] hue = null;
+    double[] sat = null;
+    double[] lum = null;
+    
+    var alliance = DriverStation.getAlliance();
+    if (alliance == Alliance.Blue) {
+      hue = Constants.HSL_HUE_BLUE;
+      sat = Constants.HSL_SAT_BLUE;
+      lum = Constants.HSL_LUM_BLUE;
+    }
+    else if (alliance == Alliance.Red){
+      hue = Constants.HSL_HUE_RED;
+      sat = Constants.HSL_SAT_RED;
+      lum = Constants.HSL_LUM_RED;
+    }
+    //vision thread to look for red balls
+    redBallVisionThread = new VisionThread(intakecam, new BlurContour(hue, sat, lum), pipeline -> {
       if (!pipeline.filterContoursOutput().isEmpty()) {
           Rect r = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
           synchronized (imgLock) {
@@ -66,20 +126,41 @@ public class Robot extends TimedRobot {
               //centerY = 2*r.y + r.height - (240/2);
               if (Math.abs(rect.width - rect.height) < Constants.MIN_NUM_PIXELS_RECT_SIMILARITY){
                 isSquare = true;
-                centerX = r.x +(0.5*r.width);
-                centerY = r.y +(0.5*r.height);
+                m_robotContainer.ballVision.setCenterX(r.x +(0.5*r.width));
+                m_robotContainer.ballVision.setCenterY(r.y +(0.5*r.height));
               }
               else { 
                 isSquare = false;
               }
-              targetArea = r.area();
           }
       }
     });
   
     redBallVisionThread.start();
 
+     tapeVisionThread = new VisionThread(turretcam, new RetroReflectivePipeline(), pipeline -> {
+      m_robotContainer.tapeVision.clearDetections();
+      for (var contour : pipeline.filterContoursOutput()) {
+          Rect r = Imgproc.boundingRect(contour);
+          synchronized (imgLock) {
+
+                var rX = r.x +(0.5*r.width);
+                var rY = r.y +(0.5*r.height);
+
+                m_robotContainer.tapeVision.addDetection(new Vector2d(rX, rY));
+              }
+        }
+    });
+  
+    tapeVisionThread.start();
+   // redBallVisionThread.stop();
+    //redBallVisionThread.stop(); (how do i get it to stop?)
+    */
+    m_robotContainer.drive.resetEncoder();
+    
+    
   }
+
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
@@ -90,18 +171,23 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+
+    
+
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
 
-    SmartDashboard.putNumber("centerX", centerX);
-    SmartDashboard.putNumber("width", rect.width); 
-    SmartDashboard.putNumber("height", rect.height);
-    SmartDashboard.putBoolean("is square",isSquare);
+    //SmartDashboard.putNumber("width", rect.width); 
+    //SmartDashboard.putNumber("height", rect.height);
+
+   // SmartDashboard.putNumber("navx", Robot.navx.getYaw());
 
     CommandScheduler.getInstance().run();
+
+
   }
+
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
@@ -114,6 +200,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    //m_autonomousCommand = choose.getSelected();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -149,4 +237,14 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
+
+  
+  public static void go(){
+    
+    RobotBase.startRobot(Robot::new);
+  }
+  public static void win(){
+
+  }
+  public final static boolean isLosing = false;
 }

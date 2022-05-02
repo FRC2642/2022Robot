@@ -4,55 +4,195 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
-//import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
- 
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.commands.ResetGyroCommand;
+import frc.robot.utils.VectorR;
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.sensors.Pigeon2;
+import com.ctre.phoenix.sensors.PigeonIMU;
+
+
+//import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.SPI;
+//import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+//import com.kauailabs.navx.frc.AHRS;
+
+
 
 public class DriveSubsystem extends SubsystemBase {
+  //Variables
+  public double setpoint;
+
+ // public AHRS navx = new AHRS(I2C.Port.kMXP);
   /** Creates a new DriveSubsystem. */
   
-  //check can ids
-  TalonFX frontLeft = new TalonFX(1);
-  TalonFX backLeft = new TalonFX(2);
-  TalonFX frontRight = new TalonFX(3);
-  TalonFX backRight = new TalonFX(4);
+  //Objects
+  WPI_TalonFX frontLeft = new WPI_TalonFX(Constants.FRONT_LEFT_TALON_ID); //.configVoltageCompSaturation(voltage, timeoutMs);
+  public WPI_TalonFX backLeft = new WPI_TalonFX(Constants.BACK_LEFT_TALON_ID); //.configOpenloopRamp(seconds to full speed???)
+  WPI_TalonFX frontRight = new WPI_TalonFX(Constants.FRONT_RIGHT_TALON_ID);
+  public WPI_TalonFX backRight = new WPI_TalonFX(Constants.BACK_RIGHT_TALON_ID);
 
+  
+  MotorControllerGroup rightMotors = new MotorControllerGroup(frontRight, backRight);
+  MotorControllerGroup leftMotors = new MotorControllerGroup(frontLeft, backLeft);
 
+  DifferentialDrive diffDrive = new DifferentialDrive(rightMotors, leftMotors);
+  public PIDController PIDcontrol = new PIDController(0,0,0);
+
+  public Pigeon2 pigeon2 = new Pigeon2(18);
+
+  private static DriveSubsystem instance;
+  //Constructor
   public DriveSubsystem() {
+    instance = this;
+    configDriveRamp(0.4);
 
-    backLeft.set(TalonFXControlMode.Follower, frontLeft.getDeviceID());
-    backRight.set(TalonFXControlMode.Follower, frontRight.getDeviceID());
+    pigeon2.clearStickyFaults();
+    pigeon2.setYaw(0.0);
+    setpoint = 0;
+
+    frontLeft.configFactoryDefault();
+    backLeft.configFactoryDefault();
+    frontRight.configFactoryDefault();
+    backRight.configFactoryDefault();
+
+    frontRight.setInverted(true);
+    backRight.setInverted(true);
+
+
+    
+    
+
+
+    frontLeft.setNeutralMode(NeutralMode.Brake);
+    backLeft.setNeutralMode(NeutralMode.Brake);
+    frontRight.setNeutralMode(NeutralMode.Brake);
+    backRight.setNeutralMode(NeutralMode.Brake);
+
+    //frontLeft.setVoltage(3);
+
+
+    /*frontLeft.configNeutralDeadband(0.01);
+    backLeft.configNeutralDeadband(0.01);
+    frontRight.configNeutralDeadband(0.01);
+    backRight.configNeutralDeadband(0.01);*/
+
 
   }
   
+  public void configDriveRamp(double ramp){
+    frontLeft.configOpenloopRamp(ramp);
+    backLeft.configOpenloopRamp(ramp);
+    frontRight.configOpenloopRamp(ramp);
+    backRight.configOpenloopRamp(ramp);
+  }
+  
 
-  public void setLeftSpeed(double speed) {
-    frontLeft.set(TalonFXControlMode.PercentOutput, speed);
-  }
   
-  public void setRightSpeed(double speed){
-    frontRight.set(TalonFXControlMode.PercentOutput, speed);
-  }
-  
+  //Drive methods
   public void stop(){
-    setLeftSpeed(0.0);
-    setRightSpeed(0.0);
+    move(0, 0);
   }
+  
+ 
+  public void move(double speed, double rotation){
+   
+    diffDrive.arcadeDrive(speed, -rotation);
 
-  public void arcadeDrive(double speed, double turn) {
-    //check negatives and positives (probably not right)
-    turn = -turn;
-    frontLeft.set(TalonFXControlMode.PercentOutput, turn, DemandType.ArbitraryFeedForward, speed);
-    frontRight.set(TalonFXControlMode.PercentOutput, turn, DemandType.ArbitraryFeedForward, -speed);
+    //diffDrive.arcadeDrive(xSpeed, zRotation);
   }
   
 
+  //PID Methods
+  public double calculatePID(double measurement, double setpoint){
+    return PIDcontrol.calculate(measurement, setpoint);
+  }
+  
+  public void setPIDCoefficients(double propCoefficient, double integralCoefficient, double deriativeCoefficient){
+    PIDcontrol.setPID(propCoefficient, integralCoefficient, deriativeCoefficient);
+  }
+
+  public void setpointPID(double setpoint) {
+    PIDcontrol.setSetpoint(setpoint);
+  }
+
+  public void resetPID(){
+    PIDcontrol.reset();
+  }
+  
+  
+  
+  
+  //Encoder Methods
+  public static double getAverageEncoderDistance(){
+    if (instance == null) return 0.0;
+    return (instance.frontRight.getSelectedSensorPosition() + instance.frontLeft.getSelectedSensorPosition()) / 2;
+  }
+  
+  //Encoder Methods
+  public static double getEncoderDistanceFeet(){
+    if (instance == null) return 0.0;
+    return getAverageEncoderDistance() / 9687.0;
+  }
+
+  public static void resetEncoder(){
+    if (instance == null) return;
+    
+
+    instance.frontRight.setSelectedSensorPosition(0);
+    
+    instance.frontLeft.setSelectedSensorPosition(0);
+    
+    instance.backRight.setSelectedSensorPosition(0);
+    
+    instance.backLeft.setSelectedSensorPosition(0);
+  }
+  
+  public static double getYaw(){
+    if (instance == null) return 0.0;
+    return instance.pigeon2.getYaw() * -1;
+  }
+  public static void resetYaw(){
+    if (instance == null) return;
+    instance.pigeon2.setYaw(0.0);
+  }
+  /*public static double getVectorDistance(){
+    double leftDistance = instance.backLeft.getSelectedSensorPosition();
+    double rightDistance = instance.backRight.getSelectedSensorPosition();
+    return (leftDistance + rightDistance) / 2;
+  }*/
+
+  
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("encoder distance", getEncoderDistanceFeet());
+
+
+
+
+    //double currentPulses = DriveSubsystem.getVectorDistance();
+    //double encoderValue = currentPulses - VectorValues.lastEncoderPulses;
+    /*VectorValues.lastEncoderPulses = currentPulses;
+    VectorValues.vectorComponentX += (Math.sin(getYaw() * (Math.PI/180)) * encoderValue);
+    VectorValues.vectorComponentY += (Math.cos(getYaw() * (Math.PI/180)) * encoderValue);
+    SmartDashboard.putNumber("Distance in pulses", VectorValues.getMagnitude());
+    SmartDashboard.putNumber("Feet away", VectorValues.distanceInFeet());
+    SmartDashboard.putNumber("Angle:", VectorValues.getAngle());
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("encoder", getEncoderDistance());
+    SmartDashboard.putNumber("gyro", getYaw());*/
   }
 }
