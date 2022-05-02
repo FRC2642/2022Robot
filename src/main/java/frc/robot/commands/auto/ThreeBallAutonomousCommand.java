@@ -2,10 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.BallFollowerCommand;
+import frc.robot.commands.ResetEncoderCommand;
+import frc.robot.commands.ResetGyroCommand;
+import frc.robot.commands.ResetVectorCommand;
+import frc.robot.commands.TimedShootCommand;
+import frc.robot.commands.TurretHoodUpCommand;
 import frc.robot.commands.drive.DriveAtFixedHeadingCommand;
 import frc.robot.commands.drive.DriveBySonarCommand;
 import frc.robot.commands.drive.DriveDistanceCommand;
@@ -39,22 +45,23 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ResetEncoderCommand(drive),
-      new ResetGyroCommand(drive),
+      new ResetEncoderCommand(),
+      new ResetGyroCommand(),
+      new ResetVectorCommand(7.0,true),
       new TurretHoodUpCommand(spinner),
       new StartShooterCommand(turretShooter, 1100),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.0),
       new StartShooterCommand(turretShooter, 0.0),
       new TurnToAngleCommand(drive, 0.4, 190),
-      new BallFollowerCommand(drive).withTimeout(2.0),
+      new BallFollowerCommand(drive).withTimeout(1.0),
       new DriveDistanceCommand(drive, 2.7, 0.45, 0.3),
       new IntakePistonExtendCommand(intake),
       new DriveSpeedCommand(drive, 0.3, 0.0).alongWith(new RunIntakeCommand(intake)).until(MagazineSubsystem::isOneBallThere).withTimeout(3.0),
       new IntakePistonRetractCommand(intake),
       new TurnToAngleCommand(drive, 0.4, 103).alongWith(new TimedShootCommand(mag, intake, 1)),
-      new BallFollowerCommand(drive).withTimeout(2.0),
-      new DriveDistanceCommand(drive, 4.75, 0.45, 0.3),
+      new BallFollowerCommand(drive).withTimeout(1.0),
+      new DriveDistanceCommand(drive, 4.75, 0.5, 0.3),
       new IntakePistonExtendCommand(intake),
       new StartShooterCommand(turretShooter, 1250),
       new DriveSpeedCommand(drive, 0.3, 0.0).alongWith(new RunIntakeCommand(intake), new MagazineRunCommand(mag, true)).until(MagazineSubsystem::areTwoBallsThere).withTimeout(3.0),

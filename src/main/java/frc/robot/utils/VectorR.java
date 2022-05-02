@@ -21,7 +21,7 @@ public class VectorR {
         return translation.y;
     }
     public double getAngle(){
-        return Math.atan(translation.y/translation.x);
+        return Math.atan2(translation.y,translation.x);
     }
     public double getMagnitude(){
         return Math.sqrt(Math.pow(translation.x,2) + Math.pow(translation.y,2));

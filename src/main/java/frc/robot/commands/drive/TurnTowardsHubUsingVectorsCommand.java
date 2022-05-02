@@ -11,7 +11,6 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.VectorSubsystem;
 
 public class TurnTowardsHubUsingVectorsCommand extends TurnToAngleCommand {
-  DriveSubsystem drive;
   /** Creates a new TurnTowardsHubUsingVectorsCommand. */
   public TurnTowardsHubUsingVectorsCommand(DriveSubsystem drive, double turnSpeed) {
     super(drive, turnSpeed, 0.0);

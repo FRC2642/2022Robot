@@ -11,7 +11,6 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ResetGyroCommand;
 import frc.robot.utils.VectorR;
-import frc.robot.utils.VectorValues;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.sensors.Pigeon2;

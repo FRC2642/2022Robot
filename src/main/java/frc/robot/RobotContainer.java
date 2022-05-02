@@ -32,9 +32,11 @@ import frc.robot.subsystems.TapeVisionSubsystem;
 import frc.robot.subsystems.TurretShooterSubsystem;
 import frc.robot.subsystems.TurretSpinnerSubsystem;
 import frc.robot.subsystems.VectorSubsystem;
-import frc.robot.subsystems.VectorSubsystemOld;
 import frc.robot.subsystems.VisionSubsystem;
-import frc.robot.commands.TwoBallAutonomousCommand;
+import frc.robot.commands.auto.FourBallAutonomousCommand;
+import frc.robot.commands.auto.OneBallAutonomousCommand;
+import frc.robot.commands.auto.ThreeBallAutonomousCommand;
+import frc.robot.commands.auto.TwoBallAutonomousCommand;
 import frc.robot.commands.drive.DriveDistanceCommand;
 import frc.robot.commands.drive.TurnToAngleCommand;
 import frc.robot.commands.drive.TurnTowardsHubUsingVectorsCommand;
@@ -43,12 +45,9 @@ import frc.robot.commands.BallFollowerCommand;
 import frc.robot.commands.ClimbTiltPistonOneCommand;
 import frc.robot.commands.ClimbTiltPistonTwoCommand;
 import frc.robot.commands.DriveUntilBallFoundCommand;
-import frc.robot.commands.FourBallAutonomousCommand;
 import frc.robot.commands.InterruptSubsystemsCommand;
-import frc.robot.commands.OneBallAutonomousCommand;
 import frc.robot.commands.ResetEncoderCommand;
 import frc.robot.commands.ResetGyroCommand;
-import frc.robot.commands.ThreeBallAutonomousCommand;
 import frc.robot.commands.TurnTowardsHubCommand;
 
 /**
@@ -118,7 +117,7 @@ public class RobotContainer {
     chooser.addOption("Three-Ball Auto", new ThreeBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner));
     chooser.addOption("Four-Ball Auto", new FourBallAutonomousCommand(turretShooter, intake, drive, magazine, turretSpinner));
 
-    SmartDashboard.putData(chooser);
+    SmartDashboard.putData("Auto Chooser", chooser);
 
     turretShooter.setDefaultCommand(
       new RunCommand(
@@ -305,7 +304,7 @@ public class RobotContainer {
     //***********************EXTRA***********************/    
     //interrupts all commands running
     SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
-    SmartDashboard.putData("reset encoder", new ResetEncoderCommand(drive));
+    SmartDashboard.putData("reset encoder", new ResetEncoderCommand());
 
 
     //auto aim during tele-op
