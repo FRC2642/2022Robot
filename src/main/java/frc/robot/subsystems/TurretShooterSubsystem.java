@@ -140,11 +140,11 @@ public class TurretShooterSubsystem extends SubsystemBase {
        SmartDashboard.putNumber("shooter speed", getShooterSpeed());
        SmartDashboard.putBoolean("shooter ready", isCloseToSetRPM());
 
-       if (isCloseToSetRPM()){
-        candle.setLEDs(0, 255, 0);
-        //candle.animate(rainbowAnimation);
+      /* if (isCloseToSetRPM()){
+        candle.setLEDs(0, 255, 0); */
+        candle.animate(rainbowAnimation);
         //RobotContainer.driveController.setRumble(RumbleType.kLeftRumble, 0.1);
-       }
+     /*  }
        else if (DriverStation.getAlliance() == Alliance.Blue) {
         //candle.setLEDs(0, 0, 255);
         candle.animate(blueAllianceLarsonAnimation);
@@ -153,6 +153,7 @@ public class TurretShooterSubsystem extends SubsystemBase {
          //candle.setLEDs(255, 0, 0);
          candle.animate(redAllianceLarsonAnimation);
        }
+*/
 
        
         //pidController.setD(SmartDashboard.getNumber("d", kD));
