@@ -61,7 +61,11 @@ public class ThreeBallAutonomousCommand extends SequentialCommandGroup {
       new IntakePistonRetractCommand(intake),
       new TurnToAngleCommand(drive, 0.4, 103).alongWith(new TimedShootCommand(mag, intake, 1)),
       new BallFollowerCommand(drive).withTimeout(1.0),
+<<<<<<< HEAD
       new DriveDistanceCommand(drive, 4.75, 0.45, 0.3),
+=======
+      new DriveDistanceCommand(drive, 4.75, 0.5, 0.3),
+>>>>>>> 709bfd80eb4cbff0191bfc9023af28ac053bd7d4
       new IntakePistonExtendCommand(intake),
       new StartShooterCommand(turretShooter, 1250),
       new DriveSpeedCommand(drive, 0.3, 0.0).alongWith(new RunIntakeCommand(intake), new MagazineRunCommand(mag, true)).until(MagazineSubsystem::areTwoBallsThere).withTimeout(3.0),
