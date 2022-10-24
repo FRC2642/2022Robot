@@ -46,8 +46,8 @@ public class Robot extends TimedRobot {
   public static SendableChooser<Command> choose;
 
 
-  public static UsbCamera intakecam;
-  public static UsbCamera turretcam;
+ // public static UsbCamera intakecam;
+ // public static UsbCamera turretcam;
   //public VideoSink camServer;
   public VisionThread redBallVisionThread;
   public VisionThread tapeVisionThread;
@@ -77,12 +77,17 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    intakecam = CameraServer.startAutomaticCapture(0);
+    /*intakecam = CameraServer.startAutomaticCapture(0);
+    turretcam = CameraServer.startAutomaticCapture(1);
 
     intakecam.setFPS(15);
     intakecam.setResolution(320, 240);
     intakecam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
 
+    turretcam.setFPS(15);
+    turretcam.setResolution(320, 240);
+    turretcam.setConnectionStrategy(ConnectionStrategy.kKeepOpen);
+    */
 /*
 
 
