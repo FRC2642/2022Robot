@@ -137,8 +137,15 @@ public class TurretShooterSubsystem extends SubsystemBase {
          kMinOutput = min; kMaxOutput = max; 
        }*/
 
-       SmartDashboard.putNumber("shooter speed", getShooterSpeed());
-       SmartDashboard.putBoolean("shooter ready", isCloseToSetRPM());
+       SmartDashboard.putNumber("Shooter Speed", getShooterSpeed());
+       SmartDashboard.putBoolean("Shooter Ready", isCloseToSetRPM());
+       SmartDashboard.putNumber("Temp", shooter.getMotorTemperature());
+       SmartDashboard.putNumber("Temp (F)", shooter.getMotorTemperature() * (9d/5d) + 32d);
+       SmartDashboard.putNumber("Amp", shooter.getOutputCurrent());
+       SmartDashboard.putNumber("Bus Voltage", shooter.getBusVoltage());
+       SmartDashboard.putNumber("Power (Watts)", shooter.getBusVoltage() * shooter.getOutputCurrent());
+       SmartDashboard.putNumber("VoltageCompensationNominalVoltage", shooter.getVoltageCompensationNominalVoltage());
+
 
        if (isCloseToSetRPM()){
         candle.setLEDs(0, 255, 0);
