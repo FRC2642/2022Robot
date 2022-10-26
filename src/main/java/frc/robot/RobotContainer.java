@@ -291,12 +291,13 @@ public class RobotContainer {
     .whenPressed(new InstantCommand(turretSpinner::turretHoodDown));
     
     //up close, low hub
-    new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(550), turretShooter));
+    new POVButton(auxController, 0).whileHeld(new RunCommand(() -> turretShooter.setSpeed(750), turretShooter));
     //up close, high hub
     new POVButton(auxController, 90).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1000), turretShooter));
     //on the line shot, high hub
-    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1200), turretShooter));
+    new POVButton(auxController, 180).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1500), turretShooter));
     //from launch pad (safe zone, far shot)
+    
     new POVButton(auxController, 270).whileHeld(new RunCommand(() -> turretShooter.setSpeed(1650), turretShooter));
 
 
@@ -305,6 +306,7 @@ public class RobotContainer {
     //interrupts all commands running
     SmartDashboard.putData("interrupt", new InterruptSubsystemsCommand(drive, turretShooter, magazine, intake, climb));
     SmartDashboard.putData("reset encoder", new ResetEncoderCommand());
+    
 
 
     //auto aim during tele-op
