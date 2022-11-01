@@ -43,7 +43,7 @@ public class OneBallAutonomousCommand extends SequentialCommandGroup {
       new ResetEncoderCommand(),
       new ResetGyroCommand(),
       new ResetVectorCommand(7.0,true),
-      new StartShooterCommand(turretShooter, 1050),
+      new StartShooterCommand(turretShooter, 1500),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1),
       new StartShooterCommand(turretShooter, 0.0),
