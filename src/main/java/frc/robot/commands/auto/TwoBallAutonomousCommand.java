@@ -51,7 +51,7 @@ public class TwoBallAutonomousCommand extends SequentialCommandGroup {
       //new TurretHoodUpCommand(spinner),
       new IntakePistonRetractCommand(intake),
       new DriveBySonarCommand(drive, 52.5),
-      new StartShooterCommand(turretShooter, 1500),
+      new StartShooterCommand(turretShooter, 1400),
       new WaitForRPMReachedCommand(),
       new TimedShootCommand(mag, intake, 1.0),
       new WaitForRPMReachedCommand(),
